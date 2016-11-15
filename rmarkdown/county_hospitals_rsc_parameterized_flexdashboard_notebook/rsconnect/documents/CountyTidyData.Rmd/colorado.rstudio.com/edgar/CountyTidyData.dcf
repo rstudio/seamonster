@@ -1,0 +1,10 @@
+name: CountyTidyData
+title: CountyTidyData
+account: edgar
+server: colorado.rstudio.com
+appId: 25
+bundleId: 66
+url: http://colorado.rstudio.com:3939/content/25/
+when: 1477937888.70708
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,0 +1,170 @@
+---
+title: "Access to Hospital Care (Tidy Data)"
+output:
+  html_document:
+    code_folding: hide
+  html_notebook: default
+---
+
+
+###Getting and Cleaning Data
+
+Steps taken: 
+
+- Loaded libraries
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(stringr)
+library(zipcode)
+library(highcharter)
+library(DT)
+```
+
+- Obtained and cleaned zip, poverty and population data 
+
+```{r, message=FALSE, warning=FALSE}
+data(zipcode)
+zipcode <- zipcode %>%
+  select(zip, longitude,latitude)
+
+
+#-------- Getting and cleaning poverty and population data ---------------------------
+population <- read_csv("./data/poverty.csv") %>%
+  inner_join(read_csv("./data/CO-EST2015-alldata.csv"), by=c("state"="STATE", "county"="COUNTY")) %>%
+  filter(county!="000") %>%
+  select(-state,-county) %>%
+  rename(population= POPESTIMATE2014,
+         state_name=STNAME,
+         county=CTYNAME) %>%
+  select(state_name,county,population,poverty,percent ) %>%
+  mutate(poverty=as.numeric(str_replace_all(poverty,"\\,",""))) %>%
+  mutate(poverty_percent=ifelse(is.na(poverty),NA, round(poverty/population,digits=1)),
+         state_name=str_to_lower(state_name)) %>%
+  left_join(read_csv("./data/states.csv"), by=c("state_name"="match1")) %>%
+  select(-match2, -file) %>%
+  rename(state=abbrev) %>%
+  mutate(original_county=county) %>%
+  mutate(county=str_to_upper(county),
+         county=str_replace_all(county," PARISH",""),
+         county=str_replace_all(county,"ST\\.","SAINT"),
+         county=str_replace_all(county,"\\'",""),
+         county=str_replace_all(county," COUNTY",""),
+ 
+         county=str_replace_all(county," ","")) %>%
+  filter(state!="PR", state!="HI",state!="AK")
+
+#----- Modifying record with UTF-8 character ------------------
+population$county[population$population==214059 & population$state=="NM"] <- "DONAANA"
+population$original_county[population$population==214059 & population$state=="NM"] <- "Dona Ana"
+
+
+```
+
+- Obtained and cleaned the hospital data from Medicare
+
+```{r, message=FALSE, warning=FALSE}
+#----- Getting and cleaning Hospital data from Medicare --------------------
+hospital_list <- read_csv("./data/Timely and Effective Care - Hospital.csv")  %>%
+  rename(provider_id = `Provider ID`,
+         hospital_name = `Hospital Name` ,
+         address = Address,
+         city = City,
+         state = State,
+         zip = `ZIP Code`,
+         county =  `County Name`,
+         score = Score) %>%
+  mutate(zip=as.character(zip),
+         score=as.numeric(score)) %>%
+  filter(state!="PR", state!="HI",state!="AK",
+         `Measure ID`=="OP_20") %>%
+  left_join(zipcode, by="zip") %>%
+  mutate(county=str_replace_all(county," ","")) %>%
+  left_join(population, by=c("county","state")) 
+
+
+```
+
+- Merged and summarised data by county
+
+```{r, message=FALSE, warning=FALSE}
+# ----- Merged and summarised data by county ----------------------
+county_summary <- hospital_list %>% 
+  filter(is.na(population) ==FALSE) %>%
+  group_by(state,county,population,poverty,poverty_percent) %>%
+  summarise(hospitals=n(),
+            avg_score=mean(score)) %>%
+  ungroup() %>%
+  mutate(per_capita=round(population/hospitals,digits=0),
+         coverage =round(population/hospitals/1000,digits=0)) %>%
+  select(state,county,hospitals,coverage,avg_score) %>%
+  right_join(population, by=c("state","county")) %>%
+  mutate(hospitals=ifelse(is.na(hospitals),0,hospitals),
+         coverage=ifelse(is.na(coverage),0,coverage)) %>%
+  filter(is.na(population)==FALSE) 
+
+datatable(select(county_summary, state,county, population,hospitals, poverty, poverty_percent))
+```
+
+###Exploratory analysis
+
+- Performed data exploration
+
+```{r}
+#--- Looking for corralelations in the data -----------
+m <- county_summary %>%
+  select(population,poverty,hospitals, poverty_percent)
+m_cor <- cor(m)
+hchart(m_cor) %>%
+  hc_title(text="Correlation Table")
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+#---- Testing relationship between hospitals and population ------------------
+hchart(county_summary, "scatter",x=hospitals, y=population, label=county)
+```
+
+###Model
+- Selected variables and fitted a Linear Model
+
+```{r, fig.width=4, fig.height=4}
+set.seed(100)
+m_sample <- county_summary %>%
+  sample_n(1000) 
+
+m_model <- lm(hospitals~population,data=m_sample)
+summary(m_model)
+
+```
+
+- Checked residuals
+
+```{r, fig.width=4, fig.height=4}
+plot(m_model)
+```
+
+- Saved off results
+
+```{r}
+
+m_predict <- as.data.frame(predict(m_model, county_summary, interval="predict"))
+
+line_data <- data.frame(population=c(1:10110)*1000)
+line_predict <- as.data.frame(predict(m_model,line_data , interval="predict"))
+line_data <- line_data %>%
+  bind_cols(line_predict)
+
+
+
+county_summary <- county_summary %>%
+  bind_cols(m_predict) %>%
+  mutate(result="In Range",
+         lwr=round(lwr,digits=0),
+         upr=round(upr,digits=0),
+         fit=round(fit,digits=0)) %>%
+  mutate(result=ifelse(hospitals<lwr, "Under",result),
+         result=ifelse(hospitals>upr, "Over",result))
+write_csv(county_summary, "./data/county_summary.csv")
+write_csv(hospital_list, "./data/hospital_list.csv")
+write_csv(line_data,"./data/line_data.csv")
+```
