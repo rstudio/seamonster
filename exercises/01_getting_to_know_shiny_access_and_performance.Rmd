@@ -1,0 +1,47 @@
+---
+title: "RSC Exercise 1"
+subtitle: "Getting to know Shiny access and performance"
+output: html_notebook
+---
+
+# Objective
+
+Use the RSC user interface to control permissions and tune a Shiny app.
+
+# Requirements
+
+You will need the following
+
+* Two independent browsers (e.g. Chrome and Firefox)
+* Your personal account to RStudio Server and RStudio Connect
+
+# Exercises
+
+## 1. Publish a shiny app to RStudio Connect
+
+1. Log into RStudio Server
+2. Create a new *hello world* shiny app with `File > New File > Shiny Web File`
+3. Publish the app to RStudio Connect
+4. Make sure `Everyone` under `Who can view this application`
+
+## 2. Control the permissions
+
+1. Copy the URL and open it in a new browser. Verify that everyone can view the app.
+2. Retun to your original browser and select `Only me` under `Who can view this application`.
+3. Go back to the new browser and refresh the app. Verify that other users can no longer view the app
+
+## 3. Tune your shiny app
+
+1. Return to your Shiny app and select the `Performance` tab in the RSC UI
+2. Check the radio button `Specify custom settings for this app`. Set `Max processes` equal to 1 and `Max connections per process to` equal to 2.
+3. Copy the app URL
+4. Open new browser tabs until you get the error message `An error has occured`.
+5. Increae the max connections and try again.
+
+# Conclusion
+
+Any content creator can easily control application permissions and tune application scalability.
+
+# References
+
+[Scaling and Performance Tuning in RStudio Connect](https://support.rstudio.com/hc/en-us/articles/231874748)

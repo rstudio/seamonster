@@ -1,0 +1,79 @@
+---
+title: "RSC Exercise 2"
+subtitle: Getting to know user roles
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+# Objective
+
+Log into RSC with different user roles to access different features.
+
+# Requirements
+
+You will need the following user roles to RStudio Connect on [Colorado](http://colorado.rstudio.com:3939)
+
+User role | Login | Password
+--------- | ----- | --------
+Anonymous | -     | -
+Viewer    | rsc_viewer | rsc_viewer
+Publisher | publisher | publisher
+Admin     | rsc_admin | rsc_admin
+
+# Exercises
+
+## 1. Anonymous user
+
+An anonymous visitor to RStudio Connect who is not authenticated with the system can **view** content that has been marked as viewable by *Everyone*.
+
+1. Go to [Colorado](http://colorado.rstudio.com:3939) and log out.
+2. Open the stock report in [connect mode](http://colorado.rstudio.com:3939/connect/#/apps/74/access/86). Notice that you can select the variants for this report and the connect logo is in the top right corner. Try to access other variants by selecting them with the drop down.
+3. Open the Yahoo report in [solo mode](http://colorado.rstudio.com:3939/content/74/vdN9uLBBv/). Notice that you can only access the Yahoo variant with this URL and there is no connect logo.
+4. Open a simple shiny app in [connect mode](http://colorado.rstudio.com:3939/connect/#/apps/75) and [open solo mode](http://colorado.rstudio.com:3939/content/75/).
+5. Open a pdf document in [solo mode](http://colorado.rstudio.com:3939/content/73/parameter_UI.pdf). Notice that RStudio Connect can be used for Shiny apps, HTML docs, and PDF docs.
+
+## 2. Viewer
+
+*Viewer* accounts can be added as a viewer to specific content. They can discover that content through the RStudio Connect **dashboard** and see its **settings**. Viewers can also **email** themselves copies of documents they are permitted to see.
+
+1. Go to [Colorado](http://colorado.rstudio.com:3939) and log in as rsc_viewer. Notice that you can only see *recent* content but not *apps*, *docs*, *plots*. Also notice that you can see the users and documentation tabs.
+2. Open the [stock report](http://colorado.rstudio.com:3939/connect/#/apps/74/access/86). Click the gear icon to open the settings. Notice that you can see but not alter viewers and collaborators.
+3. Click the output icon to access the output settings. Notice that you cannot schedule output. Select a variant and email a copy to the rsc_viewer inbox.
+
+## 3. Publisher
+
+Accounts with a *publisher* role are allowed to **deploy** content into RStudio Connect. They can also help manage another user’s content when made a **collaborator** of that content.
+
+1. Go to [Colorado](http://colorado.rstudio.com:3939) and log in as publisher. Notice you have access to apps, docs, and plot that the publisher user published.
+2. Open the [stock report pdf](http://colorado.rstudio.com:3939/connect/#/apps/20/access/21). Make sure *Everyone* can view the the document. Select yourself as a collaborator.
+3. Open the output setting tab. Notice you can create new variants and schedules. Click on *Schedule output* and examine your options. When you are done click *Discard Changes*.
+4. Sign out as publisher and sign in with your user name and password. You should be a collaborator if you successfully completed step 2. Go to settings and notice that you have the same rights the publisher including creating new variants.
+    1. **Bonus exercise: Create and email a new variant**
+    2. Delete the variant called *DATA* if it exists.
+    3. Add a new variant and call it *DATA*.
+    4. Update the parameter so the symbol is *DATA*.
+    5. Save the document. 
+    6. Update the output.
+    7. Email the generated report to *Just me*. 
+    8. When you have the report in your inbox, email it to Nathan Stephens
+
+## 4. Admin
+
+RStudio Connect administrator accounts have permissions which allow them to manage the service. This includes setting the *role* of an account and configuring *email* settings.
+
+1. Go to [Colorado](http://colorado.rstudio.com:3939) and log in as rsc_admin. Notice you have access to the admin tab. Examine the metrics, the unpublished content, and the audit logs. Please do not change the email settings.
+2. Click on the user tab and find your user. Click *Edit Profile*. Notice you can change the *Account type* to administrator, publisher, or viewer. Click on the *Lock* button to lock your account. Now click on the *Unlock* button to unlock your account. Locked users are prohibited from signing into RStudio Connect, deploying content, and otherwise interacting with the service. A locked user no longer receives scheduled content at their email address.
+3. Go to any app (e.g. [this simple shiny app](http://colorado.rstudio.com:3939/connect/#/apps/87)). Click on the *Open Solo* button in the top right and notice you can delete any content that you would like.
+
+# Conclusion
+
+RStudio connect gives your organization the ability to control which users can create, manage, and access content.
+
+# References
+
+* [Admin guide](http://docs.rstudio.com/connect/admin/authorization.html). Every RStudio Connect user account is configured with a that controls their default capabilities on the system. Data scientists, analysts and others working in R will most likely want “publisher” accounts. Other users are likely to need only “viewer” accounts.
+* RStudio Connect > Documentation > Permissions
+
+

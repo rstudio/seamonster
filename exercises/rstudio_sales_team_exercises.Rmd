@@ -1,0 +1,330 @@
+---
+title: "RStudio Sales Team Exercises"
+author: "Created by Solutions Engineering"
+date: "11/30/2016"
+output: html_document
+---
+
+# Exercises {.tabset}
+
+## 1. RSC Shiny tuning
+
+### Getting to know Shiny access and performance
+
+### Objective
+
+Use the RSC user interface to control permissions and tune a Shiny app.
+
+### Requirements
+
+You will need the following
+
+* Two independent browsers (e.g. Chrome and Firefox)
+* Your personal account to RStudio Server and RStudio Connect
+
+### Exercises
+
+#### 1. Publish a shiny app to RStudio Connect
+
+1. Log into RStudio Server
+2. Create a new *hello world* shiny app with `File > New File > Shiny Web File`
+3. Publish the app to RStudio Connect
+4. Make sure `Everyone` under `Who can view this application`
+
+#### 2. Control the permissions
+
+1. Copy the URL and open it in a new browser. Verify that everyone can view the app.
+2. Retun to your original browser and select `Only me` under `Who can view this application`.
+3. Go back to the new browser and refresh the app. Verify that other users can no longer view the app
+
+#### 3. Tune your shiny app
+
+1. Return to your Shiny app and select the `Performance` tab in the RSC UI
+2. Check the radio button `Specify custom settings for this app`. Set `Max processes` equal to 1 and `Max connections per process to` equal to 2.
+3. Copy the app URL
+4. Open new browser tabs until you get the error message `An error has occured`.
+5. Increae the max connections and try again.
+
+### Conclusion
+
+Any content creator can easily control application permissions and tune application scalability.
+
+### References
+
+[Scaling and Performance Tuning in RStudio Connect](https://support.rstudio.com/hc/en-us/articles/231874748)
+
+***
+
+### Results
+
+This exercise is worth 500 points. Results are based on successful completion of the exercise. All participants are awarded equal points.
+
+Person | Rank | Points
+--------- | ----- | --------
+Jim | 1 | 500
+Pete | 1 | 500
+Mark | - | -
+Phil | - | -
+Jonathan | - | -
+
+
+
+
+## 2. RSC user roles
+
+### Getting to know user roles
+
+### Objective
+
+Log into RSC with different user roles to access different features.
+
+### Requirements
+
+You will need the following user roles to RStudio Connect on [Colorado](http://colorado.rstudio.com:3939)
+
+User role | Login | Password
+--------- | ----- | --------
+Anonymous | -     | -
+Viewer    | rsc_viewer | rsc_viewer
+Publisher | publisher | publisher
+Admin     | rsc_admin | rsc_admin
+
+### Exercises
+
+#### 1. Anonymous user
+
+An anonymous visitor to RStudio Connect who is not authenticated with the system can **view** content that has been marked as viewable by *Everyone*.
+
+1. Go to [Colorado](http://colorado.rstudio.com:3939) and log out.
+2. Open the stock report in [connect mode](http://colorado.rstudio.com:3939/connect/#/apps/74/access/86). Notice that you can select the variants for this report and the connect logo is in the top right corner. Try to access other variants by selecting them with the drop down.
+3. Open the Yahoo report in [solo mode](http://colorado.rstudio.com:3939/content/74/vdN9uLBBv/). Notice that you can only access the Yahoo variant with this URL and there is no connect logo.
+4. Open a simple shiny app in [connect mode](http://colorado.rstudio.com:3939/connect/#/apps/75) and [open solo mode](http://colorado.rstudio.com:3939/content/75/).
+5. Open a pdf document in [solo mode](http://colorado.rstudio.com:3939/content/73/parameter_UI.pdf). Notice that RStudio Connect can be used for Shiny apps, HTML docs, and PDF docs.
+
+#### 2. Viewer
+
+*Viewer* accounts can be added as a viewer to specific content. They can discover that content through the RStudio Connect **dashboard** and see its **settings**. Viewers can also **email** themselves copies of documents they are permitted to see.
+
+1. Go to [Colorado](http://colorado.rstudio.com:3939) and log in as rsc_viewer. Notice that you can only see *recent* content but not *apps*, *docs*, *plots*. Also notice that you can see the users and documentation tabs.
+2. Open the [stock report](http://colorado.rstudio.com:3939/connect/#/apps/74/access/86). Click the gear icon to open the settings. Notice that you can see but not alter viewers and collaborators.
+3. Click the output icon to access the output settings. Notice that you cannot schedule output. Select a variant and email a copy to the rsc_viewer inbox.
+
+#### 3. Publisher
+
+Accounts with a *publisher* role are allowed to **deploy** content into RStudio Connect. They can also help manage another user’s content when made a **collaborator** of that content.
+
+1. Go to [Colorado](http://colorado.rstudio.com:3939) and log in as publisher. Notice you have access to apps, docs, and plot that the publisher user published.
+2. Open the [stock report pdf](http://colorado.rstudio.com:3939/connect/#/apps/20/access/21). Make sure *Everyone* can view the the document. Select yourself as a collaborator.
+3. Open the output setting tab. Notice you can create new variants and schedules. Click on *Schedule output* and examine your options. When you are done click *Discard Changes*.
+4. Sign out as publisher and sign in with your user name and password. You should be a collaborator if you successfully completed step 2. Go to settings and notice that you have the same rights the publisher including creating new variants.
+    1. **Bonus exercise: Create and email a new variant**
+    2. Delete the variant called *DATA* if it exists.
+    3. Add a new variant and call it *DATA*.
+    4. Update the parameter so the symbol is *DATA*.
+    5. Save the document. 
+    6. Update the output.
+    7. Email the generated report to *Just me*. 
+    8. When you have the report in your inbox, email it to Nathan Stephens
+
+#### 4. Admin
+
+RStudio Connect administrator accounts have permissions which allow them to manage the service. This includes setting the *role* of an account and configuring *email* settings.
+
+1. Go to [Colorado](http://colorado.rstudio.com:3939) and log in as rsc_admin. Notice you have access to the admin tab. Examine the metrics, the unpublished content, and the audit logs. Please do not change the email settings.
+2. Click on the user tab and find your user. Click *Edit Profile*. Notice you can change the *Account type* to administrator, publisher, or viewer. Click on the *Lock* button to lock your account. Now click on the *Unlock* button to unlock your account. Locked users are prohibited from signing into RStudio Connect, deploying content, and otherwise interacting with the service. A locked user no longer receives scheduled content at their email address.
+3. Go to any app (e.g. [this simple shiny app](http://colorado.rstudio.com:3939/connect/#/apps/84)). Click on the *Open Solo* button in the top right and notice you can delete any content that you would like.
+
+### Conclusion
+
+RStudio connect gives your organization the ability to control which users can create, manage, and access content.
+
+### References
+
+* [Admin guide](http://docs.rstudio.com/connect/admin/authorization.html). Every RStudio Connect user account is configured with a user role that controls their default capabilities on the system. Data scientists, analysts and others working in R will most likely want “publisher” accounts. Other users are likely to need only “viewer” accounts.
+* RStudio Connect > Documentation > Permissions
+
+***
+
+### Results
+
+This exercise is worth 1200 points. Results are based on successfully emailing Nathan the results of the bonus exercise. Rank is bases on the order in which the emails are received.
+
+Person | Rank | Points
+--------- | ----- | --------
+**Jim** | **1** | **1200**
+Pete | - | -
+Mark | 2 | 1000
+Phil | - | -
+Jonathan | - | -
+
+
+
+## 3. SQL and dplyr
+
+### R Markdown SQL vs dplyr backend
+
+You can query your database directly from R Markdown using traditional SQL syntax. Make sure you use RStudio version 1.0 or higher and use the SQL engine in the code chunk as described [here](http://rmarkdown.rstudio.com/authoring_knitr_engines.html#sql).
+
+You can also query your database directly from R Markdown using dplyr syntax. Dplyr has backend connectivity for a variety of databases that will translate your R code into SQL. See [here](https://cran.r-project.org/web/packages/dplyr/vignettes/databases.html) for more information.
+
+In this exercise you will use both SQL and dplyr to connect to a SQLite database, collect the data into R, and then analyze the data with familiar R tools. 
+
+### Intro
+
+The load the required packages. Set up a SQL light database and populate it with data from the `nycflights13` R package. This step only needs to be run once. 
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(DBI)
+library(nycflights13)
+library(RSQLite)
+```
+
+```{r setup, eval = FALSE, include = FALSE}
+file.remove("my_db.sqlite3")
+my_db <- src_sqlite("my_db.sqlite3", create = TRUE)
+copy_to(my_db, flights, "flights", temporary = FALSE)
+copy_to(my_db, airlines, "airline", temporary = FALSE)
+```
+
+***
+
+### Compare SQL to dplyr syntax 
+
+Use SQL and dplyr syntax to query the database. Create a query with the following modifications on the flights table:
+
+* Select only these columns: `carrier`, `dep_delay`, `distance`
+* Create a new column `air_time_hours` that is the hourly representation of `air_time`
+* Subset the data from May 17
+* Subset the data for only these carriers: `UA`, `WN`, `AA`, `DL`
+
+Create the queries for both SQL and dplyr. Notice that the output of the queries are identical. Render the SQL translation from dplyr. Notice that the translated syntax looks slightly different but accomplishes the same result.
+
+#### SQL
+
+```{r}
+db <- dbConnect(SQLite(), dbname = "my_db.sqlite3")
+```
+
+```{sql, connection=db}
+SELECT carrier, dep_delay, distance, air_time, air_time / 60 as air_time_hours
+FROM flights 
+WHERE month = 5 AND day = 17 AND carrier IN ('UA', 'WN', 'AA', 'DL')
+```
+
+#### dplyr
+
+```{r}
+my_db <- src_sqlite("my_db.sqlite3")
+airline <- tbl(my_db, "airline")
+flights <- tbl(my_db, "flights")
+```
+
+```{r}
+flights %>%
+  filter(month == 5, day == 17, carrier %in% c('UA', 'WN', 'AA', 'DL')) %>%
+  mutate(air_time_hours = air_time / 60) %>%
+  select(carrier, dep_delay, distance, air_time, air_time_hours)
+```
+
+
+```{r}
+sql_render(
+  flights %>%
+  filter(month == 5, day == 17, carrier %in% c('UA', 'WN', 'AA', 'DL')) %>%
+  mutate(air_time_hours = air_time / 60) %>%
+  select(carrier, dep_delay, air_time, distance)
+)
+```
+
+***
+
+### Collecting
+
+After you run your queries you may want to bring your data back into R for further analysis. To bring your data into R, use the `output.var` or the `collect` statements in SQL and dplyr respectively. Run the queries below. Compare the output. Notice that they returned the same contents. Rename the output to `carrierhours`.
+
+The queries below have the following these additional modifications:
+
+* Join the carrier table
+* Rename `name` to `carrier_name`
+* Sort the data by carrier
+
+```{sql, connection=db, output.var="carrierhours_sql", include=TRUE}
+SELECT b.name as carrier_name, a.*
+FROM (
+    SELECT carrier, dep_delay, air_time, distance, air_time / 60 as air_time_hours
+    FROM flights 
+    WHERE month = 5 AND day = 17 AND carrier IN ('UA', 'WN', 'AA', 'DL')
+    ) a
+LEFT JOIN airline b USING (carrier)
+ORDER BY carrier
+```
+
+```{r, include=TRUE}
+carrierhours_dplyr <- flights %>%
+  filter(month == 5, day == 17, carrier %in% c('UA', 'WN', 'AA', 'DL')) %>%
+  left_join(airline, by = "carrier") %>%
+  select(name, carrier, dep_delay, air_time, distance) %>%
+  arrange(carrier) %>%
+  mutate(air_time_hours = air_time / 60) %>%
+  rename(carrier_name = name) %>%
+  collect
+```
+
+```{r}
+carrierhours_sql <- as.tbl(carrierhours_sql)
+identical(carrierhours_dplyr, carrierhours_sql)
+carrierhours <- carrierhours_dplyr
+```
+
+***
+
+### Analysis
+
+You can use the same dplyr syntax to manipulate your data in R that you used to query your database. The code below uses dplyr syntax to calculate the average departure dealy, distance, and air time by carrier. The code also runs a predictive model on the collected data. Finally, you can visualize your data.
+
+```{r}
+# Carrier averages
+carrierhours %>%
+  group_by(carrier_name) %>%
+  summarize(n = n(), 
+            dep_delay = mean(dep_delay), 
+            distance = mean(distance), 
+            air_time_hours = mean(air_time_hours))
+
+# Predictive model
+lm1 <- lm(dep_delay ~ air_time_hours + distance + carrier_name, data = carrierhours)
+summary(lm1)
+
+# Visualize
+ggplot(carrierhours, aes(carrier_name, air_time_hours)) + geom_boxplot()
+```
+
+***
+
+### Exercise
+
+In this exercise you will query the same database with both SQL and dplyr. Your query will contain the average departure delays and arrival delays for flights between "JFK" and "SFO" by month. Specifically, your query should have the following modifications on the `flights` table:
+
+* Filter the data to include only flights from "JFK" to "SFO"
+* Group by month
+* Summarize your so your output calculates the mean `dep_delay` and the mean `arr_delay`
+
+Write your data in dplyr and sql. Collect your data. Then create a scatterplot that shows the relationship between mean departure delays and mean arrival delays.
+
+Hint: You can use `sql_render` to generate the SQL statement from you dplyr code.
+
+### Results
+
+This exercise is worth 1900 points. Post your completed R Markdown document on RStudio Connect. Publish the final document **without** the source. Have connect send Nathan an email.
+
+Person | Rank | Points
+--------- | ----- | --------
+Jim | - | -
+Pete | - | -
+Mark | - | -
+Phil | - | -
+Jonathan | - | -
+
+
