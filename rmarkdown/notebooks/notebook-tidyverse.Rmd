@@ -1,0 +1,119 @@
+---
+title: "Introduction to Tidyverse"
+output: html_notebook
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+The tidyverse is a collection of packages for doing data science:
+
+![](notebooks-tidyverse.png)
+
+It includes a website: http://tidyverse.org and a book: http://r4ds.had.co.nz
+
+At the heart of the tidyverse is tidy data. Every variable is a column, every row is a case.
+
+## Tidy Data:
+
+First, we can create a toy dataset with untidy data:
+
+```{r}
+#install.packages("tidyverse")
+library(tidyverse)
+
+untidy <- 
+  tribble(
+    ~Country, ~`2011`, ~`2012`, ~`2013`,
+    'FR', 7000, 6900, 7000,
+    'DE', 5800, 6000, 15000,
+    'US', 15000, 14000, 13000
+)
+
+untidy # this is a tibble, which is a special type of data frame
+```
+
+This data is difficult to work with. We can use `tidyr::gather` to tidy it:
+
+```{r}
+tidy <- untidy %>% # magrittr's pipe operator
+  gather(key = "Year", value = "Metric", 2:4)  %>% # tidyr::gather to make wide data tall
+  mutate(Year = as.numeric(Year)) # dplyr::mutate to change or add a column
+tidy
+```
+
+
+## ggplot2
+
+Now that the data is tidy we can use other tools in the tidyverse, like `ggplot2`:
+
+```{r}
+# ggplot loves tidy data
+# Pro Tip: if you're ever stuck in ggplot2, go back to your data!
+ggplot(tidy, aes(x = Year, y = Metric, color = Country)) +
+  geom_line()
+```
+
+### dplyr + lubridate (flight delay by day of week)
+
+For a more complete example we'll use the `nycflights13` dataset to answer the question: "What day of the week has the highest average delay?"
+
+One key component of the tidyverse is `dplyr` which uses verbs to manipulate tidy datasets.
+
+```{r}
+library(nycflights13) # data is in the flights table
+library(lubridate) # load the lubridate package for dates
+
+flights %>%
+  mutate(dow = lubridate::wday(time_hour, label = TRUE)) %>% # lubridate to get week day from date object
+  select(dow, arr_delay) %>%                                 # select relevant columns
+  filter(arr_delay > 0) %>%                                  # filter rows on a condition
+  group_by(dow) %>%                                          # group by day
+  summarise(avg_delay = mean(arr_delay)) %>%                 # and calculate average delay
+  ggplot(aes(dow, avg_delay)) +            
+  geom_bar(stat = "identity") +                              # bar plots in ggplot2
+  theme_bw() +                                               # customize the theme
+  labs(                                                      # clean up the labels
+    title = "Case of the Mondays?",
+    y = "Avg. Delay (mins)",
+    x = ""
+  )
+```
+
+### purr + broom (advanced tidyverse)
+
+Now we have a theory that airlines suffer from a Case of Mondays. It might be interesting to see which airlines follow our theory the closest. To explore this question, we'll create a linear model for each airline that predicts arrival delay as a function of the day of week. For each model we'll examine the R squared. This will tell us which airline's delay is most explained by the day of week.
+
+Be warned: This code highlights some advanced features of the tidyverse!
+
+```{r}
+library(readr)
+library(forcats) # forcats package to handle factors
+library(stringr) # stringr package to handle strings
+library(purrr) # purrr helps apply functions to data frames (like apply)
+library(broom) # broom helps create tidy model diagnostics
+
+
+airlines <- read_csv("notebook-tidyverse-airlines.csv") # readr to read in all kinds of data
+flights %>% 
+  left_join(airlines, by = c('carrier' = 'carrier')) %>% # dplyr can join tables
+  mutate(name = str_replace(name, "\\w*\\.", ""), # stringr to remove abbreviations
+         name = as.factor(name),
+         dow = wday(time_hour)) %>%
+  select(name, arr_delay, dow) %>% 
+  group_by(name) %>% 
+  nest()   %>%                                                    # get one list-col per airline
+  mutate(model = map(data, ~lm(arr_delay ~ dow, data = .))) %>%   # use map to apply the lm to each airline
+  mutate(model_diagnostics = map(model, glance)) %>%              # use broom's glance to calculate R squared for each model
+  unnest(name, model_diagnostics) %>%                             # use unnest ot pull out the R squared data
+  mutate(name = fct_reorder(name, r.squared)) %>%                 # re-order the airlines by R squared
+  ggplot(aes(x = name, y = r.squared)) +                          
+  geom_bar(stat = "identity") +
+  coord_flip()                                                    # coord_flip rotates the ggplot object
+```
+
+For some reason, SkyWest Airline delays seem to be more dependent on the day of week than most airlines!
+
+This is just a small peak at the functions and power of the tidyverse.
