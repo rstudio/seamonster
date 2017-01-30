@@ -1,0 +1,44 @@
+---
+title: "dplyr Database Example"
+output: github_document
+---
+
+For more information: http://rmarkdown.rstudio.com/authoring_knitr_engines.html#sql
+
+First, setup a database connection: 
+
+```{r}
+library(DBI)
+library(RSQLite)
+
+# Can be any DBI compliant database connection
+con <- RSQLite::datasetsDb()
+RSQLite::dbListTables(con)
+```
+
+Then add SQL code chunks. `connection` references the DBI compliant connection in the previous chunk. The `max.print` and `tab.cap` arguments influence the output.
+
+
+```{sql connection=con, max.print=5}
+Select * FROM trees
+```
+
+You can use an R object in the query by adding a `?`:
+
+```{r}
+min_girth <- 9
+```
+
+```{sql connection=con}
+SELECT * FROM trees WHERE Girth > ?min_girth
+```
+
+You can return the results to an R object using `output.var`:
+
+```{sql connection=con, output.var='trees'}
+Select * FROM trees
+```
+
+```{r}
+trees
+```
