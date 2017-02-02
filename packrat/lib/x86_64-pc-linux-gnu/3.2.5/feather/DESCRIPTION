@@ -1,0 +1,33 @@
+Package: feather
+Title: R Bindings to the Feather 'API'
+Version: 0.3.1
+Authors@R: c(
+    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
+    person("RStudio", role = "cph"),
+    person("Feather developers", role = "ctb", comment = "Bundled feather library"),
+    person("Google", role = "ctb", comment = "Bundled flatbuffers code"),
+    person("LevelDB Authors", role = "ctb")
+  )
+Description: Read and write feather files, a lightweight binary columnar
+    data store designed for maximum speed.
+Encoding: UTF-8
+License: Apache License 2.0
+LazyData: true
+URL: https://github.com/wesm/feather
+BugReports: https://github.com/wesm/feather/issues
+LinkingTo: Rcpp
+Imports: Rcpp, tibble, hms
+Suggests: testthat, dplyr
+SystemRequirements: little-endian platform
+RoxygenNote: 5.0.1
+NeedsCompilation: yes
+Packaged: 2016-11-08 22:45:11 UTC; kevin
+Author: Hadley Wickham [aut, cre],
+  RStudio [cph],
+  Feather developers [ctb] (Bundled feather library),
+  Google [ctb] (Bundled flatbuffers code),
+  LevelDB Authors [ctb]
+Maintainer: Hadley Wickham <hadley@rstudio.com>
+Repository: CRAN
+Date/Publication: 2016-11-09 00:35:01
+Built: R 3.2.5; x86_64-pc-linux-gnu; 2017-02-02 18:35:52 UTC; unix

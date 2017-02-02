@@ -1,0 +1,3 @@
+feather                 Access a feather store like a data frame
+feather_metadata        Retrieve metadata about a feather file
+read_feather            Read and write feather files.
