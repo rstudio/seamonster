@@ -27,6 +27,6 @@ Packaged: 2016-08-02 12:33:03.551145 UTC; edd
 Repository: CRAN
 Date/Publication: 2016-08-02 16:59:46
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:11:44 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 87165608ca8aeb0958835c3c5b52b6b7

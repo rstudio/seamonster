@@ -22,6 +22,6 @@ Maintainer: Jennifer Bryan <jenny@stat.ubc.ca>
 Repository: CRAN
 Date/Publication: 2015-12-31 00:03:27
 Built: R 3.2.5; ; 2016-11-15 17:11:52 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: ce553042dc24e51b5a0af5bbdd0b6982

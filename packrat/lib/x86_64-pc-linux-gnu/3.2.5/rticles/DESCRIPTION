@@ -3,28 +3,30 @@ Type: Package
 Title: Article Formats for R Markdown
 Version: 0.2
 Date: 2016-04-24
-Authors@R: c(
-  person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"),
-  person(family = "R Foundation", role = c("aut", "cph")),
-  person("Hadley", "Wickham", role = "aut", email = "hadley@rstudio.com"),
-  person(family = "Journal of Statistical Software", role = c("aut", "cph")),
-  person("Yihui", "Xie", role = "aut", email = "yihui@rstudio.com"),
-  person(family = "RStudio", role = "cph"),
-  person("Ramnath ", "Vaidyanathan", role = c("aut", "cph"), email = "ramnath.vaidya@gmail.com"),
-  person(family = "Assocation for Computing Machinery", role = c("aut", "cph")),
-  person("Carl", "Boettiger", role = c("aut", "cph"), email = "cboettig@gmail.com"),
-  person(family = "Elsevier", role = c("aut", "cph")),
-  person("Karl", "Broman", role = c("aut", "cph"), email = "kbroman@gmail.com"),
-  person("Kirill", "Mueller", role = c("aut", "cph"), email = "kirill.mueller@ivt.baug.ethz.ch"),
-  person("Bastiaan", "Quast", role = c("aut", "cph"), email = "bquast@gmail.com"),
-  person("Randall ", "Pruim", role = c("aut", "cph"), email = "rpruim@gmail.com"),
-  person("Ben", "Marwick", role = c("aut", "cph"), email = "bmarwick@uw.edu"),
-  person("Charlotte", "Wickham", role = c("aut", "cph"), email = "cwickham@gmail.com"),
-  person("Oliver", "Keyes", role = c("aut", "cph"), email = "okeyes@wikimedia.org"),
-  person("Miao", "Yu", role = c("aut", "cph"), email = "yufreecas@gmail.com")
-  )
+Authors@R: c( person("JJ", "Allaire", role = c("aut", "cre"), email =
+    "jj@rstudio.com"), person(family = "R Foundation", role = c("aut",
+    "cph")), person("Hadley", "Wickham", role = "aut", email =
+    "hadley@rstudio.com"), person(family = "Journal of Statistical
+    Software", role = c("aut", "cph")), person("Yihui", "Xie", role =
+    "aut", email = "yihui@rstudio.com"), person(family = "RStudio",
+    role = "cph"), person("Ramnath ", "Vaidyanathan", role = c("aut",
+    "cph"), email = "ramnath.vaidya@gmail.com"), person(family =
+    "Assocation for Computing Machinery", role = c("aut", "cph")),
+    person("Carl", "Boettiger", role = c("aut", "cph"), email =
+    "cboettig@gmail.com"), person(family = "Elsevier", role = c("aut",
+    "cph")), person("Karl", "Broman", role = c("aut", "cph"), email =
+    "kbroman@gmail.com"), person("Kirill", "Mueller", role = c("aut",
+    "cph"), email = "kirill.mueller@ivt.baug.ethz.ch"),
+    person("Bastiaan", "Quast", role = c("aut", "cph"), email =
+    "bquast@gmail.com"), person("Randall ", "Pruim", role = c("aut",
+    "cph"), email = "rpruim@gmail.com"), person("Ben", "Marwick", role
+    = c("aut", "cph"), email = "bmarwick@uw.edu"), person("Charlotte",
+    "Wickham", role = c("aut", "cph"), email = "cwickham@gmail.com"),
+    person("Oliver", "Keyes", role = c("aut", "cph"), email =
+    "okeyes@wikimedia.org"), person("Miao", "Yu", role = c("aut",
+    "cph"), email = "yufreecas@gmail.com") )
 Description: A suite of custom R Markdown formats and templates for
-  authoring journal articles and conference submissions.
+    authoring journal articles and conference submissions.
 License: GPL-3
 Imports: utils, rmarkdown, knitr, yaml
 SystemRequirements: GNU make
@@ -32,25 +34,18 @@ RoxygenNote: 5.0.1
 Suggests: testthat
 NeedsCompilation: no
 Packaged: 2016-04-24 20:01:25 UTC; jjallaire
-Author: JJ Allaire [aut, cre],
-  R Foundation [aut, cph],
-  Hadley Wickham [aut],
-  Journal of Statistical Software [aut, cph],
-  Yihui Xie [aut],
-  RStudio [cph],
-  Ramnath Vaidyanathan [aut, cph],
-  Assocation for Computing Machinery [aut, cph],
-  Carl Boettiger [aut, cph],
-  Elsevier [aut, cph],
-  Karl Broman [aut, cph],
-  Kirill Mueller [aut, cph],
-  Bastiaan Quast [aut, cph],
-  Randall Pruim [aut, cph],
-  Ben Marwick [aut, cph],
-  Charlotte Wickham [aut, cph],
-  Oliver Keyes [aut, cph],
-  Miao Yu [aut, cph]
+Author: JJ Allaire [aut, cre], R Foundation [aut, cph], Hadley Wickham
+    [aut], Journal of Statistical Software [aut, cph], Yihui Xie [aut],
+    RStudio [cph], Ramnath Vaidyanathan [aut, cph], Assocation for
+    Computing Machinery [aut, cph], Carl Boettiger [aut, cph], Elsevier
+    [aut, cph], Karl Broman [aut, cph], Kirill Mueller [aut, cph],
+    Bastiaan Quast [aut, cph], Randall Pruim [aut, cph], Ben Marwick
+    [aut, cph], Charlotte Wickham [aut, cph], Oliver Keyes [aut, cph],
+    Miao Yu [aut, cph]
 Maintainer: JJ Allaire <jj@rstudio.com>
 Repository: CRAN
 Date/Publication: 2016-04-24 23:12:19
 Built: R 3.2.5; ; 2016-12-20 18:42:34 UTC; unix
+InstallAgent: packrat 0.4.8.13
+InstallSource: CRAN
+Hash: be79d55b14ce05269378510369240fb4

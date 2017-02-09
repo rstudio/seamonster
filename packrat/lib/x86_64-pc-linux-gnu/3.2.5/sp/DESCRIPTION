@@ -50,6 +50,6 @@ Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 Repository: CRAN
 Date/Publication: 2016-04-14 16:58:02
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:13:06 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 50e24e98f39f1524698c2ccb3b30fdcf

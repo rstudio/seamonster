@@ -19,6 +19,6 @@ Author: Jeffrey Horner [ctb], Yihui Xie [aut, cre]
 Repository: CRAN
 Date/Publication: 2015-09-03 12:20:19
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:12:45 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: b08c52dae92a0a11e64a4deea032ec33

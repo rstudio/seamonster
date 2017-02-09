@@ -26,6 +26,6 @@ Maintainer: Simon Potter <simon@sjp.co.nz>
 Repository: CRAN
 Date/Publication: 2016-08-30 19:45:20
 Built: R 3.2.5; ; 2016-11-16 16:35:15 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 405f00513f6b52d170ddd713d12e9ab9

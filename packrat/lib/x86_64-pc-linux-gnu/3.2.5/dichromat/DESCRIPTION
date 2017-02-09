@@ -21,6 +21,6 @@ Maintainer: Thomas Lumley <tlumley@u.washington.edu>
 Repository: CRAN
 Date/Publication: 2013-01-24 08:18:09
 Built: R 3.2.5; ; 2016-11-15 17:11:43 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 08eed0c80510af29bb15f840ccfe37ce

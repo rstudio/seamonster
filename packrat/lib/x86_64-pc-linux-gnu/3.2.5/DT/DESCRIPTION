@@ -38,6 +38,6 @@ Author: Yihui Xie [aut, cre], Joe Cheng [ctb], JJ Allaire [ctb], jQuery
 Repository: CRAN
 Date/Publication: 2016-08-09 11:41:46
 Built: R 3.2.5; ; 2016-11-15 17:23:09 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 36b032203797956fedad5a25055016a9

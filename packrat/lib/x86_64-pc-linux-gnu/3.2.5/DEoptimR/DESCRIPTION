@@ -19,6 +19,6 @@ Date/Publication: 2016-07-06 01:09:27
 NeedsCompilation: no
 Packaged: 2016-07-05 15:25:22 UTC; rforge
 Built: R 3.2.5; ; 2016-11-15 17:10:46 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 0d74e13bdb47749dc511cee60e1a167e

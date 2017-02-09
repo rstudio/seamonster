@@ -62,6 +62,6 @@ Maintainer: Tal Galili <tal.galili@gmail.com>
 Repository: CRAN
 Date/Publication: 2016-08-27 14:17:20
 Built: R 3.2.5; ; 2016-11-15 17:37:32 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: fcfaf4682e7bc57bc54ad03386090d3c

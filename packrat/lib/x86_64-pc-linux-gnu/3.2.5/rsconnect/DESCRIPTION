@@ -1,17 +1,18 @@
 Package: rsconnect
 Type: Package
 Title: Deployment Interface for R Markdown Documents and Shiny
-        Applications
+    Applications
 Version: 0.6
 Date: 2016-11-21
 Author: JJ Allaire
 Maintainer: JJ Allaire <jj@rstudio.com>
-Description: Programmatic deployment interface for 'RPubs', 'shinyapps.io', and
-    'RStudio Connect'. Supported content types include R Markdown documents,
-    Shiny applications, plots, and static web content.
+Description: Programmatic deployment interface for 'RPubs',
+    'shinyapps.io', and 'RStudio Connect'. Supported content types
+    include R Markdown documents, Shiny applications, plots, and static
+    web content.
 Depends: R (>= 3.0.0)
 Imports: digest, PKI, RCurl, RJSONIO, packrat (>= 0.4.8-1), yaml (>=
-        2.1.5), rstudioapi (>= 0.5)
+    2.1.5), rstudioapi (>= 0.5)
 Suggests: scrypt, knitr, testthat, rmarkdown (>= 1.1)
 Enhances: BiocInstaller
 License: GPL-2
@@ -21,3 +22,6 @@ Packaged: 2016-11-21 16:26:59 UTC; jjallaire
 Repository: CRAN
 Date/Publication: 2016-11-21 21:22:47
 Built: R 3.2.5; ; 2016-12-13 22:12:54 UTC; unix
+InstallAgent: packrat 0.4.8.13
+InstallSource: CRAN
+Hash: 84946df70abc0d9e91f65afe169e7cd7

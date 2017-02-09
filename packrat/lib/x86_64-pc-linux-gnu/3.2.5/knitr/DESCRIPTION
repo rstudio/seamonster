@@ -116,6 +116,6 @@ Author: Yihui Xie [aut, cre], Adam Vogt [ctb], Alastair Andrew [ctb],
 Repository: CRAN
 Date/Publication: 2016-08-13 11:33:17
 Built: R 3.2.5; ; 2016-11-15 17:37:10 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: e7b411f5a5512295a260a45683fa0c4a

@@ -13,6 +13,6 @@ NeedsCompilation: no
 Repository: CRAN
 Date/Publication: 2014-02-24 07:20:37
 Built: R 3.2.5; ; 2016-11-15 17:11:52 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: d4b7f73c0fdf11d18d1e1ae1643ac4ec

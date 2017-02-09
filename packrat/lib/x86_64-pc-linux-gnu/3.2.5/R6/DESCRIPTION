@@ -24,6 +24,6 @@ Maintainer: Winston Chang <winston@stdout.org>
 Repository: CRAN
 Date/Publication: 2016-08-19 19:41:05
 Built: R 3.2.5; ; 2016-11-15 17:10:47 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 1a8313c9df76d2a06aa27c13a4a71c73

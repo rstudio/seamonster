@@ -19,6 +19,6 @@ NeedsCompilation: yes
 Repository: CRAN
 Date/Publication: 2014-09-10 16:22:53
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:15:25 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 97cb6f6293cd18d17df77a6383cc6763

@@ -18,6 +18,6 @@ Packaged: 2016-10-14 12:26:21 UTC; aa
 Repository: CRAN
 Date/Publication: 2016-10-15 13:08:50
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:12:46 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: d0d5efbb1fb26d2dc5f9394c223084b5

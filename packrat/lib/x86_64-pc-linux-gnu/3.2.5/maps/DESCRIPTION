@@ -18,6 +18,6 @@ Repository: CRAN
 Packaged: 2016-07-25 14:07:27 UTC; dalex
 Date/Publication: 2016-07-27 18:47:42
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:12:22 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 4a0a1b1764bfe2c41c6fc21790408caf

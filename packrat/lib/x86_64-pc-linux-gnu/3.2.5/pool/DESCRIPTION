@@ -31,6 +31,6 @@ GithubSHA1: 13d3e59797149df9499daaa2c02d9029541d5dc0
 Author: Barbara Borges [aut, cre], RStudio [cph]
 Maintainer: Barbara Borges <barbara@rstudio.com>
 Built: R 3.2.5; ; 2016-11-15 17:14:28 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: github
 Hash: d3e13c658c9ad258854ba7325bce9350

@@ -24,6 +24,6 @@ Packaged: 2015-08-19 15:11:53 UTC; edzer
 Repository: CRAN
 Date/Publication: 2015-08-19 17:28:20
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:11:54 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 9f94c576cc4b9e83fd714ae8387272e6

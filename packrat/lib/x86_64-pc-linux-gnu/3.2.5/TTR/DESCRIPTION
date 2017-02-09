@@ -19,6 +19,6 @@ Packaged: 2016-03-19 16:55:18 UTC; josh
 Repository: CRAN
 Date/Publication: 2016-03-21 00:06:52
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:23:07 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 4d137b2fd11667a413d92e31f106e839

@@ -22,6 +22,6 @@ Packaged: 2016-05-09 06:18:28 UTC; yihui
 Repository: CRAN
 Date/Publication: 2016-05-09 17:52:57
 Built: R 3.2.5; ; 2016-11-15 17:11:48 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: b2a47a2b91737978cf50ba95825a9cd1

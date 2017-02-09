@@ -31,6 +31,6 @@ NeedsCompilation: yes
 Repository: CRAN
 Date/Publication: 2014-07-28 17:26:19
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-16 17:04:29 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: fb672e20eb6f3010a3639f855d8ef6de

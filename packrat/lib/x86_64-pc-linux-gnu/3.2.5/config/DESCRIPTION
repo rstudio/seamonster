@@ -22,6 +22,6 @@ Maintainer: JJ Allaire <jj@rstudio.com>
 Repository: CRAN
 Date/Publication: 2016-08-02 16:59:45
 Built: R 3.2.5; ; 2016-11-15 17:17:02 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 2628a077c5abec280d9c3e8fd63edbe1

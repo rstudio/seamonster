@@ -26,6 +26,6 @@ Maintainer: B. W. Lewis <blewis@illposed.net>
 Repository: CRAN
 Date/Publication: 2016-09-21 19:27:40
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:11:58 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: f497dde51cee77ac2c3bf5d1ef547295

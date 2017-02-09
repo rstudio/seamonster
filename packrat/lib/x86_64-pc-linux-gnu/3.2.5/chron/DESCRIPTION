@@ -19,6 +19,6 @@ Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
 Repository: CRAN
 Date/Publication: 2015-06-24 18:01:27
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:11:37 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: d25d96d908cd21080f24c89eed4c80a0

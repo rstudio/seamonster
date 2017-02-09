@@ -21,6 +21,6 @@ Maintainer: Alexandros Karatzoglou <alexandros.karatzoglou@gmail.com>
 Repository: CRAN
 Date/Publication: 2016-10-03 09:43:44
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:12:06 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: bf60122a2e1f073661edb69651a682c2

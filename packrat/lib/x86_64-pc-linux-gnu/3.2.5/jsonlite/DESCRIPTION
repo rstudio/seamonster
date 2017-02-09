@@ -27,6 +27,6 @@ Packaged: 2016-09-14 10:32:48 UTC; jeroen
 Repository: CRAN
 Date/Publication: 2016-09-14 19:44:17
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:12:03 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 86d4b85b84421a4815f1bb4872e30ef4

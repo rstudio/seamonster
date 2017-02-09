@@ -36,6 +36,6 @@ Author: Joshua Kunst [aut, cre], Nuno Agostinho [ctb] (hchart.survfit,
 Repository: CRAN
 Date/Publication: 2016-07-15 00:16:46
 Built: R 3.2.5; ; 2016-11-15 17:40:49 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: ec747673b2292fafae7aee2f6497d4b0

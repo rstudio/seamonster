@@ -33,6 +33,6 @@ Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 Repository: CRAN
 Date/Publication: 2016-08-13 13:56:11
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:11:41 UTC; unix
-InstallAgent: packrat 0.4.8.1
+InstallAgent: packrat 0.4.8.13
 InstallSource: CRAN
 Hash: 11de7924273ee61a95c7a157a572bc8a
