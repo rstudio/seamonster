@@ -1,0 +1,97 @@
+---
+output:
+  html_document:
+    code_folding: hide
+    toc: yes
+    toc_float: yes
+params:
+  symbol: GOOG
+  days:
+    label: "Number of Previous Days"
+    value: 90
+    input: slider
+    min: 30
+    max: 360
+  model:
+    label: "Type of Forecasting Model"
+    value: "First Difference - Arima 0,1,0"
+    input: select
+    choices: ["First Difference - Arima 0,1,0", "High Partial Autocorrelation - Arima 1,1,0", "Simple Exponential Smoothimg - Arima 0,1,1" ]
+  forecast:
+    label: "Desired Forecast Date"
+    value: !r library(lubridate); Sys.Date() + days(1)
+    input: date
+---
+  
+# Report for `r params$symbol` on `r Sys.Date()`
+
+## Summary{.tabset}
+
+```{r, echo=TRUE, message=FALSE}
+library(stringr)
+library(lubridate)
+library(quantmod)
+library(DT)
+library(dygraphs)
+library(forecast)
+library(highcharter)
+
+prices <- round(getSymbols(params$symbol, auto.assign = FALSE), 2)
+close <- Cl(last(prices))
+open <- Op(last(prices))
+
+recent <- last(prices, n=params$days)
+recent_nv <- recent[,-5]
+
+```
+
+The stock closed `r ifelse(close>open,'up','down')` at `r close` dollars per share yesterday.
+
+### Price History
+
+The chart below is made with the `quantmod` and `highcharter` R packages. An API returns all of the price history based on the stock tick symbol provided as a parameter. The candlestick chart is a default function from highcharter, as is the the Economist theme.
+
+
+```{r echo=FALSE}
+
+highchart() %>% 
+   hc_yAxis_multiples(
+    list(title = list(text = NULL), height = "75%", top = "0%"),
+    list(title = list(text = NULL), height = "15%", top = "80.5%", opposite = TRUE)
+  ) %>%
+  hc_add_series_ohlc(prices, yAxis=0, name= params$symbol) %>% 
+  hc_add_series_xts(prices[,paste0(params$symbol,".Volume")], name="Volume", type="column", yAxis=1) %>% 
+  hc_add_theme(hc_theme_economist())
+```
+
+### Raw Data
+
+The table below displays the daily price data for `r params$symbol` for the last `r params$days` days. A concise, interactive table is created with the `DT` package. 
+
+  
+```{r echo=TRUE}
+df <- as.data.frame(recent)
+df[,paste0(params$symbol, ".Volume")] <- df[,paste0(params$symbol, ".Volume")]/1000000 
+datatable(df) %>% 
+  formatCurrency(c(paste0(params$symbol, ".Open"), paste0(params$symbol, ".High"), paste0(params$symbol, ".Low"), paste0(params$symbol,".Close"),
+                  paste0(params$symbol, ".Adjusted")), digits=2) %>% 
+  formatRound(c(paste0(params$symbol, ".Volume")), digits=0)
+```
+
+## Model
+
+```{r, warning=FALSE, message=FALSE}
+arima_coefs <- eval(parse(text = paste0("c(", str_extract(params$model, "\\d,\\d,\\d"), ")")))
+m <- arima(recent[,1], arima_coefs)
+f <- forecast(m, as.numeric(params$forecast - Sys.Date()))
+```
+
+The forecast for `r params$forecast` is `r round(as.numeric(f$mean)[1],2)` dollars.
+
+This model is fit with the arima function in the forecast package. A `r params$model` model is used though in practice any range of models could be used.
+
+```{r, warning=FALSE, message=FALSE}
+plot(forecast(m,7), main="")
+```
+
+
