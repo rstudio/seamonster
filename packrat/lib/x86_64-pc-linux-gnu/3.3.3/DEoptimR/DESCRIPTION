@@ -1,0 +1,24 @@
+Package: DEoptimR
+Version: 1.0-6
+Date: 2016-07-05
+Title: Differential Evolution Optimization in Pure R
+Author: Eduardo L. T. Conceicao [aut, cre] and Martin Maechler [ctb]
+Maintainer: Eduardo L. T. Conceicao <mail@eduardoconceicao.org>
+Description: An implementation of a bespoke jDE variant of the
+    Differential Evolution stochastic algorithm for global optimization
+    of nonlinear programming problems.
+Imports: stats
+Enhances: robustbase
+License: GPL (>= 2)
+ByteCompile: yes
+Repository: CRAN
+Repository/R-Forge/Project: robustbase
+Repository/R-Forge/Revision: 728
+Repository/R-Forge/DateTimeStamp: 2016-07-05 14:38:06
+Date/Publication: 2016-07-06 01:09:27
+NeedsCompilation: no
+Packaged: 2016-07-05 15:25:22 UTC; rforge
+Built: R 3.3.3; ; 2017-03-14 20:15:36 UTC; unix
+InstallAgent: packrat 0.4.8.13
+InstallSource: CRAN
+Hash: 0d74e13bdb47749dc511cee60e1a167e
