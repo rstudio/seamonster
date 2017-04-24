@@ -513,8 +513,8 @@ Hash: 69000b7dc41b09977dcf781f909d235c
 
 Package: quantmod
 Source: CRAN
-Version: 0.4-6
-Hash: acf4e0fd148421ecbe51e84b95998447
+Version: 0.4-8
+Hash: e891dcaac8a57dfbc387090f652c6eb8
 
 Package: rappdirs
 Source: CRAN
