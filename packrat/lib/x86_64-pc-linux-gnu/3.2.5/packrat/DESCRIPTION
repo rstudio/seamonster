@@ -2,7 +2,7 @@ Package: packrat
 Type: Package
 Title: A Dependency Management System for Projects and their R Package
     Dependencies
-Version: 0.4.8-13
+Version: 0.4.8-16
 Author: Kevin Ushey, Jonathan McPherson, Joe Cheng, Aron Atkins, JJ
     Allaire
 Maintainer: Kevin Ushey <kevin@rstudio.com>
@@ -15,18 +15,18 @@ Suggests: testthat (>= 0.7), devtools, httr, knitr, rmarkdown
 Enhances: BiocInstaller
 URL: https://github.com/rstudio/packrat/
 BugReports: https://github.com/rstudio/packrat/issues
-RoxygenNote: 5.0.1
-Built: R 3.2.5; ; 2017-01-30 22:51:38 UTC; unix
+RoxygenNote: 6.0.1
+Built: R 3.2.5; ; 2017-04-24 17:19:32 UTC; unix
 RemoteType: github
 RemoteHost: https://api.github.com
 RemoteRepo: packrat
 RemoteUsername: rstudio
 RemoteRef: master
-RemoteSha: 4150b8fc78fda3dd8438af9add7a711ddba22fc4
+RemoteSha: 0427302c6b72439ae85d6d4fe2c00836ab389263
 GithubRepo: packrat
 GithubUsername: rstudio
 GithubRef: master
-GithubSHA1: 4150b8fc78fda3dd8438af9add7a711ddba22fc4
-InstallAgent: packrat 0.4.8.13
+GithubSHA1: 0427302c6b72439ae85d6d4fe2c00836ab389263
+InstallAgent: packrat 0.4.8.16
 InstallSource: github
-Hash: e26c395c4121c5bb8bebb96f5bb44836
+Hash: ca6fc466d265def11c6468f0449204b5
