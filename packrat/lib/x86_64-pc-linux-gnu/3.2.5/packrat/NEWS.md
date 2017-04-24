@@ -1,5 +1,15 @@
 # Packrat 0.4.9 (unreleased)
 
+- Packrat now better handles packages that contain trailing
+  newlines in their DESCRIPTION file -- it now avoids
+  inserting intervening blank lines between records, which
+  should resolve the 'Error: contains a blank line' error that
+  can occur during package installation.
+
+- Packrat now only checks for the 'BiocInstaller' package within the
+  Packrat private library, when attempting to ascertain whether
+  Bioconductor is used by a particular project.
+
 - Packrat no longer automatically restores projects on startup when
   Packrat is not detected within the library directory.
 

@@ -1,19 +1,23 @@
 Package: yaml
 Type: Package
-Title: Methods to convert R data to YAML and back
-Version: 2.1.13
+Title: Methods to Convert R Data to YAML and Back
+Version: 2.1.14
 Suggests: testthat
-Date: 2014-06-12
+Date: 2016-11-12
 Author: Jeremy Stephens <jeremy.stephens@vanderbilt.edu>
 Maintainer: Jeremy Stephens <jeremy.stephens@vanderbilt.edu>
 License: BSD_3_clause + file LICENSE
-Description: This package implements the libyaml YAML 1.1 parser and
-    emitter (http://pyyaml.org/wiki/LibYAML) for R.
-Packaged: 2014-06-12 18:04:44 UTC; stephej1
+Description: Implements the 'libyaml' 'YAML' 1.1 parser and emitter
+    (<http://pyyaml.org/wiki/LibYAML>) for R.
 NeedsCompilation: yes
+Packaged: 2016-11-12 15:41:59 UTC; viking
 Repository: CRAN
-Date/Publication: 2014-06-12 21:01:16
-Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:14:05 UTC; unix
-InstallAgent: packrat 0.4.8.13
+Date/Publication: 2016-11-12 19:55:17
+Built: R 3.2.5; x86_64-pc-linux-gnu; 2017-04-24 17:19:57 UTC; unix
+RemoteType: cran
+RemoteSha: 2.1.14
+RemoteRepos: structure("https://cran.rstudio.com/", .Names = "CRAN")
+RemotePkgType: source
+InstallAgent: packrat 0.4.8.16
 InstallSource: CRAN
-Hash: 4854ccabebc225e8a7309fb4a74980de
+Hash: c81230c3a7d9ba20607ad6b4331173d1

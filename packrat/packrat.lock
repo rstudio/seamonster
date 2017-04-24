@@ -1,5 +1,5 @@
 PackratFormat: 1.4
-PackratVersion: 0.4.8.13
+PackratVersion: 0.4.8.16
 RVersion: 3.2.5
 Repos: CRAN=https://cran.rstudio.com/
 
@@ -165,8 +165,8 @@ Hash: 08eed0c80510af29bb15f840ccfe37ce
 
 Package: digest
 Source: CRAN
-Version: 0.6.10
-Hash: 87165608ca8aeb0958835c3c5b52b6b7
+Version: 0.6.12
+Hash: e53fb8c58673df868183697e39a6a4d6
 
 Package: diptest
 Source: CRAN
@@ -445,12 +445,12 @@ Hash: 5ceb5d83bba44e8e5a764ac6ad32e9fb
 
 Package: packrat
 Source: github
-Version: 0.4.8-13
-Hash: e26c395c4121c5bb8bebb96f5bb44836
+Version: 0.4.8-16
+Hash: ca6fc466d265def11c6468f0449204b5
 GithubRepo: packrat
 GithubUsername: rstudio
 GithubRef: master
-GithubSha1: 4150b8fc78fda3dd8438af9add7a711ddba22fc4
+GithubSha1: 0427302c6b72439ae85d6d4fe2c00836ab389263
 
 Package: pkgmaker
 Source: CRAN
@@ -582,9 +582,13 @@ Version: 1.0-2
 Hash: c270982b60661aaf11964b7763e39cdd
 
 Package: rsconnect
-Source: CRAN
-Version: 0.6
-Hash: 84946df70abc0d9e91f65afe169e7cd7
+Source: github
+Version: 0.7.0-2
+Hash: 5356aba96dde11eca9c91845ac5277aa
+GithubRepo: rsconnect
+GithubUsername: rstudio
+GithubRef: master
+GithubSha1: 425f3767b3142bc6b81c9eb62c4722f1eedc9781
 
 Package: rstudioapi
 Source: CRAN
@@ -712,8 +716,8 @@ Hash: fb3f81d7a2fa2323879b6b49722ddc5e
 
 Package: yaml
 Source: CRAN
-Version: 2.1.13
-Hash: 4854ccabebc225e8a7309fb4a74980de
+Version: 2.1.14
+Hash: c81230c3a7d9ba20607ad6b4331173d1
 
 Package: zipcode
 Source: CRAN
