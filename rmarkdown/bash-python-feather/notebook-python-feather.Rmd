@@ -1,7 +1,9 @@
 ---
 title: "Python and R with Feather"
-output: 
-  html_notebook
+output:
+  html_notebook: default
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -13,7 +15,7 @@ library(ggplot2)
 First use bash to append together several data files into a single file we can read and manipulate:
 
 ```{bash}
-cd rmarkdown/bash-python-feather/
+cd rmarkdown/bash-python-feather || cd .
 cat flights1.csv flights2.csv flights3.csv > flights.csv
 ```
 
@@ -22,9 +24,15 @@ Now use **pandas** to read and filter the data. We'll pass it to R using the hig
 ```{python}
 import pandas
 import feather
+import os
+
+try:
+  os.chdir("rmarkdown/bash-python-feather")
+except:
+  print("Already in appropriate directory")
 
 # Read flights data and select flights to O'Hare
-flights = pandas.read_csv("rmarkdown/bash-python-feather/flights.csv")
+flights = pandas.read_csv("flights.csv")
 flights = flights[flights['dest'] == "ORD"]
 
 # Select carrier and delay columns and drop rows with missing values
@@ -33,7 +41,7 @@ flights = flights.dropna()
 print flights.head(10)
 
 # Write to feather file for reading from R
-feather.write_dataframe(flights, "rmarkdown/bash-python-feather/flights.feather")
+feather.write_dataframe(flights, "flights.feather")
 ```
 
 Now read from *flights.feather* into an R data frame and plot arrival delays by carrier using **ggplot2**:
@@ -41,6 +49,9 @@ Now read from *flights.feather* into an R data frame and plot arrival delays by 
 ```{r}
 library(feather)
 library(ggplot2)
+
+tryCatch({setwd('rmarkdown/bash-python-feather/')},
+         error = function(e) {NULL})
 
 # Read from feather and plot
 flights <- read_feather("flights.feather")
