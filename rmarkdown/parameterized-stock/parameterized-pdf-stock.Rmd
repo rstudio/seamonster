@@ -18,7 +18,7 @@ library(forecast)
 library(ggplot2)
 
 
-prices <- round(getSymbols(params$symbol, auto.assign = FALSE), 2)
+prices <- round(getSymbols(params$symbol, auto.assign = FALSE, src = 'google'), 2)
 close <- Cl(last(prices))
 open <- Op(last(prices))
 ```
@@ -33,7 +33,7 @@ The chart below is made with the `quantmod` and `ggplot2` R packages. An API ret
 ```{r plot}
 recent <- last(prices, n=90)
 df <- as.data.frame(recent)
-colnames(df) <- c("Open", "High", "Low", "Close", "Volume", "Adjusted")
+colnames(df) <- c("Open", "High", "Low", "Close", "Volume")
 df$Date <- as.Date(rownames(df))
 ggplot(data=df, aes(x=Date, y=Close)) + geom_line() + geom_smooth() + ggtitle(paste(params$symbol, "3 Month History"))
 
@@ -46,7 +46,7 @@ ggplot(data=df, aes(x=Date, y=Close)) + geom_line() + geom_smooth() + ggtitle(pa
 This model is fit with the arima function in the forecast package on the last 3 months of trading data. The forecast for the next 7 days is plotted.
 
 ```{r forecast}
-m <- arima(recent[,1], order = c(1,1,1))
+m <- arima(recent[,1], order = c(1,0,1))
 f <- forecast(m, 7)
 plot(f, main="")
 ```

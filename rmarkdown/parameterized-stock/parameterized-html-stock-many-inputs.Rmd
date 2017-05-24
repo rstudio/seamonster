@@ -36,7 +36,7 @@ library(dygraphs)
 library(forecast)
 library(highcharter)
 
-prices <- round(getSymbols(params$symbol, auto.assign = FALSE), 2)
+prices <- round(getSymbols(params$symbol, auto.assign = FALSE, src = 'google'), 2)
 close <- Cl(last(prices))
 open <- Op(last(prices))
 
@@ -73,8 +73,7 @@ The table below displays the daily price data for `r params$symbol` for the last
 df <- as.data.frame(recent)
 df[,paste0(params$symbol, ".Volume")] <- df[,paste0(params$symbol, ".Volume")]/1000000 
 datatable(df) %>% 
-  formatCurrency(c(paste0(params$symbol, ".Open"), paste0(params$symbol, ".High"), paste0(params$symbol, ".Low"), paste0(params$symbol,".Close"),
-                  paste0(params$symbol, ".Adjusted")), digits=2) %>% 
+  formatCurrency(c(paste0(params$symbol, ".Open"), paste0(params$symbol, ".High"), paste0(params$symbol, ".Low"), paste0(params$symbol,".Close")), digits=2) %>% 
   formatRound(c(paste0(params$symbol, ".Volume")), digits=0)
 ```
 
