@@ -31,6 +31,6 @@ Maintainer: Jim Hester <james.f.hester@gmail.com>
 Repository: CRAN
 Date/Publication: 2016-06-20 17:32:02
 Built: R 3.2.5; ; 2016-11-15 17:14:03 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 774eb7be9087cdc24b53b74e5359cfac

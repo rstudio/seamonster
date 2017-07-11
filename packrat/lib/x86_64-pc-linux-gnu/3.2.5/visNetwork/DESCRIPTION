@@ -27,6 +27,6 @@ Author: Almende B.V. [aut, cph] (vis.js library in htmlwidgets/lib,
 Repository: CRAN
 Date/Publication: 2016-10-05 18:17:57
 Built: R 3.2.5; ; 2016-11-15 17:23:15 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 1b3084358492343d3ca94ecc70f6bc13

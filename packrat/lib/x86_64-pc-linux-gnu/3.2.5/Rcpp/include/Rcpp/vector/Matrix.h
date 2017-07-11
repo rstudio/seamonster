@@ -2,7 +2,7 @@
 //
 // Matrix.h: Rcpp R/C++ interface class library -- matrices
 //
-// Copyright (C) 2010 - 2015  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2016  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -29,6 +29,8 @@ class Matrix : public Vector<RTYPE, StoragePolicy>, public MatrixBase<RTYPE, tru
     int nrows ;
 
 public:
+    using Vector<RTYPE, StoragePolicy>::size; 	// disambiguate diamond pattern for g++-6 and later
+
     struct r_type : traits::integral_constant<int,RTYPE>{} ;
     struct can_have_na : traits::true_type{} ;
     typedef MatrixRow<RTYPE> Row ;
@@ -51,7 +53,7 @@ public:
     Matrix(SEXP x) : VECTOR( r_cast<RTYPE>( x ) ), nrows( VECTOR::dims()[0] ) {}
 
     Matrix( const Dimension& dims) : VECTOR( Rf_allocMatrix( RTYPE, dims[0], dims[1] ) ), nrows(dims[0]) {
-        if( dims.size() != 2 ) throw not_compatible("not a matrix") ;
+        if( dims.size() != 2 ) throw not_a_matrix();
         VECTOR::init() ;
     }
     Matrix( const int& nrows_, const int& ncols) : VECTOR( Dimension( nrows_, ncols ) ),
@@ -80,7 +82,7 @@ public:
 
     Matrix& operator=(const Matrix& other) {
         SEXP x = other.get__() ;
-        if( ! ::Rf_isMatrix(x) ) not_compatible("not a matrix") ;
+        if( ! ::Rf_isMatrix(x) ) throw not_a_matrix();
         VECTOR::set__( x ) ;
         nrows = other.nrows ;
         return *this ;
@@ -173,25 +175,22 @@ private:
 
     template <typename U>
     void fill_diag__dispatch( traits::false_type, const U& u) {
-          Shield<SEXP> elem( converter_type::get( u ) ) ;
-        int n = Matrix::ncol() ;
-        int offset = n +1 ;
-        iterator it( VECTOR::begin()) ;
-        for( int i=0; i<n; i++){
-            *it = ::Rf_duplicate( elem );
-            it += offset;
+        Shield<SEXP> elem( converter_type::get( u ) );
+
+        R_xlen_t bounds = std::min(Matrix::nrow(), Matrix::ncol());
+        for (R_xlen_t i = 0; i < bounds; ++i) {
+            (*this)(i, i) = elem;
         }
     }
 
     template <typename U>
     void fill_diag__dispatch( traits::true_type, const U& u) {
-          stored_type elem = converter_type::get( u ) ;
-        int n = Matrix::ncol() ;
-        int offset = n + 1 ;
-        iterator it( VECTOR::begin()) ;
-        for( int i=0; i<n; i++){
-            *it = elem ;
-            it += offset;
+        stored_type elem = converter_type::get( u );
+
+        R_xlen_t bounds = std::min(Matrix::nrow(), Matrix::ncol());
+
+        for (R_xlen_t i = 0; i < bounds; ++i) {
+            (*this)(i, i) = elem;
         }
     }
 
@@ -247,6 +246,7 @@ inline std::ostream &operator<<(std::ostream & s, const Matrix<REALSXP, StorageP
     return s;
 }
 
+#ifndef RCPP_NO_SUGAR
 #define RCPP_GENERATE_MATRIX_SCALAR_OPERATOR(__OPERATOR__)                                                                    \
     template <int RTYPE, template <class> class StoragePolicy, typename T >                                                   \
     inline typename traits::enable_if< traits::is_convertible< typename traits::remove_const_and_reference< T >::type,        \
@@ -281,6 +281,7 @@ RCPP_GENERATE_SCALAR_MATRIX_OPERATOR(*)
 RCPP_GENERATE_SCALAR_MATRIX_OPERATOR(/)
 
 #undef RCPP_GENERATE_SCALAR_MATRIX_OPERATOR
+#endif
 
 template<template <class> class StoragePolicy >
 inline std::ostream &operator<<(std::ostream & s, const Matrix<INTSXP, StoragePolicy> & rhs) {

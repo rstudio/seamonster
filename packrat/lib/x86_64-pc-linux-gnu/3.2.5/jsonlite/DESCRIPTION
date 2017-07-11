@@ -1,14 +1,14 @@
 Package: jsonlite
-Version: 1.1
+Version: 1.5
 Title: A Robust, High Performance JSON Parser and Generator for R
 License: MIT + file LICENSE
 NeedsCompilation: yes
 Depends: methods
 Author: Jeroen Ooms, Duncan Temple Lang, Lloyd Hilaiel
-URL: http://arxiv.org/abs/1403.2805,
+URL: https://arxiv.org/abs/1403.2805,
     https://www.opencpu.org/posts/jsonlite-a-smarter-json-encoder
-BugReports: http://github.com/jeroenooms/jsonlite/issues
-Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
+BugReports: http://github.com/jeroen/jsonlite/issues
+Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 VignetteBuilder: knitr, R.rsp
 Description: A fast JSON parser and generator optimized for statistical
     data and the web. Started out as a fork of 'RJSONIO', but has been
@@ -21,12 +21,16 @@ Description: A fast JSON parser and generator optimized for statistical
     stream, validate, and prettify JSON data. The unit tests included
     with the package verify that all edge cases are encoded and decoded
     consistently for use with dynamic data in systems and applications.
-Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp
-RoxygenNote: 5.0.1
-Packaged: 2016-09-14 10:32:48 UTC; jeroen
+Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp, sp
+RoxygenNote: 6.0.1.9000
+Packaged: 2017-05-31 14:03:43 UTC; jeroen
 Repository: CRAN
-Date/Publication: 2016-09-14 19:44:17
-Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:12:03 UTC; unix
-InstallAgent: packrat 0.4.8.13
+Date/Publication: 2017-06-01 12:03:37 UTC
+Built: R 3.2.5; x86_64-pc-linux-gnu; 2017-07-11 15:01:46 UTC; unix
+RemoteType: cran
+RemoteSha: 1.5
+RemoteRepos: structure("https://cran.rstudio.com/", .Names = "CRAN")
+RemotePkgType: source
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
-Hash: 86d4b85b84421a4815f1bb4872e30ef4
+Hash: 9c51936d8dd00b2f1d4fe9d10499694c

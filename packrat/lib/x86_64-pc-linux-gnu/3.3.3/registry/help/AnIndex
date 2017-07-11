@@ -1,0 +1,12 @@
+matchfuns	matchfuns
+match_exact	matchfuns
+match_ignorecase	matchfuns
+match_partial	matchfuns
+match_partial_ignorecase	matchfuns
+match_regexp	matchfuns
+print.registry	regobj
+registry	registry
+regobj	regobj
+summary.registry	regobj
+[.registry	regobj
+[[.registry	regobj

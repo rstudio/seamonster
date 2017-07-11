@@ -32,6 +32,6 @@ Packaged: 2016-11-20 13:25:07 UTC; stefan
 Repository: CRAN
 Date/Publication: 2016-11-20 17:30:47
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-12-22 18:46:51 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 8022c40f316e7b99258eb19969e2a11c

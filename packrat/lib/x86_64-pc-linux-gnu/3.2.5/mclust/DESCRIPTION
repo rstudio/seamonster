@@ -28,6 +28,6 @@ Author: Chris Fraley [aut], Adrian E. Raftery [aut], Luca Scrucca [aut,
 Maintainer: Luca Scrucca <luca@stat.unipg.it>
 Date/Publication: 2016-03-31 17:39:13
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:12:25 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 77406ad6a64bb972a5e05b658161261d

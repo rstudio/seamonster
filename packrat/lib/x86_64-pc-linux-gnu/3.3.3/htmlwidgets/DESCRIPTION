@@ -1,0 +1,36 @@
+Package: htmlwidgets
+Type: Package
+Title: HTML Widgets for R
+Version: 0.8
+Date: 2016-11-09
+Authors@R: c(
+    person("Ramnath", "Vaidyanathan", role = c("aut", "cph")),
+    person("Yihui", "Xie", role = c("aut")),
+    person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"),
+    person("Joe", "Cheng", role = c("aut")),
+    person("Kenton", "Russell", role = c("aut", "cph")),
+    person(family = "RStudio", role = "cph")
+    )
+Description: A framework for creating HTML widgets that render in various
+    contexts including the R console, 'R Markdown' documents, and 'Shiny'
+    web applications.
+License: MIT + file LICENSE
+VignetteBuilder: knitr
+Imports: htmltools (>= 0.3), jsonlite (>= 0.9.16), yaml
+Suggests: knitr (>= 1.8)
+Enhances: shiny (>= 0.12)
+URL: https://github.com/ramnathv/htmlwidgets
+BugReports: https://github.com/ramnathv/htmlwidgets/issues
+RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2016-11-09 20:41:12 UTC; jjallaire
+Author: Ramnath Vaidyanathan [aut, cph],
+  Yihui Xie [aut],
+  JJ Allaire [aut, cre],
+  Joe Cheng [aut],
+  Kenton Russell [aut, cph],
+  RStudio [cph]
+Maintainer: JJ Allaire <jj@rstudio.com>
+Repository: CRAN
+Date/Publication: 2016-11-09 23:48:13
+Built: R 3.3.3; ; 2017-03-14 20:36:19 UTC; unix

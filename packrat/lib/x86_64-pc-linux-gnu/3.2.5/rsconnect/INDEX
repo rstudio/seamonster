@@ -8,6 +8,7 @@ authorizedUsers         (Deprecated) List authorized users for an
                         application
 configureApp            Configure an Application
 connectUser             Connect User Account
+deployAPI               Deploy a Plumber API
 deployApp               Deploy an Application
 deployDoc               Deploy a Document
 deploySite              Deploy a Website

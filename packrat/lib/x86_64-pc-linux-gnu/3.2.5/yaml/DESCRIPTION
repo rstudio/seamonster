@@ -18,6 +18,6 @@ RemoteType: cran
 RemoteSha: 2.1.14
 RemoteRepos: structure("https://cran.rstudio.com/", .Names = "CRAN")
 RemotePkgType: source
-InstallAgent: packrat 0.4.8.16
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: c81230c3a7d9ba20607ad6b4331173d1

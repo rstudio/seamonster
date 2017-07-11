@@ -18,6 +18,6 @@ Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
 Repository: CRAN
 Date/Publication: 2016-05-02 13:58:30
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:17:03 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 7e682b3836fe687ac9ab9d8f9137064c

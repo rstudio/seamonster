@@ -1,0 +1,12 @@
+PlumberProcessor        A plumber processor
+addSerializer           Add a Serializer
+do_configure_https      Add HTTPS to a plumber Droplet
+do_deploy_api           Deploy or Update an API
+do_forward              Forward Root Requests to an API
+do_provision            Provision a DigitalOcean plumber server
+do_remove_api           Remove an API from the server
+do_remove_forward       Remove the forwarding rule
+forward                 Forward Request to The Next Handler
+include_file            Send File Contents as Response
+plumber                 Plumber Router
+sessionCookie           Store session data in encrypted cookies.

@@ -29,6 +29,6 @@ GithubSHA1: d352874e843b15aa5101852ad346d331a0d9ccac
 Author: Javier Luraschi [aut, cre], Kevin Ushey [aut], JJ Allaire
     [aut], RStudio [cph], The Apache Software Foundation [aut, cph]
 Built: R 3.2.5; ; 2016-11-15 17:37:07 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: github
 Hash: 23d4f12bc66d3c1e895f1aa3eff60bc7

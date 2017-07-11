@@ -273,6 +273,87 @@ test_that("Cloning active bindings", {
 })
 
 
+test_that("Cloning active binding in superclass", {
+  AC <- R6Class("AC",
+    public = list(
+      x = 1
+    ),
+    active = list(
+      x2 = function(value){
+        if (missing(value)) self$x * 2
+        else self$x <- value / 2
+      }
+    )
+  )
+
+  BC <- R6Class("BC",
+    inherit = AC,
+    active = list(
+      x2 = function(value){
+        if (missing(value)) super$x2 * 2
+        else super$x2 <- value / 2
+      }
+    )
+  )
+
+  a <- AC$new()
+  a$x <- 10
+  expect_identical(a$x2, 20)
+  a$x2 <- 22
+  expect_identical(a$x, 11)
+
+  b <- BC$new()
+  b$x <- 10
+  expect_identical(b$x2, 40)
+  b$x <- 11
+  expect_identical(b$x2, 44)
+
+  b1 <- b$clone()
+  expect_identical(b1$x2, 44)
+  b1$x <- 12
+  expect_identical(b1$x2, 48)
+})
+
+
+test_that("Cloning active binding in two levels of inheritance", {
+  # For issue #119
+  A <- R6Class("A",
+    public = list(
+      methodA = function() "A"
+    ),
+    active = list(
+      x = function() "x"
+    )
+  )
+
+  B <- R6Class("B",
+    inherit = A,
+    public = list(
+      methodB = function() {
+        super$methodA()
+      }
+    )
+  )
+
+  C <- R6Class("C",
+    inherit = B,
+    public = list(
+      methodC = function() {
+        super$methodB()
+      }
+    )
+  )
+
+  C1 <- C$new()
+  C2 <- C1$clone()
+  expect_identical(C2$methodC(), "A")
+  expect_identical(
+    C1$.__enclos_env__$super$.__enclos_env__,
+    environment(C1$.__enclos_env__$super$methodB)
+  )
+})
+
+
 test_that("Lock state", {
   AC <- R6Class("AC",
     public = list(

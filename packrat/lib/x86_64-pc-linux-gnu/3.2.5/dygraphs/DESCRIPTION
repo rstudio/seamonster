@@ -39,6 +39,6 @@ Author: Dan Vanderkam [aut, cph] (dygraphs library in htmlwidgets/lib,
 Repository: CRAN
 Date/Publication: 2016-09-14 19:44:15
 Built: R 3.2.5; ; 2016-11-15 17:23:10 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: df1ed096caaaa906ea6a11d8a3ad648d

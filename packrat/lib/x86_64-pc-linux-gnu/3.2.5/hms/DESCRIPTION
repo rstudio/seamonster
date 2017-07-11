@@ -22,6 +22,6 @@ Maintainer: Kirill Müller <krlmlr+r@mailbox.org>
 Repository: CRAN
 Date/Publication: 2016-06-17 21:12:12
 Built: R 3.2.5; ; 2016-11-15 17:11:57 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: c1b6ded8c65ae31a98d73a312b2e6574

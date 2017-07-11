@@ -13,6 +13,6 @@ Packaged: 2012-10-29 08:59:56 UTC; ripley
 Repository: CRAN
 Date/Publication: 2012-10-29 08:59:56
 Built: R 3.2.5; ; 2016-11-15 17:14:00 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 662a899a1377c7d3f2cef1722e335aff

@@ -112,8 +112,6 @@ stri_extract_last_regex	stri_extract
 stri_extract_last_words	stri_extract_boundaries
 stri_flatten	stri_flatten
 stri_info	stri_info
-stri_install_check	stri_install
-stri_install_icudt	stri_install
 stri_isempty	stri_isempty
 stri_join	stri_join
 stri_join_list	stri_join_list
