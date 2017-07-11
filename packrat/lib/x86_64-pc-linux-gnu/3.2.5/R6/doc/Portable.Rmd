@@ -7,8 +7,8 @@ output:
     toc: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Vignette Title}
-  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{Portable and non-portable R6 classes}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r echo = FALSE}

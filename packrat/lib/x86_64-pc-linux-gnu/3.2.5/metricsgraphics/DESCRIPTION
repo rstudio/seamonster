@@ -38,6 +38,6 @@ Author: Bob Rudis [aut, cre], Ali Almossawi [ctb, cph] (MetricsGraphics
 Repository: CRAN
 Date/Publication: 2015-12-21 15:29:04
 Built: R 3.2.5; ; 2016-11-15 17:23:13 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 16aaa01d1ab8aa74472f12a2ad7d5a9f

@@ -24,6 +24,6 @@ Maintainer: Joshua M. Ulrich <josh.m.ulrich@gmail.com>
 Repository: CRAN
 Date/Publication: 2017-04-19 04:21:46 UTC
 Built: R 3.2.5; ; 2017-04-24 17:06:45 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: e891dcaac8a57dfbc387090f652c6eb8

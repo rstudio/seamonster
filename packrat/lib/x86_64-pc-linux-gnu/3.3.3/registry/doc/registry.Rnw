@@ -1,0 +1,313 @@
+\documentclass[a4paper]{article}
+\usepackage[round,longnamesfirst]{natbib}
+\usepackage{graphicx,keyval,thumbpdf,a4wide,makeidx,color,colordvi}
+\usepackage{amsfonts,hyperref}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{201C}{"}
+\DeclareUnicodeCharacter{201D}{"}
+
+\newcommand\R{\textsf{R}}
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}}
+\newcommand{\sQuote}[1]{`{#1}'}
+\newcommand{\dQuote}[1]{``{#1}''}
+\newcommand{\file}[1]{\sQuote{\textsf{#1}}}
+\newcommand{\data}[1]{\texttt{#1}}
+\newcommand{\var}[1]{\textit{#1}}
+\newcommand{\class}[1]{\textsf{#1}}
+\newcommand{\proglang}[1]{\textsf{#1}}
+%% \code without `-' ligatures
+\def\nohyphenation{\hyphenchar\font=-1 \aftergroup\restorehyphenation}
+\def\restorehyphenation{\hyphenchar\font=`-}
+{\catcode`\-=\active%
+  \global\def\code{\bgroup%
+    \catcode`\-=\active \let-\codedash%
+    \Rd@code}}
+\def\codedash{-\discretionary{}{}{}}
+\def\Rd@code#1{\texttt{\nohyphenation#1}\egroup}
+\newcommand{\codefun}[1]{\code{#1()}}
+\newcommand{\codefunind}[1]{\codefun{#1}\index{\texttt{#1}}}
+\newcommand{\codeind}[1]{\code{#1}\index{\texttt{#1}}}
+
+\SweaveOpts{strip.white=true}
+
+\definecolor{Blue}{rgb}{0,0,0.8}
+\definecolor{Red}{rgb}{0.7,0,0}
+
+\date{2009-02-17}
+\title{A Generic Registry Infrastructure for \R}
+\author{David Meyer}
+%\VignetteIndexEntry{Registry}
+%\VignetteDepends{registry}
+%\VignetteKeywords{registry}
+%\VignettePackage{registry}
+
+\makeindex{}
+
+\sloppy{}
+
+\begin{document}
+\maketitle
+
+% \begin{abstract}
+% This document introduces a generic registry infrastructure for \R,
+% provided by the \pkg{registry} package.
+% \end{abstract}
+
+<<echo=FALSE>>=
+options(width = 80)
+library("registry")
+@ %
+
+\section{Introduction}
+\label{sec:introduction}
+
+More and more, \R~packages are offering dynamic functionality,
+allowing users to extend a \dQuote{repository} of initial features or
+data. For example, the \pkg{proxy} package \citep{registry:meyer+buchta:2008}
+provides an enhanced
+\codefun{dist} function for computing dissimilarity matrices,
+allowing to choose among several proximity
+measures stored in a registry. Each entry is composed of a small
+workhorse function and some meta data including, e.g., a character vector
+of aliases, literature references, the formula in plain text,
+a function to coerce
+between similarity and distance, and a type categorization
+(binary, metric, etc.). Users can add new proximity measures to the
+registry at run-time and immediately use them without recreating the
+package, specifying one of the aliases defined in the meta data.
+Similarly, the \pkg{relations} \citep{registry:hornik+meyer:2008}
+and \pkg{CLUE} \citep{registry:hornik:2005,registry:hornik:2007}
+packages use simple
+registries internally to link some meta data to available functions,
+used by the high-level consensus ranking and cluster ensemble
+functions, respectively.
+
+Such a registry, whether exposed to the user or not, is conceptually a
+small in-memory data base where entries with a common field structure are
+stored and retrieved and whose fields can be of mixed type.
+At first sight, a data frame seems to be the
+data structure of choice for an appropriate implementation.
+Unfortunately, data frames are inconvenient to use
+with factors, functions, or other recursive types such as lists
+due to automatic coercions taking place behind the scenes. In fact, a
+simpler, record-like structure such as a list with named components
+(\dQuote{fields}) appears more practical. Also,
+features known from \dQuote{real} data bases such as compound keys,
+validity checking of new entries, and use of access rights are not
+available by default and need to be \dQuote{reinvented} every time
+they are needed.
+
+The \pkg{registry} package provides a simple mechanism for defining
+and manipulating user-extensible registry objects. A typical
+use case in the context of an \R~package could include the following steps:
+
+\begin{enumerate}
+\item Create one or more registry objects inside the package's namespace.
+\item Insert entries to the registry.
+\item Possibly, \dQuote{seal} the entries and set access rights.
+\item Possibly, export the registry object to the user level.
+\item Browse and retrieve entries from the registry.
+\end{enumerate}
+
+In the following, we explain these steps in more detail:
+first, how a registry can be set up; second, how entries
+can be added, modified and retrieved; and third, how a registry can be
+sealed and restricted through the definition of access rights.
+
+\section{Creating Registries}
+
+A registry basically is a container (implemented in \R~as an
+environment), along with some access functions. A new object of class
+\code{registry} can simply be created using the \codefun{registry} function:
+<<>>=
+library(registry)
+R <- registry()
+print(R)
+@
+Optional parameters include the specification of an (additional) class
+for the created registry object and the individual entries,
+as well as the specification of some validity function checking new
+entries to be added to the registry.
+
+In the following, we will use the example of a simple address book,
+whose entries include first and last name, address, age, home/cell
+phone number, and a business/private classification.
+Last and first name build the search key. Age is an
+optional integer in the range of 1 and
+99. Additionally, at least one phone number should be added to the registry.
+
+We start by creating two simple validity functions. The first one, to
+be specified at field level later on, checks a given age:
+<<>>=
+checkAge <- function(x) stopifnot(is.na(x) || x > 0 && x < 100)
+@
+The second one, specified at registry level,
+checks whether a given registry entry (list of named components)
+contains at least one phone number:
+<<>>=
+checkPhone <- function(x) stopifnot(!is.na(x$mobile) || !is.na(x$home))
+@
+Next, we create a registry of class \code{Addressbook} (inheriting
+from \code{registry}), containing entries of class \code{Address} and
+using the above validity function.
+<<>>=
+R <- registry(registry_class = "Addressbook", entry_class = "Address",
+              validity_FUN = checkPhone)
+@
+The additional class for the registry allows, e.g., user-defined printing:
+<<>>=
+print.Addressbook <-
+function(x, ...) {
+    writeLines(sprintf("An address book with %i entries.\n", length(x)))
+    invisible(x)
+}
+print(R)
+@
+
+At this stage, we are ready to set up the field information. First and last
+names are mandatory character fields, uniquely identifying an entry
+(key fields). Lookups should work with partial completion, ignoring case:
+<<>>=
+R$set_field("last", type = "character", is_key = TRUE, index_FUN = match_partial_ignorecase)
+R$set_field("first", type = "character", is_key = TRUE, index_FUN = match_partial_ignorecase)
+@
+The address is also character, but optional:
+<<>>=
+R$set_field("address", type = "character")
+@
+At least one phone number (character) is required. This can be
+achieved by making them optional, and using the validity
+function specified at the registry level to check whether one of them is empty:
+<<>>=
+R$set_field("mobile", type = "character")
+R$set_field("home", type = "character")
+@
+The age field is an optional integer with a defined range, checked by
+the field-level validity function:
+<<>>=
+R$set_field("age", type = "integer", validity_FUN = checkAge)
+@
+Finally, the business/private category is defined by specifying the
+possible alternatives (\code{Business} is set as default):
+<<>>=
+R$set_field("type", type = "character",
+            alternatives = c("Business", "Private"),
+            default = "Business")
+@
+The setup for a field can be retrieved using \codefun{get\_field}:
+<<>>=
+R$get_field("type")
+@
+\codefun{get\_fields} returns the complete list.
+
+\section{Using Registries}
+
+We now can start adding entries to the registry:
+<<>>=
+R$set_entry(last = "Smith", first = "Mary", address = "Vienna",
+            home = "734 43 34", type = "Private", age = 44L)
+R$set_entry(last = "Smith", first = "Peter", address = "New York",
+            mobile = "878 78 87")
+@
+If all field values are specified, the field names can be omitted:
+<<>>=
+R$set_entry("Myers", "John", "Washington", "52 32 34", "898 89 99",
+            33L, "Business")
+@
+Duplicate or invalid entries are not accepted:
+<<>>=
+TRY <- function(expr) tryCatch(expr, error = print)
+TRY(R$set_entry(last = "Smith", first = "Mary"))
+TRY(R$set_entry(last = "Miller", first = "Henry"))
+TRY(R$set_entry(last = "Miller", first = "Henry", age = 12.5))
+TRY(R$set_entry(last = "Miller", first = "Henry", age = 999L))
+@
+A single entry can be retrieved using \codefun{get\_entry}:
+<<>>=
+R$get_entry(last = "Smith", first = "mar")
+@
+Since returned entries inherit from \code{Address}, we can provide a
+user-defined print method:
+<<>>=
+print.Address <- function(x) with(x,
+    writeLines(sprintf("%s %s, %s; home: %s, mobile: %s; age: %i (%s)", first, last, address, home, mobile, age, type)))
+R$get_entry(last = "Smith", first = "mar")
+@
+Note that even though
+the first name of Mary Smith is incompletely specified and in
+lower case, the lookup is still successful
+because of the partial matching indexing function. The \code{[[} operator
+can be used as an alternative to \codefun{get\_entry}:
+<<>>=
+R[["Myers"]]
+@
+For Myers, the last name uniquely identifies the entry, so
+the first name can be omitted. Key values can have alternative values:
+<<>>=
+R$set_entry(last = "Frears", first = c("Joe", "Jonathan"),
+            address = "Washington", home = "721 42 34")
+@
+Either of them can be used for retrieval:
+<<>>=
+identical(R[["Frears", "Jonathan"]], R[["Frears", "Joe"]])
+@
+Unsuccessful lookups result in a
+return of \code{NULL}. Multiple  entries can be retrieved
+using the \codefun{get\_entries} accessing function. They are returned
+in a list whose component names are generated from the key values:
+<<>>=
+R$get_entries("Smith")
+@
+Full-text search in all information is provided by \codefun{grep\_entries}:
+<<>>=
+R$grep_entries("Priv")
+@
+A list of all entries can be obtained using either of:
+<<eval=FALSE>>=
+R$get_entries()
+R[]
+@
+The summary method for registry objects returns a data frame:
+<<>>=
+summary(R)
+@
+Entries can also be modified using \codefun{modify\_entry}, specifying
+key and new field values:
+<<>>=
+R[["Smith", "Peter"]]
+R$modify_entry(last = "Smith", first = "Peter", age = 22L)
+R[["Smith", "Peter"]]
+@
+Finally, entries can be removed using \codefun{delete\_entry}:
+<<>>=
+R$delete_entry(last = "Smith", first = "Peter")
+R[["Smith", "Peter"]]
+@
+
+\section{Sealing Registries and Setting Access Rights}
+
+Occasionally, developers might want to protect a registry that ships
+with some package to prevent accidental deletions or
+alterations. For this, \pkg{registry} offers two mechanisms: first, a
+registry object can be \dQuote{sealed} to prevent modifications of
+\emph{existing} data:
+<<>>=
+R$seal_entries()
+TRY(R$delete_entry("Smith", "Mary"))
+R$set_entry(last = "Slater", first = "Christian", address = "Boston",
+            mobile = "766 23 88")
+R[["Slater"]]
+@
+Second, the access permissions for registries can be restricted:
+<<>>=
+R$get_permissions()
+R$restrict_permissions(delete_entries = FALSE)
+TRY(R$delete_entry("Slater"))
+R$modify_entry(last = "Slater", first = "Christian", age = 44L)
+R[["Slater"]]
+@
+
+\bibliographystyle{abbrvnat}
+\bibliography{registry}
+
+\end{document}

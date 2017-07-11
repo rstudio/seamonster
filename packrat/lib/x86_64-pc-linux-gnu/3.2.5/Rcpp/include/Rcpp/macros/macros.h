@@ -29,7 +29,9 @@
 #ifndef BEGIN_RCPP
 #define BEGIN_RCPP                                                                               \
     int rcpp_output_type = 0 ;                                                                   \
+    (void)rcpp_output_type;                                                                      \
     SEXP rcpp_output_condition = R_NilValue ;                                                    \
+    (void)rcpp_output_condition;                                                                 \
     try {
 #endif
 
@@ -39,10 +41,15 @@
     catch( Rcpp::internal::InterruptedException &__ex__) {                                       \
         rcpp_output_type = 1 ;                                                                   \
     }                                                                                            \
+    catch(Rcpp::exception& __ex__) {                                                             \
+       rcpp_output_type = 2 ;                                                                    \
+       rcpp_output_condition = PROTECT(rcpp_exception_to_r_condition(__ex__)) ;                  \
+    }                                                                                            \
     catch( std::exception& __ex__ ){                                                             \
        rcpp_output_type = 2 ;                                                                    \
        rcpp_output_condition = PROTECT(exception_to_r_condition(__ex__)) ;                       \
-    } catch( ... ){                                                                              \
+    }                                                                                            \
+    catch( ... ){                                                                                \
        rcpp_output_type = 2 ;                                                                    \
        rcpp_output_condition = PROTECT(string_to_try_error("c++ exception (unknown reason)")) ;  \
     }                                                                                            \

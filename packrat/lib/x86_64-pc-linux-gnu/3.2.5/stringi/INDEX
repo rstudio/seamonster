@@ -40,7 +40,6 @@ stri_extract_all_boundaries
                         Extract Text Between Text Boundaries
 stri_flatten            Flatten a String
 stri_info               Query Default Settings for 'stringi'
-stri_install_check      Installation-Related Utilities [DEPRECATED]
 stri_isempty            Determine if a String is of Length Zero
 stri_join               Concatenate Character Vectors
 stri_join_list          Concatenate Strings in a List

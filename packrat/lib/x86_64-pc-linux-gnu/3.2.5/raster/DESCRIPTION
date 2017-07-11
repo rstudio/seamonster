@@ -33,6 +33,6 @@ Maintainer: Robert J. Hijmans <r.hijmans@gmail.com>
 Repository: CRAN
 Date/Publication: 2016-06-02 18:31:24
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:16:12 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
-Hash: 99156195f8997007a98360092edea08e
+Hash: 482ae1a3a6a69ed9a1e607057b2737bc

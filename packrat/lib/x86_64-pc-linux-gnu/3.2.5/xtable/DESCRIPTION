@@ -16,6 +16,6 @@ NeedsCompilation: no
 Packaged: 2016-02-02 02:58:02 UTC; dsco036
 Date/Publication: 2016-02-05 19:22:18
 Built: R 3.2.5; ; 2016-11-15 17:14:04 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 7293235cfcc14cdff1ce7fd1a0212031

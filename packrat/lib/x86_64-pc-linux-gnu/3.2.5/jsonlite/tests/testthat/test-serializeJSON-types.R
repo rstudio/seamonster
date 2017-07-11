@@ -36,3 +36,4 @@ test_that("Serializing Data Objects", {
   #test all in list
   expect_that(unserializeJSON(serializeJSON(objects)), equals(objects))
 });
+

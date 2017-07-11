@@ -35,6 +35,6 @@ Packaged: 2015-06-26 01:04:44 UTC; gaborcsardi
 Repository: CRAN
 Date/Publication: 2015-06-26 11:13:24
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2017-02-09 16:36:05 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 26ac36402e881905359daabfd9ba4057

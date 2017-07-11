@@ -1,6 +1,6 @@
 Package: R6
 Title: Classes with Reference Semantics
-Version: 2.1.3
+Version: 2.2.2
 Authors@R: person("Winston", "Chang", role = c("aut", "cre"), email =
     "winston@stdout.org")
 Description: The R6 package allows the creation of classes with
@@ -16,14 +16,18 @@ License: MIT + file LICENSE
 URL: https://github.com/wch/R6/
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2016-08-19 15:22:01 UTC; winston
+Packaged: 2017-06-12 18:48:43 UTC; winston
 Author: Winston Chang [aut, cre]
 Maintainer: Winston Chang <winston@stdout.org>
 Repository: CRAN
-Date/Publication: 2016-08-19 19:41:05
-Built: R 3.2.5; ; 2016-11-15 17:10:47 UTC; unix
-InstallAgent: packrat 0.4.8.13
+Date/Publication: 2017-06-17 08:22:59 UTC
+Built: R 3.2.5; ; 2017-07-11 15:02:10 UTC; unix
+RemoteType: cran
+RemoteSha: 2.2.2
+RemoteRepos: structure("https://cran.rstudio.com/", .Names = "CRAN")
+RemotePkgType: source
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
-Hash: 1a8313c9df76d2a06aa27c13a4a71c73
+Hash: b2366cd9d2f3851a5704b4e192b985c2

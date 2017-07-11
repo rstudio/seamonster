@@ -34,6 +34,6 @@ Depends: R (>= 2.10)
 Repository: CRAN
 Date/Publication: 2016-09-17 20:07:46
 Built: R 3.2.5; ; 2016-11-15 17:16:03 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 663c0ab3af51e3b685a10d7d12d7078f

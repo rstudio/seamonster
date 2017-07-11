@@ -23,6 +23,6 @@ Maintainer: Rob Hyndman <Rob.Hyndman@monash.edu>
 Repository: CRAN
 Date/Publication: 2016-09-09 10:13:44
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:37:36 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
-Hash: e7b03ce2ef2830a0bb204f373a8d0ad2
+Hash: 80af26e693bbdcd7082e01099dc381ca

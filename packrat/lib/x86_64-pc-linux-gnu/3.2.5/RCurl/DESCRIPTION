@@ -41,6 +41,6 @@ Packaged: 2016-03-01 07:37:59 UTC; ripley
 Repository: CRAN
 Date/Publication: 2016-03-01 10:54:28
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-16 17:04:24 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 79c7d5a8684e44e0e3426d3093aa7d90

@@ -14,6 +14,6 @@ Packaged: 2015-02-04 20:31:00 UTC; svnuser
 Repository: CRAN
 Date/Publication: 2015-07-28 08:03:37
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:11:35 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: c590d29e555926af053055e23ee79efb

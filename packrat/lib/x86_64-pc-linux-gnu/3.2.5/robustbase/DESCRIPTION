@@ -31,6 +31,6 @@ Packaged: 2016-05-28 22:55:41 UTC; maechler
 Repository: CRAN
 Date/Publication: 2016-05-31 11:17:00
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:14:15 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 2819fff51bd1e827b611126fc0227d46

@@ -20,6 +20,6 @@ Packaged: 2016-09-14 22:38:37 UTC; kevin
 Repository: CRAN
 Date/Publication: 2016-09-15 03:07:07
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:13:03 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 04ddeb1c288302222562326a471e2945

@@ -20,6 +20,6 @@ X-CRAN-Original-Maintainer: Jeffrey Breen <jeffrey@atmosgrp.com>
 X-CRAN-Comment: Orphaned and archived on 2014-06-16 as the maintainer
     address bounced.
 Built: R 3.2.5; ; 2016-11-16 16:34:00 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 3383c002e4cb7e9a7b04f10053ae09dd

@@ -1,0 +1,80 @@
+
+\documentclass[10pt]{article}
+%\VignetteDepends{knitr}
+%\VignetteIndexEntry{rngtools-unitTests}
+%\VignetteCompiler{knitr}
+%\VignetteEngine{knitr::knitr}
+\usepackage{vmargin}
+\setmargrb{0.75in}{0.75in}{0.75in}{0.75in}
+
+<<setup, include=FALSE>>=
+pkg <- 'rngtools'
+require( pkg, character.only=TRUE )
+prettyVersion <- packageDescription(pkg)$Version
+prettyDate <- format(Sys.Date(), '%B %e, %Y')
+authors <- packageDescription(pkg)$Author
+@
+
+\usepackage[colorlinks]{hyperref}
+\author{\Sexpr{authors}}
+\title{\texttt{\Sexpr{pkg}}: Unit testing results\footnote{Vignette computed  on Thu Mar  6 11:45:50 2014}}
+\date{\texttt{\Sexpr{pkg}} version \Sexpr{prettyVersion} as of \Sexpr{prettyDate}}
+\begin{document}
+\maketitle
+
+\section{Details}
+\begin{verbatim}
+
+RUNIT TEST PROTOCOL -- Thu Mar  6 11:45:50 2014 
+*********************************************** 
+Number of test functions: 6 
+Number of errors: 0 
+Number of failures: 0 
+
+ 
+1 Test Suite : 
+package:rngtools - 6 test functions, 0 errors, 0 failures
+
+
+
+Details 
+*************************** 
+Test Suite: package:rngtools 
+Test function regexp: ^test. 
+Test file regexp: ^runit.*.[rR]$ 
+Involved directory: 
+/tmp/Rpkglib_51e6234a85cc/rngtools/tests 
+--------------------------- 
+Test file: /tmp/Rpkglib_51e6234a85cc/rngtools/tests/runit.format.r 
+test.RNGdigest: (30 checks) ... OK (0.01 seconds)
+test.RNGtype: (22 checks) ... OK (0.01 seconds)
+--------------------------- 
+Test file: /tmp/Rpkglib_51e6234a85cc/rngtools/tests/runit.RNG.r 
+test.getRNG: (18 checks) ... OK (0 seconds)
+test.setRNG: (34 checks) ... OK (0.01 seconds)
+--------------------------- 
+Test file: /tmp/Rpkglib_51e6234a85cc/rngtools/tests/runit.RNGseq.r 
+test.RNGseq: (51 checks) ... OK (0.01 seconds)
+test.RNGseq_seed: (75 checks) ... OK (0 seconds)
+
+Total execution time
+***************************
+   user  system elapsed 
+  0.234   0.001   0.234 
+
+\end{verbatim}
+
+\section*{Session Information}
+\begin{itemize}\raggedright
+  \item R Under development (unstable) (2014-03-02 r65102), \verb|x86_64-unknown-linux-gnu|
+  \item Locale: \verb|LC_CTYPE=en_US.UTF-8|, \verb|LC_NUMERIC=C|, \verb|LC_TIME=en_US.UTF-8|, \verb|LC_COLLATE=en_US.UTF-8|, \verb|LC_MONETARY=en_US.UTF-8|, \verb|LC_MESSAGES=en_US.UTF-8|, \verb|LC_PAPER=en_US.UTF-8|, \verb|LC_NAME=C|, \verb|LC_ADDRESS=C|, \verb|LC_TELEPHONE=C|, \verb|LC_MEASUREMENT=en_US.UTF-8|, \verb|LC_IDENTIFICATION=C|
+  \item Base packages: base, datasets, graphics, grDevices, methods,
+    parallel, stats, utils
+  \item Other packages: pkgmaker~0.20, registry~0.2, rngtools~1.2.4,
+    RUnit~0.4.26, stringr~0.6.2
+  \item Loaded via a namespace (and not attached): codetools~0.2-8,
+    digest~0.6.4, tools~3.1.0, xtable~1.7-1
+\end{itemize}
+
+\end{document}
+

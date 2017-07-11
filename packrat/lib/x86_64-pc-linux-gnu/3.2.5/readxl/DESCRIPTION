@@ -36,6 +36,6 @@ Maintainer: Hadley Wickham <hadley@rstudio.com>
 Repository: CRAN
 Date/Publication: 2016-03-28 23:26:14
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-16 16:34:01 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
-Hash: b8f078ed7d05f35efd435db8b7be0ebf
+Hash: 6b8ba4ec18d4ac9a505dd799e378eafa

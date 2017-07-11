@@ -1,0 +1,997 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Algorithms and Framework for Nonnegative Matrix Factorization
+(NMF)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Algorithms and Framework for Nonnegative Matrix Factorization
+(NMF)
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;NMF&rsquo; version 0.20.6</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+<li><a href="../demo">Code demos</a>.  Use <a href="../../utils/help/demo">demo()</a> to run them.</li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<p style="text-align: center;">
+<a href="# "> </a>
+<a href="#A">A</a>
+<a href="#B">B</a>
+<a href="#C">C</a>
+<a href="#D">D</a>
+<a href="#E">E</a>
+<a href="#F">F</a>
+<a href="#G">G</a>
+<a href="#H">H</a>
+<a href="#I">I</a>
+<a href="#K">K</a>
+<a href="#L">L</a>
+<a href="#M">M</a>
+<a href="#N">N</a>
+<a href="#O">O</a>
+<a href="#P">P</a>
+<a href="#R">R</a>
+<a href="#S">S</a>
+<a href="#T">T</a>
+<a href="#U">U</a>
+<a href="#W">W</a>
+<a href="#misc">misc</a>
+</p>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="NMF-package.html">NMF-package</a></td>
+<td>Algorithms and framework for Nonnegative Matrix Factorization (NMF).</td></tr>
+</table>
+
+<h2><a name="A">-- A --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="advanced.html">advanced-NMF</a></td>
+<td>Advanced Usage of the Package NMF</td></tr>
+<tr><td style="width: 25%;"><a href="aheatmap.html">aheatmap</a></td>
+<td>Annotated Heatmaps</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">algorithm</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithm-commaNMFList-method.html">algorithm-method</a></td>
+<td>Returns the method names used to compute the NMF fits in the list. It returns 'NULL' if the list is empty.</td></tr>
+<tr><td style="width: 25%;"><a href="algorithm-commaNMFStrategyOctave-method.html">algorithm-method</a></td>
+<td>Returns the name of the Octave/Matlab function that implements the NMF algorithm - as stored in slot 'algorithm'.</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">algorithm-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">algorithm-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">algorithm&lt;-</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">algorithm&lt;--method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">algorithm&lt;--methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">algorithmic-NMF</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+</table>
+
+<h2><a name="B">-- B --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">basis</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">basis-method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">basis-methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">basis&lt;-</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">basis&lt;--method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">basis&lt;--methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basiscor.html">basiscor</a></td>
+<td>Correlations in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="basiscor.html">basiscor-method</a></td>
+<td>Correlations in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="basiscor.html">basiscor-methods</a></td>
+<td>Correlations in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">basismap</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">basismap-method</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">basismap-methods</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">basisnames</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">basisnames-method</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">basisnames-methods</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">basisnames&lt;-</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">basisnames&lt;--method</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">basisnames&lt;--methods</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">bioc-NMF</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">brunet-nmf</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">brunet_M-nmf</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">brunet_R-nmf</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">bterms</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+</table>
+
+<h2><a name="C">-- C --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="canFit.html">canFit</a></td>
+<td>Testing Compatibility of Algorithm and Models</td></tr>
+<tr><td style="width: 25%;"><a href="canFit.html">canFit-method</a></td>
+<td>Testing Compatibility of Algorithm and Models</td></tr>
+<tr><td style="width: 25%;"><a href="canFit.html">canFit-methods</a></td>
+<td>Testing Compatibility of Algorithm and Models</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coef</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coef-method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coef-methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coef&lt;-</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coef&lt;--method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coef&lt;--methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coefficients</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coefficients-method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">coefficients-methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">coefmap</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">coefmap-method</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">coefmap-methods</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">compare</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">compare-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nmf-compare.html">compare-method</a></td>
+<td>Comparing Results from Different NMF Runs</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">compare-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nmf-compare.html">compare-NMF</a></td>
+<td>Comparing Results from Different NMF Runs</td></tr>
+<tr><td style="width: 25%;"><a href="connectivity.html">connectivity</a></td>
+<td>Clustering Connectivity and Consensus Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="connectivity.html">connectivity-method</a></td>
+<td>Clustering Connectivity and Consensus Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="connectivity.html">connectivity-methods</a></td>
+<td>Clustering Connectivity and Consensus Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="connectivity.html">consensus</a></td>
+<td>Clustering Connectivity and Consensus Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="connectivity.html">consensus-method</a></td>
+<td>Clustering Connectivity and Consensus Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="consensus-commaNMFfitX1-method.html">consensus-method</a></td>
+<td>Returns the consensus matrix computed while performing all NMF runs, amongst which 'object' was selected as the best fit.</td></tr>
+<tr><td style="width: 25%;"><a href="consensus-commaNMFfitXn-method.html">consensus-method</a></td>
+<td>Computes the consensus matrix of the set of fits stored in 'object', as the mean connectivity matrix across runs.</td></tr>
+<tr><td style="width: 25%;"><a href="connectivity.html">consensus-methods</a></td>
+<td>Clustering Connectivity and Consensus Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="consensushc.html">consensushc</a></td>
+<td>Hierarchical Clustering of a Consensus Matrix</td></tr>
+<tr><td style="width: 25%;"><a href="consensushc.html">consensushc-method</a></td>
+<td>Hierarchical Clustering of a Consensus Matrix</td></tr>
+<tr><td style="width: 25%;"><a href="consensushc.html">consensushc-methods</a></td>
+<td>Hierarchical Clustering of a Consensus Matrix</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">consensusmap</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">consensusmap-method</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="nmf-compare.html">consensusmap-method</a></td>
+<td>Comparing Results from Different NMF Runs</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">consensusmap-methods</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="cophcor.html">cophcor</a></td>
+<td>Cophenetic Correlation Coefficient</td></tr>
+<tr><td style="width: 25%;"><a href="cophcor.html">cophcor-method</a></td>
+<td>Cophenetic Correlation Coefficient</td></tr>
+<tr><td style="width: 25%;"><a href="cophcor.html">cophcor-methods</a></td>
+<td>Cophenetic Correlation Coefficient</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">cterms</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+</table>
+
+<h2><a name="D">-- D --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="deviance.html">deviance</a></td>
+<td>Distances and Objective Functions</td></tr>
+<tr><td style="width: 25%;"><a href="deviance.html">deviance-method</a></td>
+<td>Distances and Objective Functions</td></tr>
+<tr><td style="width: 25%;"><a href="deviance.html">deviance-methods</a></td>
+<td>Distances and Objective Functions</td></tr>
+<tr><td style="width: 25%;"><a href="dims.html">dim-method</a></td>
+<td>Dimension of NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="dims.html">dim-NMF</a></td>
+<td>Dimension of NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">dimnames-method</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">dimnames-NMF</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="dimnames.html">dimnames&lt;--method</a></td>
+<td>Dimension names for NMF objects</td></tr>
+<tr><td style="width: 25%;"><a href="dispersion.html">dispersion</a></td>
+<td>Dispersion of a Matrix</td></tr>
+<tr><td style="width: 25%;"><a href="dispersion.html">dispersion-method</a></td>
+<td>Dispersion of a Matrix</td></tr>
+<tr><td style="width: 25%;"><a href="dispersion.html">dispersion-methods</a></td>
+<td>Dispersion of a Matrix</td></tr>
+</table>
+
+<h2><a name="E">-- E --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="purity.html">entropy</a></td>
+<td>Purity and Entropy of a Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="purity.html">entropy-method</a></td>
+<td>Purity and Entropy of a Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="purity.html">entropy-methods</a></td>
+<td>Purity and Entropy of a Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="esGolub.html">esGolub</a></td>
+<td>Golub ExpressionSet</td></tr>
+<tr><td style="width: 25%;"><a href="rss.html">evar</a></td>
+<td>Residual Sum of Squares and Explained Variance</td></tr>
+<tr><td style="width: 25%;"><a href="rss.html">evar-method</a></td>
+<td>Residual Sum of Squares and Explained Variance</td></tr>
+<tr><td style="width: 25%;"><a href="rss.html">evar-methods</a></td>
+<td>Residual Sum of Squares and Explained Variance</td></tr>
+<tr><td style="width: 25%;"><a href="registry-algorithm.html">existsNMFMethod</a></td>
+<td>Registry for NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nmfSeed.html">existsNMFSeed</a></td>
+<td>Seeding Strategies for NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="scores.html">extractFeatures</a></td>
+<td>Feature Selection in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="scores.html">extractFeatures-method</a></td>
+<td>Feature Selection in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="scores.html">extractFeatures-methods</a></td>
+<td>Feature Selection in NMF Models</td></tr>
+</table>
+
+<h2><a name="F">-- F --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="fcnnls.html">fcnnls</a></td>
+<td>Fast Combinatorial Nonnegative Least-Square</td></tr>
+<tr><td style="width: 25%;"><a href="fcnnls.html">fcnnls-method</a></td>
+<td>Fast Combinatorial Nonnegative Least-Square</td></tr>
+<tr><td style="width: 25%;"><a href="fcnnls.html">fcnnls-methods</a></td>
+<td>Fast Combinatorial Nonnegative Least-Square</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">featureNames-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">featureNames&lt;--method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="scores.html">featureScore</a></td>
+<td>Feature Selection in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="scores.html">featureScore-method</a></td>
+<td>Feature Selection in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="scores.html">featureScore-methods</a></td>
+<td>Feature Selection in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">fit</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">fit-method</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">fit-methods</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">fit&lt;-</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">fit&lt;--method</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">fit&lt;--methods</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="fitted.html">fitted</a></td>
+<td>Fitted Matrix in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="fitted.html">fitted-method</a></td>
+<td>Fitted Matrix in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="fitted.html">fitted-methods</a></td>
+<td>Fitted Matrix in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="Frobenius-nmf.html">Frobenius-nmf</a></td>
+<td>NMF Algorithm/Updates for Frobenius Norm</td></tr>
+</table>
+
+<h2><a name="G">-- G --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="registry-algorithm.html">getNMFMethod</a></td>
+<td>Registry for NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nmfSeed.html">getNMFSeed</a></td>
+<td>Seeding Strategies for NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="RNG.html">getRNG1</a></td>
+<td>Extracting RNG Data from NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="RNG.html">getRNG1-method</a></td>
+<td>Extracting RNG Data from NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="RNG.html">getRNG1-methods</a></td>
+<td>Extracting RNG Data from NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="parallel.html">gVariable</a></td>
+<td>Utilities for Parallel Computations</td></tr>
+</table>
+
+<h2><a name="H">-- H --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="types.html">hasBasis</a></td>
+<td>Testing NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="types.html">hasCoef</a></td>
+<td>Testing NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="residuals.html">hasTrack</a></td>
+<td>Residuals in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="heatmaps.html">heatmap-NMF</a></td>
+<td>Heatmaps of NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="parallel.html">hostfile</a></td>
+<td>Utilities for Parallel Computations</td></tr>
+</table>
+
+<h2><a name="I">-- I --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="terms.html">ibasis</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">ibterms</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">ibterms-method</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">ibterms-methods</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">icoef</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">icterms</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">icterms-method</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">icterms-methods</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="NMFOffset-class.html">initialize-method</a></td>
+<td>NMF Model - Nonnegative Matrix Factorization with Offset</td></tr>
+<tr><td style="width: 25%;"><a href="types.html">is.empty.nmf</a></td>
+<td>Testing NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="types.html">is.nmf</a></td>
+<td>Testing NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="types.html">is.partial.nmf</a></td>
+<td>Testing NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="types.html">isNMFfit</a></td>
+<td>Testing NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">iterms</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+</table>
+
+<h2><a name="K">-- K --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="KL-nmf.html">KL-nmf</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+</table>
+
+<h2><a name="L">-- L --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="Frobenius-nmf.html">lee-nmf</a></td>
+<td>NMF Algorithm/Updates for Frobenius Norm</td></tr>
+<tr><td style="width: 25%;"><a href="Frobenius-nmf.html">lee_R-nmf</a></td>
+<td>NMF Algorithm/Updates for Frobenius Norm</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">loadings-method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">logs</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">logs-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">logs-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="lsNMF-nmf.html">lsNMF-nmf</a></td>
+<td>Multiplicative Updates for LS-NMF</td></tr>
+</table>
+
+<h2><a name="M">-- M --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="match_atrack.html">match_atrack</a></td>
+<td>Extending Annotation Vectors</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">metagenes</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">metagenes&lt;-</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-defunct.html">metaHeatmap</a></td>
+<td>Defunct Functions and Classes in the NMF Package</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-defunct.html">metaHeatmap-method</a></td>
+<td>Defunct Functions and Classes in the NMF Package</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-defunct.html">metaHeatmap-methods</a></td>
+<td>Defunct Functions and Classes in the NMF Package</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">metaprofiles</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">metaprofiles&lt;-</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="registry-algorithm.html">methods-NMF</a></td>
+<td>Registry for NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">minfit</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">minfit-method</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="fit.html">minfit-methods</a></td>
+<td>Extracting Fitted Models</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-class.html">misc</a></td>
+<td>Generic Interface for Nonnegative Matrix Factorisation Models</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">modelname</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">modelname-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">modelname-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+</table>
+
+<h2><a name="N">-- N --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="dims.html">nbasis</a></td>
+<td>Dimension of NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="dims.html">nbasis-method</a></td>
+<td>Dimension of NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="dims.html">nbasis-methods</a></td>
+<td>Dimension of NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">nbterms</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">ncterms</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">niter</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">niter-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">niter-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">niter&lt;-</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">niter&lt;--method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">niter&lt;--methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">nmeta</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-package.html">NMF</a></td>
+<td>Algorithms and framework for Nonnegative Matrix Factorization (NMF).</td></tr>
+<tr><td style="width: 25%;"><a href="nmf.html">nmf</a></td>
+<td>Running NMF algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-class.html">NMF-class</a></td>
+<td>Generic Interface for Nonnegative Matrix Factorisation Models</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-defunct.html">NMF-defunct</a></td>
+<td>Defunct Functions and Classes in the NMF Package</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-deprecated.html">NMF-deprecated</a></td>
+<td>Deprecated Functions in the Package NMF</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">nmf-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="nmf.html">nmf-method</a></td>
+<td>Running NMF algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nmf.html">nmf-methods</a></td>
+<td>Running NMF algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nmf.equal.html">nmf.equal</a></td>
+<td>Testing Equality of NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="nmf.equal.html">nmf.equal-method</a></td>
+<td>Testing Equality of NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="nmf.equal.html">nmf.equal-methods</a></td>
+<td>Testing Equality of NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="options.html">nmf.getOption</a></td>
+<td>NMF Package Specific Options</td></tr>
+<tr><td style="width: 25%;"><a href="options.html">nmf.options</a></td>
+<td>NMF Package Specific Options</td></tr>
+<tr><td style="width: 25%;"><a href="options.html">nmf.printOptions</a></td>
+<td>NMF Package Specific Options</td></tr>
+<tr><td style="width: 25%;"><a href="options.html">nmf.resetOptions</a></td>
+<td>NMF Package Specific Options</td></tr>
+<tr><td style="width: 25%;"><a href="stop-NMF.html">nmf.stop.connectivity</a></td>
+<td>Stopping Criteria for NMF Iterative Strategies</td></tr>
+<tr><td style="width: 25%;"><a href="stop-NMF.html">nmf.stop.iteration</a></td>
+<td>Stopping Criteria for NMF Iterative Strategies</td></tr>
+<tr><td style="width: 25%;"><a href="stop-NMF.html">nmf.stop.stationary</a></td>
+<td>Stopping Criteria for NMF Iterative Strategies</td></tr>
+<tr><td style="width: 25%;"><a href="stop-NMF.html">nmf.stop.threshold</a></td>
+<td>Stopping Criteria for NMF Iterative Strategies</td></tr>
+<tr><td style="width: 25%;"><a href="nmfAlgorithm.html">nmfAlgorithm</a></td>
+<td>Listing and Retrieving NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">nmfAlgorithm.brunet</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">nmfAlgorithm.brunet_M</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">nmfAlgorithm.brunet_R</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="Frobenius-nmf.html">nmfAlgorithm.Frobenius</a></td>
+<td>NMF Algorithm/Updates for Frobenius Norm</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">nmfAlgorithm.KL</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="Frobenius-nmf.html">nmfAlgorithm.lee</a></td>
+<td>NMF Algorithm/Updates for Frobenius Norm</td></tr>
+<tr><td style="width: 25%;"><a href="Frobenius-nmf.html">nmfAlgorithm.lee_R</a></td>
+<td>NMF Algorithm/Updates for Frobenius Norm</td></tr>
+<tr><td style="width: 25%;"><a href="lsNMF-nmf.html">nmfAlgorithm.lsNMF</a></td>
+<td>Multiplicative Updates for LS-NMF</td></tr>
+<tr><td style="width: 25%;"><a href="nsNMF-nmf.html">nmfAlgorithm.nsNMF</a></td>
+<td>NMF Multiplicative Update for Nonsmooth Nonnegative Matrix Factorization (nsNMF).</td></tr>
+<tr><td style="width: 25%;"><a href="nsNMF-nmf.html">nmfAlgorithm.nsNMF_R</a></td>
+<td>NMF Multiplicative Update for Nonsmooth Nonnegative Matrix Factorization (nsNMF).</td></tr>
+<tr><td style="width: 25%;"><a href="offset-nmf.html">nmfAlgorithm.offset</a></td>
+<td>NMF Multiplicative Update for NMF with Offset Models</td></tr>
+<tr><td style="width: 25%;"><a href="offset-nmf.html">nmfAlgorithm.offset_R</a></td>
+<td>NMF Multiplicative Update for NMF with Offset Models</td></tr>
+<tr><td style="width: 25%;"><a href="SNMF-nmf.html">nmfAlgorithm.SNMF_L</a></td>
+<td>NMF Algorithm - Sparse NMF via Alternating NNLS</td></tr>
+<tr><td style="width: 25%;"><a href="SNMF-nmf.html">nmfAlgorithm.SNMF_R</a></td>
+<td>NMF Algorithm - Sparse NMF via Alternating NNLS</td></tr>
+<tr><td style="width: 25%;"><a href="nmfApply.html">nmfApply</a></td>
+<td>Apply Function for NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="nmfFormals.html">nmfArgs</a></td>
+<td>Showing Arguments of NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nmfCheck.html">nmfCheck</a></td>
+<td>Checking NMF Algorithm</td></tr>
+<tr><td style="width: 25%;"><a href="deviance.html">nmfDistance</a></td>
+<td>Distances and Objective Functions</td></tr>
+<tr><td style="width: 25%;"><a href="nmfEstimateRank.html">nmfEstimateRank</a></td>
+<td>Estimate Rank for NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="NMFfit-class.html">NMFfit</a></td>
+<td>Base Class for to store Nonnegative Matrix Factorisation results</td></tr>
+<tr><td style="width: 25%;"><a href="NMFfit-class.html">NMFfit-class</a></td>
+<td>Base Class for to store Nonnegative Matrix Factorisation results</td></tr>
+<tr><td style="width: 25%;"><a href="NMFfitX-class.html">NMFfitX-class</a></td>
+<td>Virtual Class to Handle Results from Multiple Runs of NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="NMFfitX1-class.html">NMFfitX1-class</a></td>
+<td>Structure for Storing the Best Fit Amongst Multiple NMF Runs</td></tr>
+<tr><td style="width: 25%;"><a href="NMFfitXn-class.html">NMFfitXn-class</a></td>
+<td>Structure for Storing All Fits from Multiple NMF Runs</td></tr>
+<tr><td style="width: 25%;"><a href="nmfFormals.html">nmfFormals</a></td>
+<td>Showing Arguments of NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="NMFList-class.html">NMFList-class</a></td>
+<td>Class for Storing Heterogeneous NMF fits</td></tr>
+<tr><td style="width: 25%;"><a href="nmfModel.html">nmfModel</a></td>
+<td>Factory Methods NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">nmfModel-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="nmfModel.html">nmfModel-method</a></td>
+<td>Factory Methods NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="nmfModel.html">nmfModel-methods</a></td>
+<td>Factory Methods NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="nmfModel.html">nmfModels</a></td>
+<td>Factory Methods NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="NMFns-class.html">NMFns-class</a></td>
+<td>NMF Model - Nonsmooth Nonnegative Matrix Factorization</td></tr>
+<tr><td style="width: 25%;"><a href="nmfObject.html">nmfObject</a></td>
+<td>Updating NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="NMFOffset-class.html">NMFOffset-class</a></td>
+<td>NMF Model - Nonnegative Matrix Factorization with Offset</td></tr>
+<tr><td style="width: 25%;"><a href="setNMFMethod.html">nmfRegisterAlgorithm</a></td>
+<td>Registering NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nmfReport.html">nmfReport</a></td>
+<td>Run NMF Methods and Generate a Report</td></tr>
+<tr><td style="width: 25%;"><a href="setNMFSeed.html">NMFSeed</a></td>
+<td>'NMFSeed' is a constructor method that instantiate 'NMFSeed' objects.</td></tr>
+<tr><td style="width: 25%;"><a href="nmfSeed.html">nmfSeed</a></td>
+<td>Seeding Strategies for NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="NMFSeed-class.html">NMFSeed-class</a></td>
+<td>Base class that defines the interface for NMF seeding methods.</td></tr>
+<tr><td style="width: 25%;"><a href="setNMFSeed.html">NMFSeed-method</a></td>
+<td>'NMFSeed' is a constructor method that instantiate 'NMFSeed' objects.</td></tr>
+<tr><td style="width: 25%;"><a href="setNMFSeed.html">NMFSeed-methods</a></td>
+<td>'NMFSeed' is a constructor method that instantiate 'NMFSeed' objects.</td></tr>
+<tr><td style="width: 25%;"><a href="NMFstd-class.html">NMFstd-class</a></td>
+<td>NMF Model - Standard model</td></tr>
+<tr><td style="width: 25%;"><a href="stop-NMF.html">NMFStop</a></td>
+<td>Stopping Criteria for NMF Iterative Strategies</td></tr>
+<tr><td style="width: 25%;"><a href="NMFStrategy.html">NMFStrategy</a></td>
+<td>Factory Method for NMFStrategy Objects</td></tr>
+<tr><td style="width: 25%;"><a href="NMFStrategy.html">NMFStrategy-method</a></td>
+<td>Factory Method for NMFStrategy Objects</td></tr>
+<tr><td style="width: 25%;"><a href="NMFStrategy.html">NMFStrategy-methods</a></td>
+<td>Factory Method for NMFStrategy Objects</td></tr>
+<tr><td style="width: 25%;"><a href="NMFStrategyFunction-class.html">NMFStrategyFunction-class</a></td>
+<td>Interface for Single Function NMF Strategies</td></tr>
+<tr><td style="width: 25%;"><a href="NMFStrategyIterative-class.html">NMFStrategyIterative-class</a></td>
+<td>Interface for Algorithms: Implementation for Iterative NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="NMFStrategyOctave-class.html">NMFStrategyOctave-class</a></td>
+<td>S4 Interface for Octave-Matlab NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">nmf_update.brunet</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="KL-nmf.html">nmf_update.brunet_R</a></td>
+<td>NMF Algorithm/Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_euclidean.html">nmf_update.euclidean</a></td>
+<td>NMF Multiplicative Updates for Euclidean Distance</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_euclidean.html">nmf_update.euclidean.h</a></td>
+<td>NMF Multiplicative Updates for Euclidean Distance</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_euclidean.html">nmf_update.euclidean.h_R</a></td>
+<td>NMF Multiplicative Updates for Euclidean Distance</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_euclidean.html">nmf_update.euclidean.w</a></td>
+<td>NMF Multiplicative Updates for Euclidean Distance</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_euclidean.html">nmf_update.euclidean.w_R</a></td>
+<td>NMF Multiplicative Updates for Euclidean Distance</td></tr>
+<tr><td style="width: 25%;"><a href="offset-nmf.html">nmf_update.euclidean_offset.h</a></td>
+<td>NMF Multiplicative Update for NMF with Offset Models</td></tr>
+<tr><td style="width: 25%;"><a href="offset-nmf.html">nmf_update.euclidean_offset.w</a></td>
+<td>NMF Multiplicative Update for NMF with Offset Models</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_KL.html">nmf_update.KL</a></td>
+<td>NMF Multiplicative Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_KL.html">nmf_update.KL.h</a></td>
+<td>NMF Multiplicative Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_KL.html">nmf_update.KL.h_R</a></td>
+<td>NMF Multiplicative Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_KL.html">nmf_update.KL.w</a></td>
+<td>NMF Multiplicative Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="nmf_update_KL.html">nmf_update.KL.w_R</a></td>
+<td>NMF Multiplicative Updates for Kullback-Leibler Divergence</td></tr>
+<tr><td style="width: 25%;"><a href="Frobenius-nmf.html">nmf_update.lee</a></td>
+<td>NMF Algorithm/Updates for Frobenius Norm</td></tr>
+<tr><td style="width: 25%;"><a href="Frobenius-nmf.html">nmf_update.lee_R</a></td>
+<td>NMF Algorithm/Updates for Frobenius Norm</td></tr>
+<tr><td style="width: 25%;"><a href="lsNMF-nmf.html">nmf_update.lsnmf</a></td>
+<td>Multiplicative Updates for LS-NMF</td></tr>
+<tr><td style="width: 25%;"><a href="nsNMF-nmf.html">nmf_update.ns</a></td>
+<td>NMF Multiplicative Update for Nonsmooth Nonnegative Matrix Factorization (nsNMF).</td></tr>
+<tr><td style="width: 25%;"><a href="nsNMF-nmf.html">nmf_update.ns_R</a></td>
+<td>NMF Multiplicative Update for Nonsmooth Nonnegative Matrix Factorization (nsNMF).</td></tr>
+<tr><td style="width: 25%;"><a href="offset-nmf.html">nmf_update.offset</a></td>
+<td>NMF Multiplicative Update for NMF with Offset Models</td></tr>
+<tr><td style="width: 25%;"><a href="offset-nmf.html">nmf_update.offset_R</a></td>
+<td>NMF Multiplicative Update for NMF with Offset Models</td></tr>
+<tr><td style="width: 25%;"><a href="nneg.html">nneg</a></td>
+<td>Transforming from Mixed-sign to Nonnegative Data</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">nneg-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="nneg.html">nneg-method</a></td>
+<td>Transforming from Mixed-sign to Nonnegative Data</td></tr>
+<tr><td style="width: 25%;"><a href="nneg.html">nneg-methods</a></td>
+<td>Transforming from Mixed-sign to Nonnegative Data</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">nrun</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">nrun-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">nrun-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="nsNMF-nmf.html">nsNMF_R-nmf</a></td>
+<td>NMF Multiplicative Update for Nonsmooth Nonnegative Matrix Factorization (nsNMF).</td></tr>
+<tr><td style="width: 25%;"><a href="terms.html">nterms</a></td>
+<td>Fixed Terms in NMF Models</td></tr>
+</table>
+
+<h2><a name="O">-- O --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="algorithmic.html">objective</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="objective-commaNMFfit-method.html">objective-method</a></td>
+<td>Returns the objective function associated with the algorithm that computed the fitted NMF model 'object', or the objective value with respect to a given target matrix 'y' if it is supplied.</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">objective-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">objective&lt;-</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">objective&lt;--method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">objective&lt;--methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="offset-commaNMFOffset-method.html">offset-method</a></td>
+<td>Offsets in NMF Models with Offset</td></tr>
+<tr><td style="width: 25%;"><a href="offset-commaNMFfit-method.html">offset-method</a></td>
+<td>Returns the offset from the fitted model.</td></tr>
+<tr><td style="width: 25%;"><a href="offset-nmf.html">offset_R-nmf</a></td>
+<td>NMF Multiplicative Update for NMF with Offset Models</td></tr>
+<tr><td style="width: 25%;"><a href="options.html">options-NMF</a></td>
+<td>NMF Package Specific Options</td></tr>
+</table>
+
+<h2><a name="P">-- P --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="parallel.html">parallel-NMF</a></td>
+<td>Utilities for Parallel Computations</td></tr>
+<tr><td style="width: 25%;"><a href="nmf-compare.html">plot-method</a></td>
+<td>Comparing Results from Different NMF Runs</td></tr>
+<tr><td style="width: 25%;"><a href="plot-commaNMFfit-commamissing-method.html">plot-method</a></td>
+<td>Plots the residual track computed at regular interval during the fit of the NMF model 'x'.</td></tr>
+<tr><td style="width: 25%;"><a href="consensus-commaNMFfitXn-method.html">plot.NMF.consensus</a></td>
+<td>Computes the consensus matrix of the set of fits stored in 'object', as the mean connectivity matrix across runs.</td></tr>
+<tr><td style="width: 25%;"><a href="nmfEstimateRank.html">plot.NMF.rank</a></td>
+<td>Estimate Rank for NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="nneg.html">posneg</a></td>
+<td>Transforming from Mixed-sign to Nonnegative Data</td></tr>
+<tr><td style="width: 25%;"><a href="predict.html">predict</a></td>
+<td>Clustering and Prediction</td></tr>
+<tr><td style="width: 25%;"><a href="predict.html">predict-method</a></td>
+<td>Clustering and Prediction</td></tr>
+<tr><td style="width: 25%;"><a href="predict.html">predict-methods</a></td>
+<td>Clustering and Prediction</td></tr>
+<tr><td style="width: 25%;"><a href="basiscor.html">profcor</a></td>
+<td>Correlations in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="basiscor.html">profcor-method</a></td>
+<td>Correlations in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="basiscor.html">profcor-methods</a></td>
+<td>Correlations in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="profplot.html">profplot</a></td>
+<td>Plotting Expression Profiles</td></tr>
+<tr><td style="width: 25%;"><a href="profplot.html">profplot.default</a></td>
+<td>Plotting Expression Profiles</td></tr>
+<tr><td style="width: 25%;"><a href="purity.html">purity</a></td>
+<td>Purity and Entropy of a Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="purity.html">purity-method</a></td>
+<td>Purity and Entropy of a Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="purity.html">purity-methods</a></td>
+<td>Purity and Entropy of a Clustering</td></tr>
+</table>
+
+<h2><a name="R">-- R --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="randomize.html">randomize</a></td>
+<td>Randomizing Data</td></tr>
+<tr><td style="width: 25%;"><a href="registry-algorithm.html">removeNMFMethod</a></td>
+<td>Registry for NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="setNMFSeed.html">removeNMFSeed</a></td>
+<td>'NMFSeed' is a constructor method that instantiate 'NMFSeed' objects.</td></tr>
+<tr><td style="width: 25%;"><a href="residuals.html">residuals</a></td>
+<td>Residuals in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="residuals.html">residuals-method</a></td>
+<td>Residuals in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="residuals.html">residuals-methods</a></td>
+<td>Residuals in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="residuals.html">residuals&lt;-</a></td>
+<td>Residuals in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="residuals.html">residuals&lt;--method</a></td>
+<td>Residuals in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="residuals.html">residuals&lt;--methods</a></td>
+<td>Residuals in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="rmatrix.html">rmatrix</a></td>
+<td>Generating Random Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="rmatrix.html">rmatrix-method</a></td>
+<td>Generating Random Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="rmatrix.html">rmatrix-methods</a></td>
+<td>Generating Random Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="rnmf.html">rnmf</a></td>
+<td>Generating Random NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">rnmf-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="rnmf.html">rnmf-method</a></td>
+<td>Generating Random NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="rnmf.html">rnmf-methods</a></td>
+<td>Generating Random NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="nneg.html">rposneg</a></td>
+<td>Transforming from Mixed-sign to Nonnegative Data</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">rposneg-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="nneg.html">rposneg-method</a></td>
+<td>Transforming from Mixed-sign to Nonnegative Data</td></tr>
+<tr><td style="width: 25%;"><a href="nneg.html">rposneg-methods</a></td>
+<td>Transforming from Mixed-sign to Nonnegative Data</td></tr>
+<tr><td style="width: 25%;"><a href="rss.html">rss</a></td>
+<td>Residual Sum of Squares and Explained Variance</td></tr>
+<tr><td style="width: 25%;"><a href="rss.html">rss-method</a></td>
+<td>Residual Sum of Squares and Explained Variance</td></tr>
+<tr><td style="width: 25%;"><a href="rss.html">rss-methods</a></td>
+<td>Residual Sum of Squares and Explained Variance</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">run</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="NMFStrategy.html">run-method</a></td>
+<td>Factory Method for NMFStrategy Objects</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">run-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">run-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">runtime</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">runtime-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="runtime-commaNMFList-method.html">runtime-method</a></td>
+<td>Returns the CPU time required to compute all NMF fits in the list. It returns 'NULL' if the list is empty. If no timing data are available, the sequential time is returned.</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">runtime-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">runtime.all</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">runtime.all-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="runtime.all-commaNMFfitXn-method.html">runtime.all-method</a></td>
+<td>Returns the CPU time used to perform all the NMF fits stored in 'object'.</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">runtime.all-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+</table>
+
+<h2><a name="S">-- S --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="bioc.html">sampleNames-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">sampleNames&lt;--method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="scale.NMF.html">scale.NMF</a></td>
+<td>Rescaling NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">scoef</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">scoef-method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">scoef-methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="seed.html">seed</a></td>
+<td>Interface for NMF Seeding Methods</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">seed-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="seed.html">seed-method</a></td>
+<td>Interface for NMF Seeding Methods</td></tr>
+<tr><td style="width: 25%;"><a href="seed.html">seed-methods</a></td>
+<td>Interface for NMF Seeding Methods</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seeding</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seeding-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seeding-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seeding&lt;-</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seeding&lt;--method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seeding&lt;--methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="registry-algorithm.html">selectNMFMethod</a></td>
+<td>Registry for NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seqtime</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seqtime-method</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="algorithmic.html">seqtime-methods</a></td>
+<td>Generic Interface for Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="setNMFMethod.html">setNMFMethod</a></td>
+<td>Registering NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="setNMFSeed.html">setNMFSeed</a></td>
+<td>'NMFSeed' is a constructor method that instantiate 'NMFSeed' objects.</td></tr>
+<tr><td style="width: 25%;"><a href="setup.html">setupBackend</a></td>
+<td>Computational Setup Functions</td></tr>
+<tr><td style="width: 25%;"><a href="setup.html">setupLibPaths</a></td>
+<td>Computational Setup Functions</td></tr>
+<tr><td style="width: 25%;"><a href="setup.html">setupRNG</a></td>
+<td>Computational Setup Functions</td></tr>
+<tr><td style="width: 25%;"><a href="setup.html">setupSharedMemory</a></td>
+<td>Computational Setup Functions</td></tr>
+<tr><td style="width: 25%;"><a href="setup.html">setupTempDirectory</a></td>
+<td>Computational Setup Functions</td></tr>
+<tr><td style="width: 25%;"><a href="NMFStrategyOctave-class.html">show-method</a></td>
+<td>S4 Interface for Octave-Matlab NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMF-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMF'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFList-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFList'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFOffset-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFOffset'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFSeed-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFSeed'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFStrategyIterative-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFStrategyIterative'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFfit-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFfit'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFfitX-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFfitX'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFfitX1-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFfitX1'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFfitXn-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFfitXn'</td></tr>
+<tr><td style="width: 25%;"><a href="show-commaNMFns-method.html">show-method</a></td>
+<td>Show method for objects of class 'NMFns'</td></tr>
+<tr><td style="width: 25%;"><a href="silhouette.NMF.html">silhouette.NMF</a></td>
+<td>Silhouette of NMF Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="smoothing.html">smoothing</a></td>
+<td>Smoothing Matrix in Nonsmooth NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="SNMF-nmf.html">SNMF/L-nmf</a></td>
+<td>NMF Algorithm - Sparse NMF via Alternating NNLS</td></tr>
+<tr><td style="width: 25%;"><a href="SNMF-nmf.html">SNMF/R-nmf</a></td>
+<td>NMF Algorithm - Sparse NMF via Alternating NNLS</td></tr>
+<tr><td style="width: 25%;"><a href="sparseness.html">sparseness</a></td>
+<td>Sparseness</td></tr>
+<tr><td style="width: 25%;"><a href="sparseness.html">sparseness-method</a></td>
+<td>Sparseness</td></tr>
+<tr><td style="width: 25%;"><a href="sparseness.html">sparseness-methods</a></td>
+<td>Sparseness</td></tr>
+<tr><td style="width: 25%;"><a href="staticVar.html">staticVar</a></td>
+<td>Get/Set a Static Variable in NMF Algorithms</td></tr>
+<tr><td style="width: 25%;"><a href="stop-NMF.html">stop-NMF</a></td>
+<td>Stopping Criteria for NMF Iterative Strategies</td></tr>
+<tr><td style="width: 25%;"><a href="utils.html">str_args</a></td>
+<td>Utility Function in the NMF Package</td></tr>
+<tr><td style="width: 25%;"><a href="assess.html">summary</a></td>
+<td>Assessing and Comparing NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="assess.html">summary-method</a></td>
+<td>Assessing and Comparing NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="nmf-compare.html">summary-method</a></td>
+<td>Comparing Results from Different NMF Runs</td></tr>
+<tr><td style="width: 25%;"><a href="assess.html">summary-methods</a></td>
+<td>Assessing and Comparing NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="assess.html">summary-NMF</a></td>
+<td>Assessing and Comparing NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="syntheticNMF.html">syntheticNMF</a></td>
+<td>Simulating Datasets</td></tr>
+</table>
+
+<h2><a name="T">-- T --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="t.NMF.html">t.NMF</a></td>
+<td>Transformation NMF Model Objects</td></tr>
+<tr><td style="width: 25%;"><a href="residuals.html">trackError</a></td>
+<td>Residuals in NMF Models</td></tr>
+<tr><td style="width: 25%;"><a href="parallel.html">ts_eval</a></td>
+<td>Utilities for Parallel Computations</td></tr>
+<tr><td style="width: 25%;"><a href="parallel.html">ts_tempfile</a></td>
+<td>Utilities for Parallel Computations</td></tr>
+</table>
+
+<h2><a name="U">-- U --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="utils.html">utils-NMF</a></td>
+<td>Utility Function in the NMF Package</td></tr>
+</table>
+
+<h2><a name="W">-- W --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="advanced.html">which.best</a></td>
+<td>Advanced Usage of the Package NMF</td></tr>
+<tr><td style="width: 25%;"><a href="lsNMF-nmf.html">wrss</a></td>
+<td>Multiplicative Updates for LS-NMF</td></tr>
+</table>
+
+<h2><a name="misc">-- misc --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="NMF-class.html">$-method</a></td>
+<td>Generic Interface for Nonnegative Matrix Factorisation Models</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-class.html">$&lt;--method</a></td>
+<td>Generic Interface for Nonnegative Matrix Factorisation Models</td></tr>
+<tr><td style="width: 25%;"><a href="bioc.html">.atrack-method</a></td>
+<td>Specific NMF Layer for Bioconductor</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.basis</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.basis-method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.basis-methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.basis&lt;-</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.basis&lt;--method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.basis&lt;--methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.coef</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.coef-method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.coef-methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.coef&lt;-</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.coef&lt;--method</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="basis-coef-methods.html">.coef&lt;--methods</a></td>
+<td>Accessing NMF Factors</td></tr>
+<tr><td style="width: 25%;"><a href="NMF-class.html">.DollarNames-method</a></td>
+<td>Generic Interface for Nonnegative Matrix Factorisation Models</td></tr>
+<tr><td style="width: 25%;"><a href="dot-fcnnls.html">.fcnnls</a></td>
+<td>Internal Routine for Fast Combinatorial Nonnegative Least-Squares</td></tr>
+<tr><td style="width: 25%;"><a href="RNG.html">.getRNG</a></td>
+<td>Extracting RNG Data from NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="RNG.html">.getRNG-method</a></td>
+<td>Extracting RNG Data from NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="RNG.html">.getRNG-methods</a></td>
+<td>Extracting RNG Data from NMF Objects</td></tr>
+<tr><td style="width: 25%;"><a href="subset-NMF.html">[-method</a></td>
+<td>Sub-setting NMF Objects</td></tr>
+</table>
+</body></html>

@@ -3,6 +3,7 @@ decodeURI	encodeURI
 decodeURIComponent	encodeURI
 encodeURI	encodeURI
 encodeURIComponent	encodeURI
+getRNGState	getRNGState
 httpuv	httpuv-package
 interrupt	interrupt
 rawToBase64	rawToBase64

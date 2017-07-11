@@ -55,6 +55,6 @@ Author: David Robinson [aut, cre], Matthieu Gomez [ctb], Boris Demeshev
 Repository: CRAN
 Date/Publication: 2016-06-24 19:14:04
 Built: R 3.2.5; ; 2016-11-15 17:37:20 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: c90145ada2eac0128487c21ab2ac9c78

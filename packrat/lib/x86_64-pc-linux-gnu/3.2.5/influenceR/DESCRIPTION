@@ -30,6 +30,6 @@ Maintainer: Khanna Aditya <khanna7@uchicago.edu>
 Repository: CRAN
 Date/Publication: 2015-09-03 12:20:15
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:40:53 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 74fa4b51bb8c4ee841f712d40dbf5f13

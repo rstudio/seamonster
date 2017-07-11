@@ -24,6 +24,6 @@ Packaged: 2015-09-19 04:47:43.628 UTC; mdowle
 Repository: CRAN
 Date/Publication: 2015-09-19 22:13:43
 Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:15:28 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: f92ef1f73afa43bf6fd69a22f3794abd

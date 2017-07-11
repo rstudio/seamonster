@@ -38,6 +38,6 @@ Author: Joe Cheng [aut, cre], Yihui Xie [aut], Hadley Wickham [ctb],
 Repository: CRAN
 Date/Publication: 2016-02-27 09:50:10
 Built: R 3.2.5; ; 2016-11-15 17:23:12 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: 749ac8c776a57c686ab8c90b5a6818fb

@@ -1,0 +1,161 @@
+.fcnnls                 Internal Routine for Fast Combinatorial
+                        Nonnegative Least-Squares
+NMF-class               Generic Interface for Nonnegative Matrix
+                        Factorisation Models
+NMF-defunct             Defunct Functions and Classes in the NMF
+                        Package
+NMF-deprecated          Deprecated Functions in the Package NMF
+NMF-package             Algorithms and framework for Nonnegative Matrix
+                        Factorization (NMF).
+NMFList-class           Class for Storing Heterogeneous NMF fits
+NMFOffset-class         NMF Model - Nonnegative Matrix Factorization
+                        with Offset
+NMFSeed                 'NMFSeed' is a constructor method that
+                        instantiate 'NMFSeed' objects.
+NMFSeed-class           Base class that defines the interface for NMF
+                        seeding methods.
+NMFStop                 Stopping Criteria for NMF Iterative Strategies
+NMFStrategy             Factory Method for NMFStrategy Objects
+NMFStrategyFunction-class
+                        Interface for Single Function NMF Strategies
+NMFStrategyIterative-class
+                        Interface for Algorithms: Implementation for
+                        Iterative NMF Algorithms
+NMFStrategyOctave-class
+                        S4 Interface for Octave-Matlab NMF Algorithms
+NMFfit-class            Base Class for to store Nonnegative Matrix
+                        Factorisation results
+NMFfitX-class           Virtual Class to Handle Results from Multiple
+                        Runs of NMF Algorithms
+NMFfitX1-class          Structure for Storing the Best Fit Amongst
+                        Multiple NMF Runs
+NMFfitXn-class          Structure for Storing All Fits from Multiple
+                        NMF Runs
+NMFns-class             NMF Model - Nonsmooth Nonnegative Matrix
+                        Factorization
+NMFstd-class            NMF Model - Standard model
+[,NMF-method            Sub-setting NMF Objects
+advanced-NMF            Advanced Usage of the Package NMF
+aheatmap                Annotated Heatmaps
+algorithm,NMFList-method
+                        Returns the method names used to compute the
+                        NMF fits in the list. It returns 'NULL' if the
+                        list is empty.
+algorithm,NMFStrategyOctave-method
+                        Returns the name of the Octave/Matlab function
+                        that implements the NMF algorithm - as stored
+                        in slot 'algorithm'.
+algorithmic-NMF         Generic Interface for Algorithms
+basis                   Accessing NMF Factors
+basiscor                Correlations in NMF Models
+basisnames              Dimension names for NMF objects
+bioc-NMF                Specific NMF Layer for Bioconductor
+canFit                  Testing Compatibility of Algorithm and Models
+compare-NMF             Comparing Results from Different NMF Runs
+connectivity            Clustering Connectivity and Consensus Matrices
+consensus,NMFfitX1-method
+                        Returns the consensus matrix computed while
+                        performing all NMF runs, amongst which 'object'
+                        was selected as the best fit.
+consensus,NMFfitXn-method
+                        Computes the consensus matrix of the set of
+                        fits stored in 'object', as the mean
+                        connectivity matrix across runs.
+consensushc             Hierarchical Clustering of a Consensus Matrix
+cophcor                 Cophenetic Correlation Coefficient
+deviance                Distances and Objective Functions
+dispersion              Dispersion of a Matrix
+esGolub                 Golub ExpressionSet
+fcnnls                  Fast Combinatorial Nonnegative Least-Square
+featureScore            Feature Selection in NMF Models
+fit                     Extracting Fitted Models
+fitted                  Fitted Matrix in NMF Models
+getRNG1                 Extracting RNG Data from NMF Objects
+heatmap-NMF             Heatmaps of NMF Factors
+ibterms                 Fixed Terms in NMF Models
+is.nmf                  Testing NMF Objects
+match_atrack            Extending Annotation Vectors
+methods-NMF             Registry for NMF Algorithms
+nbasis                  Dimension of NMF Objects
+nmf                     Running NMF algorithms
+nmf.equal               Testing Equality of NMF Models
+nmfAlgorithm            Listing and Retrieving NMF Algorithms
+nmfAlgorithm.SNMF_R     NMF Algorithm - Sparse NMF via Alternating NNLS
+nmfApply                Apply Function for NMF Objects
+nmfCheck                Checking NMF Algorithm
+nmfEstimateRank         Estimate Rank for NMF Models
+nmfFormals              Showing Arguments of NMF Algorithms
+nmfModel                Factory Methods NMF Models
+nmfObject               Updating NMF Objects
+nmfReport               Run NMF Methods and Generate a Report
+nmfSeed                 Seeding Strategies for NMF Algorithms
+nmf_update.KL.h         NMF Multiplicative Updates for Kullback-Leibler
+                        Divergence
+nmf_update.brunet_R     NMF Algorithm/Updates for Kullback-Leibler
+                        Divergence
+nmf_update.euclidean.h
+                        NMF Multiplicative Updates for Euclidean
+                        Distance
+nmf_update.euclidean_offset.h
+                        NMF Multiplicative Update for NMF with Offset
+                        Models
+nmf_update.lee_R        NMF Algorithm/Updates for Frobenius Norm
+nmf_update.lsnmf        Multiplicative Updates for LS-NMF
+nmf_update.ns           NMF Multiplicative Update for Nonsmooth
+                        Nonnegative Matrix Factorization (nsNMF).
+nneg                    Transforming from Mixed-sign to Nonnegative
+                        Data
+objective,NMFfit-method
+                        Returns the objective function associated with
+                        the algorithm that computed the fitted NMF
+                        model 'object', or the objective value with
+                        respect to a given target matrix 'y' if it is
+                        supplied.
+offset,NMFOffset-method
+                        Offsets in NMF Models with Offset
+offset,NMFfit-method    Returns the offset from the fitted model.
+options-NMF             NMF Package Specific Options
+parallel-NMF            Utilities for Parallel Computations
+plot,NMFfit,missing-method
+                        Plots the residual track computed at regular
+                        interval during the fit of the NMF model 'x'.
+predict                 Clustering and Prediction
+profplot                Plotting Expression Profiles
+purity                  Purity and Entropy of a Clustering
+randomize               Randomizing Data
+residuals               Residuals in NMF Models
+rmatrix                 Generating Random Matrices
+rnmf                    Generating Random NMF Models
+rss                     Residual Sum of Squares and Explained Variance
+runtime,NMFList-method
+                        Returns the CPU time required to compute all
+                        NMF fits in the list. It returns 'NULL' if the
+                        list is empty. If no timing data are available,
+                        the sequential time is returned.
+runtime.all,NMFfitXn-method
+                        Returns the CPU time used to perform all the
+                        NMF fits stored in 'object'.
+scale.NMF               Rescaling NMF Models
+seed                    Interface for NMF Seeding Methods
+setNMFMethod            Registering NMF Algorithms
+setupBackend            Computational Setup Functions
+show,NMF-method         Show method for objects of class 'NMF'
+show,NMFList-method     Show method for objects of class 'NMFList'
+show,NMFOffset-method   Show method for objects of class 'NMFOffset'
+show,NMFSeed-method     Show method for objects of class 'NMFSeed'
+show,NMFStrategyIterative-method
+                        Show method for objects of class
+                        'NMFStrategyIterative'
+show,NMFfit-method      Show method for objects of class 'NMFfit'
+show,NMFfitX-method     Show method for objects of class 'NMFfitX'
+show,NMFfitX1-method    Show method for objects of class 'NMFfitX1'
+show,NMFfitXn-method    Show method for objects of class 'NMFfitXn'
+show,NMFns-method       Show method for objects of class 'NMFns'
+silhouette.NMF          Silhouette of NMF Clustering
+smoothing               Smoothing Matrix in Nonsmooth NMF Models
+sparseness              Sparseness
+staticVar               Get/Set a Static Variable in NMF Algorithms
+summary                 Assessing and Comparing NMF Models
+syntheticNMF            Simulating Datasets
+t.NMF                   Transformation NMF Model Objects
+utils-NMF               Utility Function in the NMF Package

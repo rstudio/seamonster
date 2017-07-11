@@ -1,0 +1,47 @@
+Encoding: UTF-8
+Package: plumber
+Type: Package
+Title: An API Generator for R
+Version: 0.4.0
+Date: 2017-05-21
+Roxygen: list(markdown = TRUE)
+Authors@R: c( person(family="Trestle Technology, LLC", role="aut",
+    email="cran@trestletech.com"), person("Jeff", "Allen", role="cre",
+    email="cran@trestletech.com"), person("Frans", "van Dunné",
+    role="ctb", email="frans@ixpantia.com"), person(family="SmartBear
+    Software", role=c("ctb", "cph"), comment="swagger-ui"))
+License: MIT + file LICENSE
+Description: Gives the ability to automatically generate and serve an
+    HTTP API from R functions using the annotations in the R
+    documentation around your functions.
+Depends: R (>= 3.0.0)
+Imports: R6 (>= 2.0.0), stringi (>= 0.3.0), jsonlite (>= 0.9.16),
+    httpuv (>= 1.2.3)
+LazyData: TRUE
+Suggests: testthat (>= 0.11.0), XML, rmarkdown, PKI, base64enc,
+    htmlwidgets, visNetwork, analogsea
+Collate: 'content-types.R' 'cookie-parser.R' 'parse-globals.R'
+    'parse-block.R' 'globals.R' 'serializer-json.R' 'plumber.R'
+    'default-handlers.R' 'digital-ocean.R' 'includes.R' 'paths.R'
+    'plumber-step.R' 'post-body.R' 'processor.R' 'processor-image.R'
+    'query-string.R' 'response.R' 'serializer-content-type.R'
+    'serializer-html.R' 'serializer-htmlwidget.R' 'serializer-xml.R'
+    'serializer.R' 'session-cookie.R' 'swagger.R'
+RoxygenNote: 6.0.1
+Author: Trestle Technology, LLC [aut], Jeff Allen [cre], Frans van
+    Dunné [ctb], SmartBear Software [ctb, cph] (swagger-ui)
+Maintainer: Jeff Allen <cran@trestletech.com>
+Built: R 3.2.5; ; 2017-07-11 15:03:30 UTC; unix
+RemoteType: github
+RemoteHost: https://api.github.com
+RemoteRepo: plumber
+RemoteUsername: trestletech
+RemoteRef: master
+RemoteSha: 1c411d8a1f0eea5b37b7e6738c581ed648c11864
+GithubRepo: plumber
+GithubUsername: trestletech
+GithubRef: master
+GithubSHA1: 1c411d8a1f0eea5b37b7e6738c581ed648c11864
+InstallAgent: packrat 0.4.8.20
+InstallSource: github
+Hash: e5eaabad205168561e08d9726f6de9e5

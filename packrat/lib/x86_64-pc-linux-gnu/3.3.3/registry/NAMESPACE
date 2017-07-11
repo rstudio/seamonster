@@ -1,0 +1,13 @@
+importFrom("utils", "formatUL")
+
+export("registry")
+exportPattern("match_.*")
+
+S3method("[", "registry")
+S3method("[[", "registry")
+S3method("length", "registry")
+S3method("as.data.frame", "registry")
+S3method("print", "registry")
+S3method("summary", "registry")
+S3method("print", "registry_field")
+S3method("print", "registry_entry")

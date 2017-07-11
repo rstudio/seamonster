@@ -19,6 +19,6 @@ Author: Hadley Wickham [aut], JJ Allaire [aut, cre], Kevin Ushey [ctb],
 Repository: CRAN
 Date/Publication: 2016-06-27 07:00:05
 Built: R 3.2.5; ; 2016-11-15 17:13:02 UTC; unix
-InstallAgent: packrat 0.4.8.13
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
 Hash: fd256f8bfb9a64cc35f98b0decb1a79f

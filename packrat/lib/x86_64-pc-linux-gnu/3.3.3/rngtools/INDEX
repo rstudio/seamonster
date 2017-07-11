@@ -1,0 +1,8 @@
+RNGseed                 Directly Getting or Setting the RNG Seed
+RNGseq                  Generate Sequence of Random Streams
+RNGstr                  Formatting RNG Information
+checkRNG                Checking RNG Differences in Unit Tests
+getRNG                  Getting/Setting RNGs
+rng.equal               Comparing RNG Settings
+rngtools                Utility functions for working with Random
+                        Number Generators

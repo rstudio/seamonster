@@ -1,9 +1,9 @@
 Package: httpuv
 Type: Package
 Title: HTTP and WebSocket Server Library
-Version: 1.3.3
-Date: 2015-08-03
-Author: RStudio, Inc.
+Version: 1.3.5
+Author: Joe Cheng, Hector Corrada Bravo [ctb], Jeroen Ooms [ctb],
+    Winston Chang [ctb]
 Copyright: RStudio, Inc.; Joyent, Inc.; Nginx Inc.; Igor Sysoev; Niels
     Provos; Internet Systems Consortium, Inc.; Alexander Chemeris
 Maintainer: Joe Cheng <joe@rstudio.com>
@@ -21,11 +21,16 @@ Imports: Rcpp (>= 0.11.0), utils
 LinkingTo: Rcpp
 URL: https://github.com/rstudio/httpuv
 SystemRequirements: GNU make
+RoxygenNote: 6.0.1
 NeedsCompilation: yes
-Packaged: 2015-08-03 18:49:59 UTC; jcheng
+Packaged: 2017-07-03 21:47:04 UTC; jcheng
 Repository: CRAN
-Date/Publication: 2015-08-04 00:32:50
-Built: R 3.2.5; x86_64-pc-linux-gnu; 2016-11-15 17:14:49 UTC; unix
-InstallAgent: packrat 0.4.8.13
+Date/Publication: 2017-07-04 07:02:15 UTC
+Built: R 3.2.5; x86_64-pc-linux-gnu; 2017-07-11 15:00:51 UTC; unix
+RemoteType: cran
+RemoteSha: 1.3.5
+RemoteRepos: structure("https://cran.rstudio.com/", .Names = "CRAN")
+RemotePkgType: source
+InstallAgent: packrat 0.4.8.20
 InstallSource: CRAN
-Hash: 12c4ec43e5609293576e368c740c1f84
+Hash: e2d5ec877601df43efe66e9096d0fc93

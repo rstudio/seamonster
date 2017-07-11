@@ -2,7 +2,7 @@
 //
 // Rstreambuf.h: Rcpp R/C++ interface class library -- stream buffer
 //
-// Copyright (C) 2011 - 2013    Dirk Eddelbuettel, Romain Francois and Jelmer Ypma
+// Copyright (C) 2011 - 2017  Dirk Eddelbuettel, Romain Francois and Jelmer Ypma
 //
 // This file is part of Rcpp.
 //
@@ -35,7 +35,7 @@ namespace Rcpp {
     protected:
         virtual std::streamsize xsputn(const char *s, std::streamsize n );
 
-        virtual int overflow(int c = EOF );
+        virtual int overflow(int c = traits_type::eof() );
 
         virtual int sync()  ;
     };
@@ -56,7 +56,7 @@ namespace Rcpp {
             }
         }
     };
-
+							// #nocov start
     template <> inline std::streamsize Rstreambuf<true>::xsputn(const char *s, std::streamsize num ) {
         Rprintf( "%.*s", num, s ) ;
         return num ;
@@ -67,12 +67,18 @@ namespace Rcpp {
     }
 
     template <> inline int Rstreambuf<true>::overflow(int c ) {
-      if (c != EOF) Rprintf( "%.1s", &c ) ;
-      return c ;
+        if (c != traits_type::eof()) {
+            char_type ch = traits_type::to_char_type(c);
+            return xsputn(&ch, 1) == 1 ? c : traits_type::eof();
+        }
+        return c;
     }
     template <> inline int Rstreambuf<false>::overflow(int c ) {
-      if (c != EOF) REprintf( "%.1s", &c ) ;
-      return c ;
+        if (c != traits_type::eof()) {
+            char_type ch = traits_type::to_char_type(c);
+            return xsputn(&ch, 1) == 1 ? c : traits_type::eof();
+        }
+        return c;
     }
 
     template <> inline int Rstreambuf<true>::sync(){
@@ -82,7 +88,7 @@ namespace Rcpp {
     template <> inline int Rstreambuf<false>::sync(){
         ::R_FlushConsole() ;
         return 0 ;
-    }
+    }								// #nocov end
     static Rostream<true>  Rcout;
     static Rostream<false> Rcerr;
 
