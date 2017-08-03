@@ -1,5 +1,0 @@
-#* @filter test
-#* @get /
-function(){
-
-}

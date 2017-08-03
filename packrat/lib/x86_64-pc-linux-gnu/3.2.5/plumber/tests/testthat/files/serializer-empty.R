@@ -1,5 +1,0 @@
-#* @serializer
-#* @get /
-function(){
-
-}

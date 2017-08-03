@@ -1,5 +1,0 @@
-#* @preempt
-#* @get /
-function(){
-
-}

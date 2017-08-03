@@ -1,5 +1,0 @@
-clean.zipcodes          clean up and standardize ZIP codes
-zipcode                 data.frame of city, state, latitude, and
-                        longitude for U.S. ZIP codes
-zipcode-package         U.S. ZIP code database for geocoding
-zipcode.civicspace      original CivicSpace Database of U.S. ZIP codes

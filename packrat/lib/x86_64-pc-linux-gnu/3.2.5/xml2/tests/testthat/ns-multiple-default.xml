@@ -1,4 +1,0 @@
-<root>
-  <doc1 xmlns = "http://foo.com"><bar /></doc1>
-  <doc2 xmlns = "http://bar.com"><bar /></doc2>
-</root>

@@ -1,6 +1,0 @@
-tidy_app                A Shiny app to format R code
-tidy_dir                Format the R scripts under a directory
-tidy_eval               Evaluate R code and mask the output by a prefix
-tidy_source             Reformat R code while preserving blank lines
-                        and comments
-usage                   Show the usage of a function

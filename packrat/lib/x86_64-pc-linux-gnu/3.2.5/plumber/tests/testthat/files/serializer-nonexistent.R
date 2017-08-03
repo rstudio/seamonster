@@ -1,5 +1,0 @@
-#* @serializer flargdarg
-#* @get /
-function(){
-
-}

@@ -1,5 +1,0 @@
-#* @preempt flargdarg
-#* @get /
-function(){
-
-}

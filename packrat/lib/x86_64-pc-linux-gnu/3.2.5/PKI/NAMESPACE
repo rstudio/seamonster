@@ -1,3 +1,0 @@
-useDynLib(PKI, PKI_load_DER_X509, PKI_verify_cert, PKI_cert_public_key, PKI_encrypt, PKI_decrypt, PKI_load_private_RSA, PKI_load_public_RSA, PKI_RSAkeygen, PKI_sign_RSA, PKI_verify_RSA, PKI_digest, PKI_extract_key, PKI_raw2hex, encode_ASN1, decode_ASN1, PKI_asBIGNUMint, PKI_sym_cipher, PKI_get_subject)
-export(PKI.load.cert, PKI.verifyCA, PKI.verify, PKI.sign, PKI.pubkey, PKI.encrypt, PKI.decrypt, PKI.genRSAkey, PKI.digest, PKI.save.key, PKI.load.key, raw2hex, ASN1.encode, ASN1.decode, ASN1.item, ASN1.type, as.BIGNUMint, PKI.mkRSApubkey, PKI.load.OpenSSH.pubkey, PKI.sign.tar, PKI.verify.tar, PKI.get.subject)
-import(base64enc)

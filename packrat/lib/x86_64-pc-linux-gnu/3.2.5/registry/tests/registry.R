@@ -1,2 +1,0 @@
-library(registry)
-demo("registry")

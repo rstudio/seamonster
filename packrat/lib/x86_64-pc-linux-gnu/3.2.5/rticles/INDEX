@@ -1,8 +1,0 @@
-acm_article             Association for Computing Machinery (ACM)
-                        format.
-acs_article             American Chemical Society (ACS) Journal format.
-ctex                    A PDF format for documents based on the LaTeX
-                        package 'ctex'
-elsevier_article        Elsevier journal format.
-jss_article             Journal of Statistical Software (JSS) format.
-rjournal_article        R Journal format.

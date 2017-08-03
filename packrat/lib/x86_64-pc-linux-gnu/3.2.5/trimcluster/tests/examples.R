@@ -1,2 +1,0 @@
-library(trimcluster)
-example(trimkmeans)
