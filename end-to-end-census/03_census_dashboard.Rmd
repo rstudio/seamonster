@@ -1,0 +1,270 @@
+---
+title: "Census profile"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    social: menu
+    source_code: embed
+runtime: shiny
+---
+
+
+```{r setup, include=FALSE, message=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(pROC)
+library(shiny)
+library(DT)
+
+pred_raw <- read_csv("data/pred.csv")
+m1 <- readRDS("data/logisticModel.rds")
+m2 <- readRDS("data/elasticnetModel.rds")
+n <- nrow(pred_raw)
+
+```
+
+Inputs {.sidebar}
+=======================================================================
+
+#### Who are the people likely to make over \$50k? 
+
+Use the cutoff slider to profile individuals more or less likely to earn over \$50k in yearly income. Data are from the 1994-1995 population surveys conducted by the U.S. Census Bureau. [More Info](https://archive.ics.uci.edu/ml/datasets/Census+Income)
+
+```{r}
+
+selectInput("model", "Model", choices=c("Logistic" = TRUE, "Elastic Net" = FALSE))
+
+sliderInput("cutoff", label = "Predicted probability cutoff",
+            min = 0, max = 100, value = 50, step = 5)
+
+sliderInput("num.bars", label = "Number of bars",
+            min = 1, max = 10, value = 5, step = 1)
+
+numericInput("num.resp", "Window size", 100, min = 100, max = 5000)
+
+```
+
+```{r}
+# Select model
+pred <- reactive({
+  pred_raw %>%
+    mutate_(pred = ifelse(input$model, "pred.glm", "pred.net")) %>%
+    arrange(pred)
+})
+
+# plots used for metrics
+plotbars <- function(data, metric, k = 3, fill = "lightblue4"){
+  data %>%
+    rename_(metric = metric) %>%
+    group_by(metric) %>%
+    count %>%
+    arrange(desc(n)) %>%
+    top_n(k, n) %>%
+    ggplot(aes(reorder(metric, n), n)) + 
+    geom_bar(stat="Identity", fill = fill) + 
+    coord_flip() + 
+    labs(x = "", y = "")
+}
+
+# data window around prediction cutoff
+pred.window <- reactive({
+  j0 <- findInterval(input$cutoff / 100, pred()$pred)
+  j1 <- max(1, j0 - floor(input$num.resp/2 - 0.5))
+  j2 <- min(n, j0 + ceiling(input$num.resp/2 - 0.5))
+  pred()[j1:j2, ]
+})
+
+renderPrint({
+  cat("Number of responders:", nrow(pred.window()), "\n")
+  cat("Lower bound:", min(pred.window()$pred), "\n")
+  cat("Upper bound:", max(pred.window()$pred))
+})
+
+# confusion matrix
+confusion.matrix <- reactive({
+  true.cond <- pred()$label
+  pred.cond <- ifelse(pred()$pred > input$cutoff / 100, 1, 0)
+  prior <- cbind(c(1, 1, 0, 0), c(1, 0, 1, 0))
+  table(true.cond = c(prior[,1], true.cond), pred.cond = c(prior[,2], pred.cond))
+})
+
+#table(true = pred$label, pred = ifelse(pred$pred > 0.2, 1, 0))
+
+# gauge metric: accuracy
+accuracy <- function(x){
+  u <- sum(diag(x)) / sum(x)
+  formatC(100 * u, digits = 1, format = "f")
+}
+
+# gauge metric: true positive rate
+TPR <- function(x){
+  u <- x[2,2] / (x[2,1] + x[2,2])
+  formatC(100 * u, digits = 1, format = "f")
+}
+
+# gauge metric: false positive rate
+FPR <- function(x){
+  u <- x[1,2] / (x[1,1] + x[1,2])
+  formatC(100 * u, digits = 1, format = "f")
+}
+```
+
+
+
+Predictors
+=======================================================================
+
+Row
+-----------------------------------------------------------------------
+
+### Accuracy {.value-box}
+
+```{r}
+#accuracy = (true positive + true negative) / (total population)
+renderGauge({
+  value <- accuracy(confusion.matrix())
+  gauge(value, min = 0, max = 100, symbol = '%', 
+        gaugeSectors(success = c(80, 100), warning = c(40, 79), danger = c(0, 39)))
+})
+```
+
+### True Postive Rate {.value-box}
+
+
+```{r}
+#sensitivity = (true positive) / (positive) = True Positive Rate
+renderGauge({
+  value <- TPR(confusion.matrix())
+  gauge(value, min = 0, max = 100, symbol = '%', 
+        gaugeSectors(success = c(80, 100), warning = c(40, 79), danger = c(0, 39)))
+})
+```
+
+### False Positive Rate {.value-box}
+
+```{r}
+#specificity = (true negative) / (negative) = 1 - False Postive Rate
+renderGauge({
+  value <- FPR(confusion.matrix())
+  gauge(value, min = 0, max = 100, symbol = '%', 
+        gaugeSectors(success = c(80, 100), warning = c(40, 79), danger = c(0, 39)))
+})
+```
+
+Row
+-----------------------------------------------------------------------
+
+### Workclass
+
+```{r}
+renderPlot({
+  plotbars(pred.window(), "workclass", input$num.bars)
+})
+```
+
+### Education
+
+```{r}
+renderPlot({
+  plotbars(pred.window(), "education", input$num.bars)
+})
+```
+
+### Marital Status
+
+```{r}
+renderPlot({
+  plotbars(pred.window(), "marital_status", input$num.bars)
+})
+```
+
+### Occupation
+
+```{r}
+renderPlot({
+  plotbars(pred.window(), "occupation", input$num.bars)
+})
+```
+
+Row
+-----------------------------------------------------------------------
+
+### Age
+
+```{r}
+renderPlot({
+  plotbars(pred.window(), "age_buckets", input$num.bars)
+})
+```
+
+### Race
+
+```{r}
+renderPlot({
+  plotbars(pred.window(), "race", input$num.bars)
+})
+```
+
+### Gender
+
+```{r}
+renderPlot({
+  plotbars(pred.window(), "gender", input$num.bars)
+})
+```
+
+### Native Country
+
+```{r}
+renderPlot({
+  plotbars(pred.window(), "native_country", input$num.bars)
+})
+```
+
+ROC
+=======================================================================
+
+### ROC
+
+```{r}
+renderPlot({
+  x <- confusion.matrix()
+  specificity <- 1 - x[1,2] / (x[1,1] + x[1,2])
+  sensitivity <- x[2,2] / (x[2,1] + x[2,2])
+  roc(label ~ pred, pred()) %>%
+    plot.roc(., print.auc = TRUE)
+  abline(v = specificity, h = sensitivity, col = "tomato", lwd = 2)
+  title(paste("ROC for cutoff = ", input$cutoff), line = 2.5)
+})
+```
+
+
+Data
+=======================================================================
+
+### Selected responders
+
+```{r}
+renderDataTable({
+ pred.window() %>%
+    select(-pred.glm, -pred.net, -education_num, -label) %>%
+    rename(age = age_buckets, income = income_bracket) %>%
+    mutate(pred = round(pred, 4))
+}, options = list(pageLength = 10))
+```
+
+
+Model Output
+=======================================================================
+
+### Model effects
+
+```{r}
+renderPrint({
+  if(input$model) m1 else m2
+})
+```
+

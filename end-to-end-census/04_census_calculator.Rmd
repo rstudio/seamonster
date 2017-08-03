@@ -1,0 +1,105 @@
+# Use the function from the logistic model and inputs from the shiny ui to predict the likelihood of a single individual earning more than $50k
+
+```{r setup}
+library(shiny)
+library(tidyverse)
+library(miniUI)
+library(readr)
+library(purrr)
+library(stringr)
+```
+
+
+```{r gadget}
+predictFromSaved <- function(model_rds = "data/logisticModel.rds", train_csv = "data/train.csv") {
+  
+  # read in the model
+  model <- readRDS(model_rds)
+  
+  # infer the features from the training data
+  train <- read_csv(train_csv) %>% 
+    select(-label)
+  
+  features <- colnames(train)
+  
+  labels <- map(features, ~str_replace_all(.x,"_", " ") %>% str_to_title())
+  
+  ui <- miniPage(
+    gadgetTitleBar("Predict New Data", 
+      right = miniTitleBarButton("predict", "Predict", primary = TRUE)),
+    miniContentPanel(
+      
+      ## the new data that will be used for the prediction
+      tableOutput("predict_table"),
+      
+      ## a place holder for the inputs generated dynamically
+      div(id = "inputs")
+    )
+  )
+
+  server <- function(input, output, session) {
+    
+    ## the new data to predict on
+    ## constructed from the inputs generated below
+    predictDF <- reactive({
+      as_tibble(reactiveValuesToList(input))
+    })
+    
+    ## print out the data to predict on
+    output$predict_table <- renderTable(
+      predictDF()
+    )
+    
+    ## on startup, inspect the training data
+    ## and dynamically generate a UI so the user
+    ## can create new data to predict on
+    ## UI elements are based on column types
+    observeEvent(session, once = TRUE, {
+      
+      for (i in seq_along(train)) { # could be replaced with map or apply
+        cur_col <- train[[i]]
+        insertUI(selector = "#inputs", 
+          ui = switch(class(cur_col),
+                   character = selectInput(inputId = features[i],
+                                           label = labels[i],
+                                           choices = unique(cur_col)),
+                   
+                   double = numericInput(  inputId = features[i],
+                                           label = labels[i],
+                                           min = min(cur_col),
+                                           max = max(cur_col),
+                                           step = (max(cur_col) - min(cur_col))/15,
+                                           value = mean(cur_col)),
+                   
+                   integer = sliderInput( inputId = features[i],
+                                           label = labels[i],
+                                           min = min(cur_col),
+                                           max = max(cur_col),  
+                                           step = 1,
+                                           value = mean(cur_col)),
+                   
+                   default = textInput(inputId = features[i], label = labels[i])
+              )
+        )
+      }
+    })
+    
+    ## on close, use the predict function to predict 
+    ## against the newly constructed data
+    
+    observeEvent(input$predict, {
+      p <- predict(model, predictDF(), type = "response")
+      stopApp(p)
+    })
+    
+  }
+
+  runGadget(ui, server)
+}
+```
+
+```{r}
+pred <- predictFromSaved()
+pred
+```
+

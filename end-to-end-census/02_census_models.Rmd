@@ -1,0 +1,177 @@
+---
+title: "Census Data Predictive Models"
+output: html_notebook
+---
+
+# Overview
+
+In the previous step we explored the data and created plots using the `tidyverse` and `htmlwidgets`. In this step we will create two statistical models that predict income over `$50k`. The first model is a classic logistic model and the second model uses the elastic net with regularization L1 and L2 penalties. All predictors will be categorical in this analysis.
+
+```{r setup, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(plotly)
+library(pROC)
+library(glmnet)
+
+train <- read_csv("data/train.csv")
+test <- read_csv("data/test.csv")
+```
+
+# Logistic Regression
+
+The logistic model uses main effects only against the training data. No regularization is applied. We assess the model fit with a hold out sample. We can build logistic models with the `stats` package.
+
+## Train Model
+
+Gender, education, and marital status are all highly significant. Marrital status in particular is a good predictor of those earning more than $50k.
+
+```{r}
+m1 <- glm(label ~ gender + native_country + education + occupation + workclass + marital_status +  
+         race + age_buckets, binomial, train)
+summary(m1)
+#anova(m1) # takes a while to run
+#plot(m1) # legacy plots not that useful
+```
+
+## Predict
+
+The high area under the curve (AUC) of 0.883 indicator that this model might be overfitting. The lift chart shows that 80% of those in the uppper decile earn more than `$50k`, compared to a tiny fraction in the lower decile.
+
+```{r}
+# Predict
+pred <- bind_rows("train" = train, "test" = test, .id = "data") %>%
+  mutate(pred = predict(m1, ., type = "response")) %>%
+  mutate(decile = ntile(desc(pred), 10)) %>%
+  select(data, label, pred, decile)
+
+# ROC plot
+pred %>%
+  filter(data == "test") %>%
+  roc(label ~ pred, .) %>%
+  plot.roc(., print.auc = TRUE)
+
+# Lift plot
+pred %>%
+  group_by(data, decile) %>%
+  summarize(percent = 100 * mean(label)) %>%
+  ggplot(aes(decile, percent, fill = data)) + geom_bar(stat = "Identity", position = "dodge") +
+  ggtitle("Lift chart for logistic regression model")
+```
+
+
+***
+
+# Elastic net
+
+The elastic net is a regularized regression method that uses L1 (lasso) and L2 (ridge) penalties. We can build elastic net models with the `glmnet` package.
+
+## Train model
+
+Whereas the logistic method used formulas, the elastic net model requires us to construct a model matrix from the categorical predictors. We then attempt to choose a value `lambda` that optimizes the L1 and L2 penalties. We can examine various predictor sets for different values of `lambda`. Optionally, we can use cross validation to programmatically determine the best choice of `lambda`.
+
+```{r}
+# Convert to factors
+alldata <- bind_rows("train" = train, "test" = test, .id = "data") %>%
+  select(-education_num) %>%
+  mutate_each(., funs(factor(.))) %>%
+  model.matrix( ~ ., .)
+
+# Create training prediction matrix
+train.factors <- list(x = alldata[alldata[,'datatrain'] == 1, -(1:3)],
+                     y = alldata[alldata[,'datatrain'] == 1, 3])
+
+# Create test prediction matrix
+test.factors <- list(x = alldata[alldata[,'datatrain'] == 0, -(1:3)],
+                    y = alldata[alldata[,'datatrain'] == 0, 3])
+
+# Fit a regularized model
+fit1 <- glmnet(train.factors$x, train.factors$y, family = "binomial")
+plot(fit1)
+print(fit1)
+(m2 <- coef.glmnet(fit1, s = 0.02)) # extract coefficients at a single value of lambda
+```
+
+```{r, eval=FALSE}
+# Cross validation (long running for full dataset)
+cvfit <- cv.glmnet(train.factors$x, train.factors$y, family = "binomial", type.measure = "class")
+plot(cvfit)
+cvfit$lambda.min # 0.0001971255
+```
+
+## Predict
+
+Once you have chosen a value for `lambda` you can score the test set and examine the ROC and lift charts. This model has a slightly smaller AUC and lift values, but the overall results look very similar to logistic regression.
+
+```{r}
+# Predict and plot the AUC
+test.factors$pred <- predict(fit1, test.factors$x, s=0.02, type = "response") # make predictions
+data.frame(resp = test.factors$y, pred = c(test.factors$pred)) %>%
+  roc(resp ~ pred, .) %>%
+  plot.roc(., print.auc = TRUE)
+
+# Lift chart
+data.frame(data = ifelse(alldata[, 'datatrain'], "train", "test"),
+           label = alldata[,'label1'],
+           pred = c(predict.glmnet(fit1, alldata[, -(1:3)], s=0.02))) %>%
+  mutate(decile = ntile(desc(pred), 10)) %>%
+  group_by(data, decile) %>%
+  summarize(percent = 100 * mean(label)) %>%
+  ggplot(aes(decile, percent, fill = data)) + geom_bar(stat = "Identity", position = "dodge") +
+  ggtitle("Lift chart for elastic net model")
+```
+
+# Save
+
+Finally, save the predicted output and the model for building apps.
+
+```{r}
+# Score predictions
+pred.out <- test %>%
+  mutate(pred.glm = pred$pred[pred$data == "test"]) %>%
+  mutate(pred.net = c(test.factors$pred)) %>%
+  mutate(income_bracket = ifelse(label, ">50K", "<=50K")
+)
+
+# Output predictions to file
+write_csv(pred.out, "data/pred.csv")
+saveRDS(m1, file = "data/logisticModel.rds")
+saveRDS(m2, file = "data/elasticnetModel.rds")
+```
+
+***
+
+# Caret
+
+If you want to try other models, take a look at the `caret` package. The `caret` package (short for _C_lassification _A_nd _RE_gression _T_raining) is a set of functions that attempt to streamline the process for creating predictive models. The package contains tools for:
+
+* data splitting
+* pre-processing
+* feature selection
+* model tuning using resampling
+* variable importance estimation
+
+as well as other functionality. See the [caret documentation](http://topepo.github.io/caret/index.html) for more details.
+
+```{r, eval=FALSE}
+library(caret)
+library(e1071)
+library(gbm)
+
+## convert label to factor
+train$y <- factor(train$label)
+
+## Cross validation
+fitControl <- trainControl(method = "cv", number = 3, repeats = 1)
+
+## Fit a gbm model with cross validation (this will take a long time!)
+gbmFit1 <- train(y ~ gender + education + occupation + workclass + marital_status + age_buckets, 
+                 data = train, 
+                 method = "gbm", 
+                 trControl = fitControl,
+                 verbose = FALSE)
+
+## Summarize
+summary(gbmFit1)
+```
+
+
