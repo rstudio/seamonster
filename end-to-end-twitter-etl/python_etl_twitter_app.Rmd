@@ -1,0 +1,144 @@
+---
+title: "#rstats"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    source_code: embed
+runtime: shiny
+---
+
+```{r setup}
+
+#----------------
+# Data is pulled from a feather file which is in turn generated from a scheduled Rmd report
+# running python code. See http://colorado.rstudio.com:3939/http://colorado.rstudio.com:3939/rstats_feather_loader/
+#----------------
+
+library(shiny)
+library(feather)
+library(ggplot2)
+#library(plotly)
+library(dplyr)
+library(wordcloud2)
+library(flexdashboard)
+```
+
+What People Are Saying About #rstats
+=======================================================
+
+Row {data-height=20}
+----------------------
+
+### 
+```{r}
+valueBoxOutput("most_popular_hashtag")
+```
+
+###
+```{r}
+valueBoxOutput("updated")
+```
+
+
+Row {data-height=75}
+------------------------
+
+###
+```{r}
+plotOutput("pop_tweets_plot")
+```
+
+###
+```{r}
+wordcloud2Output("pop_tweets_cloud")
+```
+
+
+About the App
+=======================================================
+
+Row {data-height=95}
+-----------------
+
+###
+Replacing crontabs in RStudio Connect:
+
+The data for this app comes from a scheduled R Markdown document running python code. The python code creates a feather file in a shared location on the server. This app listens for changes to the shared file using reactiveFileReader.
+
+### Run History
+```{r}
+verbatimTextOutput("log_text")
+
+twdata <- reactiveFileReader(1000, session, filePath = "/tmp_shared/data.feather", readFunc = read_feather)
+
+twdata_s <- reactive({
+  t <- twdata()
+  colnames(t) <- c("token", "count")
+  twdata_s <- t %>% arrange(desc(count)) %>% filter(token != "#rstats")
+})
+
+output$most_popular_hashtag <- renderValueBox({
+    twdata_hash <- twdata_s() %>% filter(grepl(pattern = "#", x=token)>0)
+    valueBox(
+      value = twdata_hash[1,1],
+      icon = "fa-twitter",
+      "Most Popular Cross-Tag (tagged alongside #rstats)"
+    )
+    
+})
+
+log <- reactiveFileReader(1000, session, filePath = "/tmp_shared/log.txt", readFunc = readLines)
+
+output$log_text <- renderPrint({
+  l <- log()
+  cat(l, sep="\n")
+})
+
+file_info <- reactive({
+  twdata()
+  info <- file.info("/tmp_shared/data.feather")
+  info$mtime
+})
+
+output$updated <- renderValueBox({
+  valueBox(
+    value = file_info(),
+    "Last Updated", 
+    icon = "fa-clock-o")
+})
+
+create_plot <- function(top_15){
+  p <-
+      ggplot(data = top_15, aes(x = reorder(token, count), y = count)) + geom_bar(stat ="identity", fill="grey") +
+      coord_flip() +
+      xlab("") + 
+      ylab("")  +
+      theme_bw()+
+      scale_y_continuous(expand = c(0,0)) +
+      theme(axis.line = element_line(colour = "black"),
+            panel.grid.major = element_line(colour='lightgrey'),
+            panel.grid.minor = element_blank(),
+            panel.border = element_blank(),
+            panel.background = element_blank(),
+            axis.text = element_text(size=12, colour = "steelblue")) 
+    
+    p
+}
+
+output$pop_tweets_plot <- renderPlot({
+    top_15 <- twdata_s() %>% head(n=18) %>% .[-c(1:3),] # remove the top 3 that tend to be non-sensicial 
+    p <- create_plot(top_15)
+    #ggplotly(p)
+    p
+})
+
+output$pop_tweets_cloud <- renderWordcloud2({
+    top_50 <- twdata_s() %>% head(n=50) %>% .[-c(1:3),]
+    wordcloud2(top_50, color = c('steelblue'))
+})
+
+
+
+```
+
+
