@@ -40,21 +40,24 @@ flights = flights[['carrier', 'dep_delay', 'arr_delay']]
 flights = flights.dropna()
 print flights.head(10)
 
-# Write to feather file for reading from R
-feather.write_dataframe(flights, "flights.feather")
+# Write to file for reading from R
+# flights.to_feather('test.feather')
+flights.to_csv('results.csv')
+#feather.write_dataframe(flights, "flights.feather")
 ```
 
 Now read from *flights.feather* into an R data frame and plot arrival delays by carrier using **ggplot2**:
 
 ```{r}
-library(feather)
+#library(feather)
 library(ggplot2)
 
 tryCatch({setwd('rmarkdown/bash-python-feather/')},
          error = function(e) {NULL})
 
-# Read from feather and plot
-flights <- read_feather("flights.feather")
+# Read from file and plot
+# flights <- read_feather("test.feather")
+flights <- readr::read_csv('results.csv')
 ggplot(flights, aes(carrier, arr_delay)) + geom_boxplot()
 ```
 
