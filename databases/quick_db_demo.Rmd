@@ -1,0 +1,47 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+con <- DBI::dbConnect(odbc::odbc(), "SQL Server")
+```
+
+```{r}
+library(DBI)
+dbGetQuery(con, "Select top 10 * from flights")
+```
+
+```{sql, connection = con}
+SELECT "carrier", COUNT(*) AS "n"
+FROM "flights"
+GROUP BY "carrier"
+ORDER BY "n" DESC
+```
+
+```{r}
+library(dplyr)
+db_flights <- tbl(con, "flights")
+```
+
+```{r}
+db_flights %>%
+  tally
+```
+
+```{r}
+db_flights %>%
+  group_by(carrier) %>% 
+  tally %>%
+  arrange(desc(n)) 
+  
+```
+
+```{r}
+db_flights %>%
+  group_by(carrier) %>% 
+  tally %>%
+  arrange(desc(n)) %>%
+  show_query()
+  
+```

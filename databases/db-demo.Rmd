@@ -1,0 +1,94 @@
+---
+title: "DB Demo"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+# Connecting
+
+```{r}
+con <- DBI::dbConnect(odbc::odbc(), "SQL Server")
+```
+
+# Using
+
+```{sql, connection = con}
+Select top 5 * from airports
+```
+
+## dplyr
+
+```{r}
+library(dplyr)
+library(dbplyr)
+```
+
+
+```{r}
+mssql_airports <-  tbl(con, "airports")
+
+head(mssql_airports)
+```
+
+### SQL Translation
+
+```{r}
+show_query(head(mssql_airports))
+```
+
+### Piped
+
+```{r}
+mssql_airports %>%
+  filter(faa == "gpt")
+```
+
+### Collect
+
+```{r}
+library(ggplot2)
+
+mssql_airports %>%
+  select(lon, lat) %>%
+  filter(lon < 0, lon > -140, lat < 50) %>%
+  collect %>%
+  ggplot() +
+  geom_point(aes(x = lon, y = lat))
+```
+
+
+```{r}
+mssql_flights <- tbl(con, "flights")
+```
+
+```{r}
+mssql_flights %>%
+  left_join(mssql_airports, by = c("origin" = "name")) %>%
+  group_by(origin) %>%
+  summarise(flight = n(),
+            avg_dep_delay = mean(dep_delay),
+            max_dep_delay = max(dep_delay)
+            )
+  
+  #summarise(flights =  n(),
+  #          avg_dep_delay = mean(dep_delay))
+```
+
+```{r}
+show_query({
+  mssql_flights %>%
+  left_join(mssql_airports, by = c("origin" = "name")) %>%
+  group_by(origin) %>%
+  summarise(flights =  n(),
+            avg_dep_delay = mean(dep_delay))
+})
+```
+
+
+
+```{r}
+dbDisconnect(con)
+```
+

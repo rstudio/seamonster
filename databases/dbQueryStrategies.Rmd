@@ -1,0 +1,110 @@
+---
+title: "3 Ways to Query Data"
+output: html_notebook
+---
+
+You can query databases in with three methods:
+
+* Pass through queries to DBI
+* dplyr translation
+* SQL code engines in R Markdown
+
+# Setup
+
+Load packages and create a generic plot function.
+
+```{r}
+library(tidyverse)
+library(DBI)
+
+plotFunction <- function(dat){
+  ggplot(dat, aes(total, subscribe, color = year)) +
+  geom_point() +
+  xlab("Total contacts") +
+  ylab("Term Deposit Subscriptions") +
+  ggtitle("Contact volume")
+}
+```
+
+# Connect
+
+<!-- Connect to your database using a Data Source Name (DSN). You can also use the New Connection dialog under the RStudio Connections. Or you can use the RStudio connections wizard. After you connect, browse the database catalog with the connections pane. -->
+
+```{r}
+con <- DBI::dbConnect(odbc::odbc(), "SQL Server")
+dbGetInfo(con)
+```
+
+# DBI
+
+Query your database using pass through SQL code to DBI.
+
+```{r}
+bank <- dbReadTable(con, "bank")
+
+bank
+
+bank_agg <- dbGetQuery(con,
+"
+select month_idx, year, month,
+sum(case when term_deposit = 'yes' then 1.0 else 0.0 end) as subscribe,
+count(*) as total
+from bank
+group by month_idx, year, month
+")
+
+bank_agg
+
+plotFunction(bank_agg)
+```
+
+# dplyr
+
+Query your database with dplyr code that gets translated to SQL.
+
+```{r}
+bank_tbl <- tbl(con, "bank")
+
+bank_agg_tbl <- bank_tbl %>%
+  group_by(month_idx, year, month) %>%
+  summarise(
+    subscribe = sum(ifelse(term_deposit == "yes", 1, 0)),
+    total = n()
+    )
+
+show_query(bank_agg_tbl)
+
+bank_agg_tbl
+
+collect(bank_agg_tbl) %>%
+  plotFunction(.)
+```
+
+# SQL
+
+Query your database with pass through SQL in R Markdown. If you want to output the query to file use `output.var = "bank_agg_tbl2"`.
+
+```{sql, connection=con}
+select month_idx, year, month,
+sum(case when term_deposit = 'yes' then 1.0 else 0.0 end) as subscribe,
+count(*) as total
+from bank
+group by month_idx, year, month
+```
+
+```{sql, connection=con, output.var = "bank_agg_tbl2"}
+select month_idx, year, month,
+sum(case when term_deposit = 'yes' then 1.0 else 0.0 end) as subscribe,
+count(*) as total
+from bank
+group by month_idx, year, month
+```
+
+```{r}
+plotFunction(bank_agg_tbl2)
+```
+
+# Conclusion
+
+You can use R Markdown, dplyr, DBI, and the RStudio connection pane to interact with your databases. For more information see [db.rstudio.com](http://db.rstudio.com).
+
