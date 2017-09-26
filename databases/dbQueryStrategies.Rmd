@@ -35,7 +35,7 @@ con <- DBI::dbConnect(odbc::odbc(), "SQL Server")
 dbGetInfo(con)
 ```
 
-# DBI
+# 1. DBI
 
 Query your database using pass through SQL code to DBI.
 
@@ -86,7 +86,7 @@ Query your database with pass through SQL in R Markdown. If you want to output t
 
 ```{sql, connection=con}
 select month_idx, year, month,
-sum(case when term_deposit = 'yes' then 1.0 else 0.0 end) as subscribe,
+sum(case when "term_deposit" = 'yes' then 1.0 else 0.0 end) as subscribe,
 count(*) as total
 from bank
 group by month_idx, year, month
