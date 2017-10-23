@@ -26,7 +26,7 @@ Inside the enterprise, a dashboard is expected to have up-to-the-minute informat
 * [Code](https://gist.github.com/edgararuiz/876ba4718e56af66c3e1181482b6cb99)
 * [Live app](http://colorado.rstudio.com/rsc/flights-dashboard-teradata/)
 
-![](img/teradata-flights-dashboard.png)
+![](teradata-flights-dashboard.png)
 
 ### 3. Basics
 
