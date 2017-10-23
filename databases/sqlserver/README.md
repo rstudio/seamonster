@@ -1,4 +1,4 @@
-# Teradata Demos
+# Databases with RStudio
 
 These files demonstrate how to use RStudio and databases. Make sure to install the latest versions of the `dplyr` and `DBI` packages. Also, install these dev versions of `odbc` and `dbplyr`.
 
