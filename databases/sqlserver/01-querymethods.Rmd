@@ -73,14 +73,15 @@ The benefits to using SQL in a code chunk are that you can paste your SQL code w
 
 There is no single best way to query data with R. You have many methods to chose from and each method has its advantages. Here are some of the advantages using the methods described in this article.
 
-Method                | Advantages
-----------------------|---------------------------------------------
-DBI::dbGetQuery       | - Fewer dependencies required
-dplyr syntax          | - Use the same syntax for R and database objects\
-                        - No knowledge of SQL required\
-                        - Code is standard across SQL variants\
-                        - Lazy evaluation
-R Notebook SQL engine | - Copy and paste SQL -- no formatting required\
-                        - SQL syntax is highlighted
+1. DBI::dbGetQuery       
+    - Fewer dependencies required                  
+2. dplyr syntax
+    - Use the same syntax for R and database objects
+    - No knowledge of SQL required                 
+    - Code is standard across SQL variants         
+    - Lazy evaluation                              
+3. R Notebook 
+    - SQL engine Copy and paste SQL -- no formatting required 
+    - SQL syntax is highlighted                    
 
-*You can download the R Notebook for these examples [here](http://rpubs.com/nwstephens/318586).*
+*You can download the R Notebook for these examples [here](http://rpubs.com/nwstephens/query-sqlserver-with-R).*
