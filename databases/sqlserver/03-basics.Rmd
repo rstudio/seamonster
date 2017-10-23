@@ -1,0 +1,150 @@
+---
+title: "Basic database operations"
+output: html_notebook
+---
+
+## Install packages
+
+```{r install, eval=FALSE}
+install.packages("DBI")
+install.packages("dplyr")
+install.packages("config")
+devtools::install_github("rstudio/dbplyr")
+devtools::install_github("rstudio/odbc")
+```
+
+## Load packages
+
+```{r packages, message=FALSE}
+library(DBI)
+library(dplyr)
+```
+
+## Connect
+
+```{r connect}
+# Connect with a DSN
+con <- dbConnect(odbc::odbc(), "SQL Server (DSN)")
+```
+
+## Connection details
+
+```{r, eval=FALSE}
+# Connect with password prompt
+con <- dbConnect(odbc::odbc(), 
+                 Driver = "<driver>", 
+                 Database = "<database>", 
+                 Port = "1433", 
+                 UID = "<username>",
+                 PWD = rstudioapi::askForPassword("Password"))
+
+# Connect with config package
+dw <- config::get(file = "<filename.yml>")
+con <- dbConnect(odbc::odbc(),
+                 Driver   = dw$driver,
+                 Database  = dw$database,
+                 Port = dw$port,
+                 UID = dw$username,
+                 PWD = dw$password
+                 )
+
+# Check for a valid connection
+dbIsValid(con)
+
+# Disconnect
+#dbDisconnect(con)
+```
+
+## RStudio connection snippet
+
+```{bash snippet}
+cat /etc/rstudio/connections/SQLServer
+```
+
+## List tables
+
+```{r}
+as.data.frame(dbListTables(con))
+```
+
+## Create and remove tables
+
+```{r}
+mydata <- as.data.frame(CO2)
+dbWriteTable(con, "CO2", mydata, overwrite = TRUE)
+dbExistsTable(con, "CO2")
+dbGetQuery(con, "SELECT * from CO2")
+dbRemoveTable(con, "CO2")
+dbExistsTable(con, "CO2")
+```
+
+## Query Tables
+
+```{r}
+dbReadTable(con, "bank")
+dbGetQuery(con, "select count(*) from bank")
+dbGetQuery(con,'
+  select "month_idx", "year", "month",
+  sum(case when "term_deposit" = \'yes\' then 1.0 else 0.0 end) as subscribe,
+  count(*) as total
+  from "bank"
+  group by "month_idx", "year", "month"
+')
+```
+
+## Query tables with dplyr
+
+```{r}
+bank_tbl <- tbl(con, "bank")
+
+q1 <- bank_tbl %>%
+  group_by(month_idx, year, month) %>%
+  summarise(
+    subscribe = sum(ifelse(term_deposit == "yes", 1, 0)),
+    total = n())
+
+show_query(q1)
+```
+
+## Query tables with SQL language engine
+
+```{sql, connection=con, output.var = "mydataframe"}
+SELECT "month_idx", "year", "month", SUM(CASE WHEN ("term_deposit" = 'yes') THEN (1.0) ELSE (0.0) END) AS "subscribe", COUNT(*) AS "total"
+FROM "bank"
+GROUP BY "month_idx", "year", "month"
+```
+
+## Reference tables in other databases
+
+```{r}
+tbl(con, dbplyr::in_schema("finance.dbo", "bank"))
+```
+
+## Temporary tables
+
+```{r}
+mtcars_temp <- dbWriteTable(con, "##mtcars_temp", mtcars)
+dbReadTable(con, "##mtcars_temp")
+dbGetQuery(con, "select * from tempdb.sys.objects where name = '##mtcars_temp'")
+dbRemoveTable(con, "##mtcars_temp")
+```
+
+## Execute SQL statements
+
+```{r}
+dbExecute(con, "select * into iris2 from iris")
+dbReadTable(con, "iris2")
+dbRemoveTable(con, "iris2")
+```
+
+## SQL Specific translations
+
+```{r}
+# cars<-mtcars
+# cars$mpg[sample(1:nrow(mtcars), 10)]<-NA
+# cars$cyl[sample(1:nrow(mtcars), 10)]<-NA
+# dbWriteTable(con, "cars", cars, overwrite=TRUE)
+
+# sd --> STDEV
+tbl(con, "cars") %>% summarize(sd(wt)) %>% show_query
+```
