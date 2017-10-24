@@ -1,0 +1,190 @@
+---
+title: "NYC Taxi Data - Models"
+output: html_notebook
+---
+
+This article contains simple model specfications for analyzing the NYC Taxi data. These models suggest ways to begin your analysis. They do not represent a complete analysis with deep insights. Rather they suggest various research hypotheses one might consider when mining insights from the NYC Taxi data.
+
+### Background
+
+The TLC Trip Record data can be found [online](http://www.nyc.gov/html/tlc/html/about/trip_record_data.shtml). Many other analyses can be found of these data include this popular [article](http://toddwschneider.com/posts/analyzing-1-1-billion-nyc-taxi-and-uber-trips-with-a-vengeance/) and this [example in Spark](https://spark.rstudio.com/taxiDemoH2O.nb.html) -- to name just a few. 
+
+### Load the Tidyverse
+
+```{r, message=FALSE}
+library(tidyverse)
+```
+
+### Downloads
+
+```{bash, eval=FALSE}
+# [optional] Download one month yellow trip data
+wget "https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2015-12.csv"
+
+# [optional] Download all geo-mapped data
+for i in `seq 2009 2015`; do
+for j in $(seq -f "%02g" 1 12); do
+wget https://s3.amazonaws.com/<bucket>/nyc_taxi_trips_$i-$j.csv
+done; done
+
+# Download one month geo-mapped data
+wget https://s3.amazonaws.com/<bucket>/nyc_taxi_trips_2015-12.csv
+
+# Download geo lookups
+wget https://s3.amazonaws.com/<bucket>/nyct2010.csv
+```
+
+### Read data into R
+
+```{r, message=FALSE}
+header <- c(
+"id", "cab_type_id", "vendor_id", "pickup_datetime", "dropoff_datetime", "store_and_fwd_flag", "rate_code_id", "pickup_longitude", "pickup_latitude", "dropoff_longitude", "dropoff_latitude", "passenger_count", "trip_distance", "fare_amount", "extra", "mta_tax", "tip_amount", "tolls_amount", "ehail_fee", "improvement_surcharge", "total_amount", "payment_type", "trip_type", "pickup_nyct2010_gid", "dropoff_nyct2010_gid")
+dat <- read_csv("nyc_taxi_trips_2015-12.csv", header, n_max = 1000000)
+lkp <- read_csv("nyct2010.csv")
+```
+
+### Organize data
+
+```{r}
+dat2 <- dat %>% 
+  mutate(cab_type_id = as.factor(cab_type_id)) %>%
+  mutate(cash = ifelse(payment_type == 2, 1, 0)) %>%
+  mutate(payment_type = as.factor(payment_type)) %>%
+  mutate(duration = as.numeric(dropoff_datetime - pickup_datetime) / 60) %>%
+  mutate(pickup_hour = lubridate::hour(pickup_datetime))
+head(dat2, 50)
+head(lkp, 50)
+```
+
+### Fare predictor (lm)
+
+```{r}
+# Simple model
+m1 <- lm(fare_amount ~ trip_distance + pickup_hour, data = dat2)
+summary(m1)
+
+# Larger model
+m2 <- lm(fare_amount ~ trip_distance + pickup_hour + duration + passenger_count + payment_type + cab_type_id, data =dat2)
+summary(m2)
+```
+
+### Tip estimator (lm)
+
+```{r}
+# Simple model
+m3 <- lm(tip_amount ~ fare_amount + payment_type + passenger_count, data = dat2)
+summary(m3)
+
+# Larger model
+m4 <- lm(tip_amount ~ fare_amount + payment_type + passenger_count + trip_distance + duration + pickup_hour + cab_type_id, data = dat2)
+summary(m4)
+```
+
+### Cash predictor (logistic)
+
+```{r}
+# Simple model
+m5 <- glm(cash ~ trip_distance, family = 'binomial', data = dat2)
+summary(m5)
+
+# Larger model
+m6 <- glm(cash ~ trip_distance + pickup_hour + duration + passenger_count + cab_type_id, family = 'binomial', data = dat2)
+summary(m6)
+```
+
+### Segmentation by lat/long (kmeans)
+
+```{r}
+# Cluster by lat/long
+dat3 <- dat2 %>%
+  left_join(lkp, by = c("dropoff_nyct2010_gid" = "gid")) %>%
+  select(dropoff_latitude, dropoff_longitude, borocode) %>%
+  na.omit() %>%
+  mutate(cluster = kmeans(select(., -borocode), 5, algorithm="Lloyd", iter.max = 500)$cluster) %>%
+  mutate(cluster = factor(cluster))
+
+# Confusion matrix
+table(dat3$borocode, dat3$cluster)  
+
+# Plot (spherical clusters)
+ggplot(dat3, aes(x=dropoff_latitude, y = dropoff_longitude, fill = cluster)) + 
+  stat_binhex(bins=500) + 
+  coord_flip() +
+  theme(aspect.ratio = 1)
+
+```
+
+### Segementation by trip (kmeans)
+
+```{r}
+# Cluster by lat/long
+dat3 <- dat2 %>%
+  left_join(lkp, by = c("dropoff_nyct2010_gid" = "gid")) %>%
+  mutate(fare_amount = rank(fare_amount),
+         tip_amount = rank(tip_amount),
+         trip_distance = rank(trip_distance),
+         duration = rank(duration),
+         pickup_hour = rank(pickup_hour)) %>%
+  select(fare_amount, tip_amount, trip_distance, duration, pickup_hour,
+         dropoff_latitude, dropoff_longitude, borocode) %>%
+  na.omit() %>%
+  mutate(cluster = kmeans(select(., -borocode, -dropoff_latitude, -dropoff_longitude), 
+                          5, algorithm="Lloyd", iter.max = 500)$cluster) %>%
+  mutate(cluster = factor(cluster))
+
+# Confusion matrix
+table(dat3$borocode, dat3$cluster)  
+
+# Plot (spherical clusters)
+ggplot(dat3, aes(x=dropoff_latitude, y = dropoff_longitude, fill = cluster)) + 
+  stat_binhex(bins=500) + 
+  coord_flip() +
+  theme(aspect.ratio = 1)
+```
+
+### Tips by pickup and dropoff (aggregates)
+
+```{r}
+lkp2 <- select(lkp, gid, boroname, ntaname)
+gid <- dat2 %>%
+  mutate(cab = ifelse(cab_type_id == 1, "Yellow", "Green")) %>%
+  left_join(lkp2, by = c("pickup_nyct2010_gid" = "gid")) %>%
+  left_join(lkp2, by = c("dropoff_nyct2010_gid" = "gid")) %>%
+  group_by(ntaname.x, ntaname.y, cab) %>%
+  summarize(sum_tip = sum(tip_amount), 
+            sum_fare = sum(fare_amount), 
+            count = n(), 
+            distance = round(mean(trip_distance), 1)) %>%
+  na.omit %>%
+  filter(count > 500, 
+         sum_fare > 0) %>%
+  mutate(tip = round(100 * sum_tip / sum_fare, 2)) %>%
+  arrange(desc(tip)) %>%
+  ungroup %>%
+  mutate(pickup = substr(ntaname.x, 1, 25),
+         dropoff = substr(ntaname.y, 1, 25)) %>%
+  select(pickup, dropoff, cab, count, distance, tip)
+gid
+```
+
+### Tips by pickups and dropoffs (randomForest)
+
+```{r}
+# not run - Can not handle categorical predictors with more than 53 categories.
+library(randomForest)
+dat4 <- dat2 %>%
+  left_join(lkp2, by = c("pickup_nyct2010_gid" = "gid")) %>%
+  left_join(lkp2, by = c("dropoff_nyct2010_gid" = "gid")) %>%
+  filter(fare_amount > 0, tip_amount > 0) %>%
+  mutate(tip = round(100 * tip_amount / fare_amount, 2),
+         cab = factor(ifelse(cab_type_id == 1, "Yellow", "Green")),
+         distance = round(trip_distance, 2),
+         pickup = factor(ntaname.x),
+         dropoff = factor(ntaname.y)) %>%
+  select(pickup, dropoff, cab, distance, tip) %>%
+  na.omit
+dat4
+randomForest(tip ~ pickup + dropoff + cab + distance, data = dat4)
+```
+
+
