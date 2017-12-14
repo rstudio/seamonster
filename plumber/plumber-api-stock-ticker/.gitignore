@@ -1,0 +1,5 @@
+# ignore all files in the cache folder with no extension
+
+cache/*
+!cache/**/
+!cache/*.*
