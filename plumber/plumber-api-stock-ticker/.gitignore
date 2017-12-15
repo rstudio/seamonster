@@ -3,3 +3,7 @@
 cache/*
 !cache/**/
 !cache/*.*
+
+# ignore Connect artefacts
+
+rsconnect/*

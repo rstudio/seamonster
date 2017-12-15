@@ -1,6 +1,7 @@
 # Set some sensible options for quantmod
 options(getSymbols.warning4.0 = FALSE)
 options(getSymbols.auto.assign = FALSE)
+options(getSymbols.yahoo.warning = FALSE)
 
 # Load the required packages
 suppressPackageStartupMessages({
@@ -13,13 +14,15 @@ suppressPackageStartupMessages({
   library(memoise)
   library(highcharter)
   library(ggfortify)
+  library(dplyr)
+  library(RColorBrewer)
 })
 
 # Input parameters
 params <- list(
-  symbol = "IBM",
-  days = 90,
-  forecast = 7,
+  ticker = "MSFT",
+  days_history = 90,
+  days_forecast = 14,
   model = "1,1,1"
 )
 
@@ -28,8 +31,8 @@ params <- list(
 getSymbols <- memoise(quantmod::getSymbols, cache = cache_filesystem("cache"))
 
 # Retrieve the data
-prices <- getSymbols(params$symbol, auto.assign = FALSE, src = "yahoo", from = Sys.Date() - 4 * params$days)
-close_price <- Cl(xts::last(prices, n = params$days))
+prices <- getSymbols(params$ticker, auto.assign = FALSE, src = "yahoo", from = Sys.Date() - 4 * params$days_history)
+close_price <- Cl(xts::last(prices, n = params$days_history))
 
 
 # Plot using higchart
@@ -44,7 +47,7 @@ arima_coefs <- as.numeric(
 
 # Fit a model
 model <- arima(close_price, arima_coefs)
-fcast <- forecast(model, as.numeric(params$forecast), level = c(50, 90, 99))
+fcast <- forecast(model, as.numeric(params$days_forecast), level = c(50, 90, 99))
 
 # Use fortify to convert forecast data to data frame
 df <- fortify(fcast)
@@ -55,13 +58,12 @@ fcast_dates <- c(
   idx, 
   seq(
     as.Date(tail(idx, n = 1)) + 1,
-    length.out = params$forecast,
+    length.out = params$days_forecast,
     by = 1
   )
 )
 
 # Round the forecast to 2 digits
-library(dplyr)
 df <- df %>% 
   mutate(Index = fcast_dates) %>% 
   mutate_if(is.numeric, ~round(., 2))
@@ -76,7 +78,6 @@ hc_opts <-  list(
   )
 )
 
-library(RColorBrewer)
 
 # Create a palette of n colours from the ColorBrewer blues palette
 display.brewer.pal(3, "Blues")
