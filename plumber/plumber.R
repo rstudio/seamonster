@@ -7,7 +7,7 @@ m <- readRDS("model.Rdat")
 #' @apiHost colorado.rstudio.com:8000
 
 #' Predict mpg from hypothetical hp using linear model fitted on mtcars
-#' @get /
+#' @get /mpg
 #' @param new_hp:numeric Horsepower of hypothetical car
 #' @response 200 Predicted MPG for supplied HP value
 #' @response 400 Bad HP value
@@ -20,7 +20,8 @@ function(new_hp = 300) {
 # For a demo:
 # -----------
 
-# p <- plumber::plumb('plumber.R')$run(host = "0.0.0.0")
+# hello everyone 
+# p <- plumber::plumb('plumber.R')$run(host = "0.0.0.0", port = 8000)
 
 # Navigate to:
 # http://colorado.rstudio.com:8000/__swagger__/
@@ -28,6 +29,6 @@ function(new_hp = 300) {
 
 
 # Publish with:
-# rsconnect::deployAPI(".", server = 'colorado.rstudio.com', 
+# rsconnect::deployAPI(".", server = 'colorado.rstudio.com',
 #                      account = rstudioapi::askForPassword("Enter Connect Username:"))
 
