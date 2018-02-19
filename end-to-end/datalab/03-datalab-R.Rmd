@@ -1,0 +1,66 @@
+---
+title: "Build R from Source"
+output: html_notebook
+---
+
+Building R from source guarantees that R will run on your server, and it will allow you to run multiple versions of R side by side. Running multiple versions of R helps you maintain consistent R projects and Shiny apps over time.
+
+### Install dependencies
+
+First, ensure that you have the build dependencies required for R.
+
+```{bash}
+sudo apt-get build-dep r-base
+```
+
+If `build-dep` fails, you may need to add a repository. The following repository is designed to work with Ubuntu 16.04.
+
+```{bash}
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+```
+
+### Build R from source (version 3.4.3)
+
+Download the R source code from CRAN, then build with the usual configure/make/install. Enable the BLAS libraries using `--with-blas` so that low level math functions called from R run faster.
+
+```{bash}
+cd /opt
+sudo wget https://cran.rstudio.com/src/base/R-3/R-3.4.3.tar.gz
+sudo tar xzvf R-3.4.3.tar.gz 
+cd R-3.4.3
+
+sudo ./configure --prefix=/opt/R/3.4.3 --enable-R-shlib --with-blas --with-lapack
+sudo make
+sudo make install
+
+/opt/R/3.4.3/bin/R
+```
+
+### Build multiple versions of R running side by side (optional)
+
+Install another version of R from source.
+
+```{bash}
+rversion=3.3.1
+cd /opt
+sudo wget https://cran.rstudio.com/src/base/R-3/R-$rversion.tar.gz
+sudo tar xzvf R-$rversion.tar.gz 
+cd R-$rversion
+
+sudo ./configure --prefix=/opt/R/$rversion --enable-R-shlib --with-blas --with-lapack
+sudo make
+sudo make install
+
+/opt/R/$rversion/bin/R
+
+sudo rstudio-server restart
+```
+
+### Install R binary from CRAN (optional)
+
+If you want to install R from a CRAN binary, you can use the following command.
+
+```{bash}
+sudo apt-get install -y r-base r-base-dev
+```

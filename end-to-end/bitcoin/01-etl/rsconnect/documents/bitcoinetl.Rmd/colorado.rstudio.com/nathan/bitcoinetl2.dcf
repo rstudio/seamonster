@@ -1,0 +1,12 @@
+name: bitcoinetl2
+title: bitcoinetl
+username: nathan
+account: nathan
+server: colorado.rstudio.com
+hostUrl: http://colorado.rstudio.com:3939/__api__
+appId: 889
+bundleId: 2005
+url: http://colorado.rstudio.com:3939/content/889/
+when: 1518553967.03318
+asMultiple: FALSE
+asStatic: FALSE

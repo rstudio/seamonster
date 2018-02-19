@@ -1,0 +1,17 @@
+---
+title: "Configure Email"
+output: html_notebook
+---
+
+RStudio Connect can email reports on demand or according to a schedule. Email is just one way in which RStudio Connect allows you to share your work with others. The instructions below explain how to set up and configure email on your server. For more detailed instructions, see [here](https://gist.github.com/adamstac/7462202).
+
+### Install
+
+Install sendmail and restart the web server.
+
+```{bash}
+sudo apt-get install sendmail
+sudo sendmailconfig
+sudo service apache2 restart
+```
+

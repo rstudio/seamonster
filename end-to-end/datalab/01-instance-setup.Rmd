@@ -1,0 +1,30 @@
+---
+title: "Instance Setup"
+output: html_notebook
+---
+
+Create a new sever instance on AWS EC2. See the [AWS documentation](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2_GetStarted.html) for detailed instruction.
+
+1. This example uses an Ubuntu 16.04 image with 2 cores, 4 GB of RAM and 128 GB of disk. Your exact server size may very. 
+2. Make sure to open these ports in your security group: 8787, 3939, 80.
+3. Create a PEM key so you can log into your server.
+
+### Log into your server
+
+```{bash}
+ssh -i ~/.ssh/my.pem ubuntu@<my-server-ip>
+```
+
+### Update your system
+
+```{bash}
+sudo apt-get update
+```
+
+### Add a user
+
+```{bash}
+sudo useradd -m rstudio
+sudo echo "rstudio:mypassword" | chpasswd
+```
+

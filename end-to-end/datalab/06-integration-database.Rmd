@@ -1,0 +1,81 @@
+---
+title: "Install PostgreSQL"
+output: html_notebook
+---
+
+PostgreSQL is a powerful open source database. You can use PostgreSQL to store and process data outside of R. Install PostgreSQL below. For more instructions, see [here](# https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04
+).
+
+### Intstall
+
+Install PostgreSQL
+
+```{bash}
+sudo apt-get install postgresql postgresql-contrib
+```
+
+### Configure
+
+Create a database user called `rstudio`. Note that this database user is not the same user as the Linux user. Create a new database called `testb`. Create a new password and test the connection.
+
+```{bash}
+### Create a new user called 'rstudio'
+sudo -u postgres createuser --interactive
+# rstudioadmin
+# y
+
+### Create a new database called 'testdb'
+sudo -u postgres createdb bitcoin
+
+### Create a new password
+sudo -u postgres psql -d bitcoin
+# ALTER USER rstudio WITH PASSWORD 'ABCd4321';
+
+### Test the connection
+psql -d bitcoin -h localhost -U rstudio -W 
+# mypassword
+```
+
+## Configure DSN
+
+You can connect to PostgreSQL with a connection arguments (see above) or with a Data Source Name (DSN) configuration. DSN's are a convenient way to give multiple users access to the same connection configuration.
+
+```{bash}
+sudo vim /etc/odbc.ini
+```
+
+Enter the following information, save, and close.
+
+```
+[Postgres (local)]
+Driver = postgresql
+server = localhost
+Database = testdb
+UID = rstudio
+PWD = mypassword
+```
+
+## Test the connection
+
+Open RStudio Server Pro and run the following tests:
+
+```{r}
+library(DBI)
+
+### Test connection arguments
+con1 <- dbConnect(odbc::odbc(), 
+                  Driver = "postgresql", 
+                  Server = "localhost", 
+                  Port = "5432", 
+                  Database = "bitcoin", 
+                  UID = "rstudio", 
+                  PWD = rstudioapi::askForPassword("Database password:"))
+
+### Test DSN
+con2 <- dbConnect(odbc::odbc(), "Postgres (local)")
+
+### Upload data to the database
+dbWriteTable(con, "mtcars", mtcars)
+dbWriteTable(con, "iris", iris)
+```
+
