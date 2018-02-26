@@ -54,13 +54,13 @@ The chart below is made with the `quantmod` and `highcharter` R packages. An API
 
 ```{r echo=FALSE}
 
-highchart() %>% 
+highchart(type="stock") %>% 
    hc_yAxis_multiples(
     list(title = list(text = NULL), height = "75%", top = "0%"),
     list(title = list(text = NULL), height = "15%", top = "80.5%", opposite = TRUE)
   ) %>%
-  hc_add_series_ohlc(prices, yAxis=0, name= params$symbol) %>% 
-  hc_add_series_xts(prices[,paste0(params$symbol,".Volume")], name="Volume", type="column", yAxis=1) %>% 
+  hc_add_series(prices, type="candlestick", yAxis=0, name= params$symbol) %>% 
+  hc_add_series(prices[,paste0(params$symbol,".Volume")], name="Volume", type="column", yAxis=1) %>% 
   hc_add_theme(hc_theme_economist())
 ```
 
