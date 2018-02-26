@@ -37,7 +37,6 @@ The chart below is made with the `quantmod` and `highcharter` R packages. An API
 
 
 ```{r echo=FALSE}
-
 highchart(type="stock") %>% 
    hc_yAxis_multiples(
     list(title = list(text = NULL), height = "75%", top = "0%"),
