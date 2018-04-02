@@ -1,0 +1,75 @@
+---
+title: "Install RStudio Tools"
+output: html_notebook
+---
+
+RStudio professional products make it easy to build a salable data lab that integrates with your other systems.
+
+### RStudio Server Pro
+
+RStudio Server Pro lets you run multiple versions of R, run multiple R sessions, and connect to your enterprise databases. Install an eval version of RStudio Server Pro below. After installing, you can access RStudio Server Pro by pointing your browser at `<my-server-ip>:8787`.
+
+```{bash}
+# Download
+sudo wget https://download2.rstudio.org/rstudio-server-pro-1.1.419-amd64.deb
+
+# Install
+sudo apt-get install gdebi-core
+sudo gdebi rstudio-server-pro-1.1.419-amd64.deb
+
+# Configure
+echo "
+admin-enabled=1" | 
+sudo tee /etc/rstudio/rserver.conf > /dev/null
+
+# Restart
+sudo rstudio-server restart
+```
+
+### RStudio Connect
+
+RStudio Connect lets you host Shiny apps, automate jobs, send reports via email, and host API's. Install an eval version of RStudio Connect below. After install, you can access RStudio Connect by pointing your browser at `<my-server-ip>:3939` and creating a new user account. The fist user to log into RStudio Connect will be granted administrator privileges.
+
+```{bash}
+# Download
+sudo wget https://s3.amazonaws.com/rstudio-connect/ubuntu-12.04/x86_64/rstudio-connect_1.5.12.1-10_amd64.deb
+
+# Install
+sudo apt-get install gdebi-core
+sudo gdebi rstudio-connect_1.5.12.1-10_amd64.deb
+
+# Configure
+echo "
+[Server]
+SenderEmail = rstudio
+Address = <public-ec2-ip>
+[Http]
+Listen = :3939
+NoWarning = true
+[Authentication]
+Provider = password" |
+sudo tee /etc/rstudio-connect/rstudio-connect.gcfg > /dev/null
+
+# Restart
+sudo systemctl restart rstudio-connect
+```
+
+Go back to RStudio Server pro by pointing your browser to `<my-server-ip>:8787`. Add RStudio Connect to the list of publishers by selecting: `Tools > Global Options > Publishing > Connect`. Follow the instructions to connect the account.
+
+### RStudio Pro Drivers
+
+RStudio Professional Drivers make it easy to connect to your enterprise databases. Install and configure the drivers with the installer.
+
+```{bash}
+# Download
+sudo wget https://drivers.rstudio.org/7C152C12/odbc-install.sh
+
+# Install
+sudo chmod +x odbc-install.sh
+sudo ./odbc-install.sh
+```
+
+### Open a project
+
+Create a new project in RStudio Server Pro by selecting `File > New Project... > Version Control > Git` and entering this URL into the `Repository URL` field: https://github.com/nwstephens/r-admin-2018.git.
+

@@ -1,0 +1,18 @@
+---
+title: "Bitcoin Demo Assets"
+output: html_notebook
+---
+
+## Instructions
+
+*Open all 7 links in seperate browser tabs and walk through the following steps.*
+
+1. [Github repos](https://github.com/nwstephens/r-admin-2018/tree/master/bitcoin). For reference.
+2. [Data source](https://blockchain.info/api/exchange_rates_api). For reference.
+3. [ETL](http://colorado.rstudio.com:3939/connect/#/apps/889/access/904). Extract data from data source, transform the data, and load the data into a database. Automate the process to repeat every 15 minutes. Use the history feature to see past data loads. Use the logs to monitor success and failures. Be notified via email in case of failure.
+4. [Shiny App](http://colorado.rstudio.com:3939/connect/#/apps/888/access). Deploy a Shiny app that filters and extracts data from the database based on user input. Use the pool package to manage multiple connections. Increase the runtime settings so that hundreds of users can access the app.
+5. [Website](http://colorado.rstudio.com:3939/bitcoin/). Embed the Shiny app into a website using an iframe. This app is ready to be accessed to hundreds (or thousands) of concurrent users.
+6. [Report](http://colorado.rstudio.com:3939/connect/#/apps/891/access/908). Create a parametirized report for the users who may want a snapshot of the data. Save and email a snapshot. Create different reports for different groups and have them mailed on a schedule.
+7. [API](http://colorado.rstudio.com:3939/connect/#/apps/890/access). Create an API to deliver the data, table, or plot to a system call. Warning: Table and Plot endpoints are htmlwidget serializers and should be executed from the browser address bar, not from inside Swagger. 
+
+![](bitcoin-demo.png)

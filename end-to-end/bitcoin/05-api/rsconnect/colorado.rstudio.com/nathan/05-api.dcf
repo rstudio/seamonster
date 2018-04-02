@@ -1,0 +1,10 @@
+name: 05-api
+title:
+username: nathan
+account: nathan
+server: colorado.rstudio.com
+hostUrl: http://colorado.rstudio.com:3939/__api__
+appId: 890
+bundleId: 1981
+url: http://colorado.rstudio.com:3939/content/890/
+when: 1518546877.42303

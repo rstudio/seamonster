@@ -1,0 +1,27 @@
+---
+title: "Install Webserver"
+output: html_notebook
+---
+
+The Apache web server is industry leading software for serving content across platforms. Apache does not depend on R, but you can embed R content into Apache via an iframe. If you host a Shiny application on RStudio Connect, then you can easily embed it into a web site or blog using the iframe tag.
+
+## Install Apache
+
+Install Apache. For detailed instructions see [here](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04).
+
+```{bash}
+sudo apt-get install -y apache2
+```
+
+Verify that Apache was installed properly by pointing your browser to your public IP. You should see the Apache initialization page.
+
+## Update your html path
+
+By default, the Apache web server uses `/var/www/html/` as its top level directory. You can redirect this path to your RStudio project directory. Create a symbolic link from `/var/www/html/` to your project path as shown below.
+
+```{bash}
+sudo mv /var/www/html/index.html /var/www/html/index.html_backup
+sudo ln -s /home/rstudio/r-admin-2018/bitcoin/03-html/ /var/www/html
+```
+
+Very that your project path has loaded by pointing your web browser to your public IP. You should see the the index page stored in your project directory.

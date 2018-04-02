@@ -1,0 +1,65 @@
+---
+title: "Bitcoin Exchange Rates"
+output: 
+  html_document:
+    theme: null
+    highlight: null
+    css: modest.css
+params:
+  code:
+    label: "Code:"
+    value: USD
+    input: select
+    choices: [USD, JPY, CNY, SGD, HKD, CAD, NZD, 
+              AUD, CLP, GBP, DKK, SEK, ISK, CHF, 
+              BRL, EUR, RUB, PLN, THB, KRW, TWD]
+  start:
+    label: "Start:"
+    value: !r Sys.Date() - 3
+    input: date
+  end:
+    label: "End:"
+    value: !r Sys.Date()
+    input: date
+
+---
+
+Bitcoin is a cryptocurrency and worldwide payment system. It is the first decentralized digital currency, as the system works without a central bank or single administrator. The network is peer-to-peer and transactions take place between users directly, without an intermediary. These transactions are verified by network nodes through the use of cryptography and recorded in a public distributed ledger called a blockchain.
+
+```{r echo=FALSE, fig.height=3, fig.width=8, message=FALSE}
+library(DBI)
+library(dygraphs)
+library(xts)
+library(dplyr)
+library(dbplyr)
+
+# Connect
+con <- dbConnect(odbc::odbc(), "Postgres (DSN)")
+bitcoin <- tbl(con, "bitcoin")
+
+# Tidy
+if(params$start > params$end) stop("Start must occur before end")
+start <- params$start
+end <- params$end + 1
+dat <- bitcoin %>%
+  filter(name == params$code) %>%
+  filter(timestamp > start & timestamp <= end) %>%
+  select(timestamp, last, symbol) %>%
+  collect
+tseries <- xts(dat$last, dat$timestamp)
+lab <- paste0("Bitcoin (", dat$symbol[1], ")")
+
+# Visualize
+dygraph(tseries, main = lab) %>%
+  dyOptions(axisLineWidth = 1.5, 
+            fillGraph = TRUE, 
+            drawGrid = FALSE, 
+            colors = "steelblue", 
+            axisLineColor = "darkgrey", 
+            axisLabelFontSize = 15) %>%
+  dyRangeSelector(fillColor = "lightsteelblue", strokeColor = "white")
+```  
+
+***
+
+*Report as of: `r as.character(max(dat$timestamp))`. See [blockchain.info](https://blockchain.info/api/exchange_rates_api) for data source. CSS is borrowed from [here](http://markdowncss.github.io/modest/). For more information on R Markdown see [rmarkdown.com](http://rmarkdown.rstudio.com/).*
