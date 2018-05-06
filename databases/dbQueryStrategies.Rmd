@@ -31,7 +31,7 @@ plotFunction <- function(dat){
 <!-- Connect to your database using a Data Source Name (DSN). You can also use the New Connection dialog under the RStudio Connections. Or you can use the RStudio connections wizard. After you connect, browse the database catalog with the connections pane. -->
 
 ```{r}
-con <- DBI::dbConnect(odbc::odbc(), "SQL Server")
+con <- DBI::dbConnect(odbc::odbc(), "SQL Server (finance)")
 dbGetInfo(con)
 ```
 
