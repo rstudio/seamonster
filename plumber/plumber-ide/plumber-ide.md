@@ -9,7 +9,7 @@ The latest version of the RStudio IDE includes support for plumber APIs. A new R
 
 ![](img/plumber-project.png)
 
-This creates a barebones plumber API script titled plumber.R that provides a few examples of endpoints defined in R. It is important to note that, as showcased in the example script, multiple endpoints can be defined in a single file.
+This creates a barebones plumber API script titled `plumber.R` that provides a few examples of endpoints defined in R. It is important to note that, as showcased in the example script, multiple endpoints can be defined in a single file.
 
 ![](img/plumber-ide.png)
 
@@ -17,7 +17,7 @@ When an R script containing plumber endpoints is open, the RStudio IDE provides 
 
 ![](img/run-api.png)
 
-Clicking on this button will start a local web server to host the API and open an external window that provides access to the API via swagger documentation. The publish button next to the Run API button allows push button deployment of plumber APIs to [RStudio Connect](https://www.rstudio.com/products/connect/).
+Clicking on this button will start a local web server to host the API and open an external window that provides access to the API via [swagger](https://swagger.io) documentation. The publish button next to the Run API button allows push button deployment of plumber APIs to [RStudio Connect](https://www.rstudio.com/products/connect/).
 
 ![](img/swagger.png)
 
@@ -26,11 +26,11 @@ This is a great way to test and interact with the API endpoint. It should be not
 ![](img/browser-plot.png)
 ![](img/browser-text.png)
 
-The user could also make a request to the endpoint using curl.
+The user can also make a request to the endpoint using curl.
 
 ![](img/plumber-curl.png)
 
-In addition to creating RStudio projects based off of plumber, existing projects can also include plumber endpoints. The new file dropdown in RStudio includes an option to create a new Plumber API.
+In addition to creating RStudio projects based on plumber, existing projects can also include plumber endpoints. The new file dropdown in RStudio includes an option to create a new Plumber API.
 
 ![](img/plumber-new-file.png)
 
@@ -38,7 +38,7 @@ When this option is selected, a dialogue box appears that allows the user to nam
 
 ![](img/plumber-new-file-setup.png)
 
-Once the user fills in the appropriate fields, a subdirectory named after the API is created and populated with a plumber.R script containing the basic example of endpoints as previously described.
+Once the user fills in the appropriate fields, a subdirectory named after the API is created and populated with a `plumber.R` script containing the basic example of endpoints as previously described.
 
 ![](img/new-file-tree.png)
 
