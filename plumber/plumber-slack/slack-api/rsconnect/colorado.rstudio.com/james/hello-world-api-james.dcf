@@ -1,0 +1,13 @@
+name: hello-world-api-james
+title: hello-world-api-james
+username: james
+account: james
+server: colorado.rstudio.com
+hostUrl: http://colorado.rstudio.com/rsc/__api__
+appId: 1286
+bundleId: 11949
+url: http://colorado.rstudio.com:80/rsc/slack-plumber/
+when: 1531639522.81884
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: data/churn-data.csv|data/ulabox_orders_with_categories_partials_2017.csv
