@@ -123,7 +123,7 @@ function(cust_id) {
   print(customer_name)
   
   # Create plot
-  plot_data %>% 
+  history_plot <- plot_data %>%
     ggplot(aes(x = time, y = calls, col = calls)) +
     ggalt::geom_lollipop(show.legend = FALSE) +
     theme_light() +
@@ -132,4 +132,6 @@ function(cust_id) {
       x = "Week",
       y = "Calls"
     )
+  
+  print(history_plot)
 }
