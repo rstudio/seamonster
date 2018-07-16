@@ -13,7 +13,6 @@ library(ggplot2)
 # Load sample customer data. IRL this would likely be housed in a database
 sim_data <- readr::read_rds("plumber/plumber-slack/slack-api/data/sim-data.rds")
 
-
 #* @apiTitle Slack plumber PoC
 
 # Requests sent from Slack slash commands are sent as url encoded text in the
@@ -63,9 +62,9 @@ function(req){
 }
 
 # unboxedJSON is used b/c that is what Slack expects from the API
-#* Return a message containing a plot of the weekly call history for a given id
+#* Return a message containing status details about the customer
 #* @serializer unboxedJSON
-#* @post /history
+#* @post /status
 function(req) {
   # Debugging - log contents of req env
   # print(ls(req))
@@ -79,24 +78,47 @@ function(req) {
   
   # Mutate request with CUSOTMER_ID and CUSTOMER_NAME
   if (req$ARGS %in% customer_ids) {
-    req$CUSTOMER_ID <- req$ARGS
-    req$CUSTOMER_NAME <- unique(dplyr::filter(sim_data, id == req$CUSTOMER_ID)$name)
+    customer_id <- req$ARGS
+    customer_data <- dplyr::filter(sim_data, id == customer_id)
+    customer_name <- unique(customer_data$name)
   } else {
-    req$CUSTOMER_NAME <- req$ARGS
-    req$CUSTOMER_ID <- unique(dplyr::filter(sim_data, name == req$CUSTOMER_NAME)$id)
+    customer_name <- req$ARGS
+    customer_data <- dplyr::filter(sim_data, name == customer_name)
+    customer_id <- unique(customer_data$id)
   }
+  
+  # Simple heuristics for customer status
+  total_customer_calls <- sum(customer_data$calls)
+  
+  customer_status <- dplyr::case_when(total_customer_calls > 250 ~ "danger",
+                                      total_customer_calls > 130 ~ "warning",
+                                      TRUE ~ "good")
   
   list(
     # Register the response type - ephemeral indicates the response will only
     # be seen by the user who invoked the slash command.
     response_type = "ephemeral",
-    text = paste0("The customer is: ", req$CUSTOMER_NAME),
     # Attachments is expected to be an array, hence the list within a list
     attachments = list(
       list(
-        fallback = paste0("Weekly call history for ", req$CUSTOMER_NAME, " (", req$CUSTOMER_ID, ")"),
+        color = customer_status,
+        title = paste0("Status update for ", customer_name),
+        fallback = paste0("Status update for ", customer_name, " (", customer_id, ")"),
+        # History plot
         image_url = paste0("http://colorado.rstudio.com/rsc/slack-plumber/plot/history/",
-                           urltools::url_encode(req$CUSTOMER_ID))
+                           urltools::url_encode(customer_id)),
+        fields = list(
+          list(
+            title = "Total Calls",
+            value = sum(customer_data$calls),
+            short = TRUE
+          ),
+          list(
+            title = "DoB",
+            value = unique(customer_data$dob),
+            short = TRUE
+          )
+        )
       )
     )
   )
