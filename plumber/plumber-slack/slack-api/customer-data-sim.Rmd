@@ -1,0 +1,69 @@
+---
+title: "Simulated Data"
+output: html_notebook
+---
+
+```{r setup}
+# Packages ----
+library(tidyverse)
+
+# wakefield for simulating data
+# devtools::install_github("trinker/wakefield")
+library(wakefield)
+
+# charlatan for simulating data
+# devtools::install_github("https://github.com/ropensci/charlatan")
+library(charlatan)
+```
+
+Create a simulated customer dataset using the [`wakefield`](https://github.com/trinker/wakefield) package and the [`charlatan`](https://github.com/ropensci/charlatan) package.
+```{r simulate-data}
+set.seed(35749)
+sim_data <- r_data_frame(
+  n = 100,
+  id,
+  name = ch_name,
+  dob,
+  income,
+  # Create related series of calls
+  r_series(dice, j = 30, relate = "+0_2")
+) %>% 
+  janitor::clean_names(case = "snake") %>% 
+  gather(
+    key = time,
+    value = calls,
+    -c(id,
+       name,
+       dob,
+       income)
+  ) %>% 
+  mutate(time = as.numeric(str_extract(time, "[0-9]+")),
+         calls = ifelse(calls < 0, 0, calls)) %>% 
+  arrange(id, time)
+
+sim_data
+```
+
+```{r data-viz}
+# Plot of everyone
+sim_data %>% 
+  ggplot(aes(x = time, y = calls, col = id)) +
+  geom_line(show.legend = FALSE, alpha = .3)
+
+# Plot of just one user
+sim_data %>% 
+  filter(id == "001") %>% 
+  ggplot(aes(x = time, y = calls, col = calls)) +
+  ggalt::geom_lollipop(show.legend = FALSE) +
+  theme_light() +
+  labs(
+    x = "Week",
+    y = "Calls"
+  )
+```
+
+```{r save-data}
+write_rds(sim_data,
+          path = "data/sim-data.rds")
+```
+
