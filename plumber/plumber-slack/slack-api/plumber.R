@@ -1,8 +1,8 @@
 # This API powers a [slash command](https://api.slack.com/slash-commands) in 
 # slack. Instead of registering a different command for each endpoint, the 
 # first argument provided to the slash command is the endpoint while the 
-# second argument (if necessary) provides additional data to be passed to the
-# specified endpoint.
+# subsequent argument(s) (if necessary) provide additional data to be passed
+# to the specified endpoint.
 
 # Packages ----
 library(plumber)
@@ -11,19 +11,31 @@ library(ggplot2)
 
 # Data ----
 # Load sample customer data. IRL this would likely be housed in a database
-sim_data <- readr::read_rds("plumber/plumber-slack/slack-api/data/sim-data.rds")
+sim_data <- readr::read_rds("data/sim-data.rds")
 
 #* @apiTitle Slack plumber PoC
+#* @apiDescription API that interfaces with Slack slash command.
 
 # Requests sent from Slack slash commands are sent as url encoded text in the
 # postBody of the request. The text of the command is contained in the text
-# parameter. Full details of what is included from Slack can be found at
+# parameter. Full details of what is sent from Slack can be found at
 # https://api.slack.com/slash-commands
 
 # req$postBody is either decoded as JSON if it appears to be JSON or it is
 # decoded as a standard query string. Fields provided in the post body in
-# either format will be passed through as parameters into the function.
+# either format will be matched to function parameters.
 # see https://www.rplumber.io/docs/routing-and-input.html#request-body
+
+# Slack uses the notion of signed secrets in order to verify that the request
+# was actually made from Slack. This filter checks the signed secret against
+# a self computed signed secret to ensure they match. If not, an error is
+# returned. Detailed instructions for verifying requests can be found
+# at https://api.slack.com/docs/verifying-requests-from-slack
+# TODO: Is it possible to reject requests from bad actors based on a history
+# of incorrectly signed requests? Or is just rejecting the incorrectly signed
+# request enough?
+# TODO: Can authentication happen on a filter and still allow access to swagger?
+# Or does authentication have to happen at an endpoint?
 
 # This filter is responsible for parsing text, routing to the appropriate
 # endpoint, and providing arguments to be consumed by that endpoint
@@ -65,18 +77,67 @@ function(req){
 #* Return a message containing status details about the customer
 #* @serializer unboxedJSON
 #* @post /status
-function(req) {
-  # Debugging - log contents of req env
-  # print(ls(req))
+function(req, res) {
+  # Debugging / logging
+  print(ls(req))
+  print(req$HEADERS)
+  print(req$HTTP_X_SLACK_REQUEST_TIMESTAMP)
+  print(req$postBody)
+  
+  # Verify request came from Slack ----
+  if (is.null(req$HTTP_X_SLACK_REQUEST_TIMESTAMP)) {
+    res$status <- 401
+    return(
+      list(
+        text = "Error: Not a valid request."
+      )
+    )
+  }
+  
+  base_string <- paste(
+    "v0",
+    req$HTTP_X_SLACK_REQUEST_TIMESTAMP,
+    req$postBody,
+    sep = ":"
+  )
+  
+  # Slack Signing secret is available as environment variable
+  # SLACK_SIGNING_SECRET
+  computed_request_signature <- paste0(
+    "v0=",
+    openssl::sha256(base_string, Sys.getenv("SLACK_SIGNING_SECRET"))
+  )
+  
+  print(paste("Computed signature:", computed_request_signature))
+  print(paste("Provided signature:", req$HTTP_X_SLACK_SIGNATURE))
+  
+  # If the computed request signature doesn't match the signature provided in the
+  # request, throw and error
+  if (!identical(req$HTTP_X_SLACK_SIGNATURE, computed_request_signature)) {
+    res$status <- 401
+    return(
+      list(
+        text = "Error: Not a valid request."
+      )
+    )
+  }
+  # End verification ----
   
   # Check req$ARGS and match to customer - if no customer match is found, return
   # an error
   customer_ids <- unique(sim_data$id)
   customer_names <- unique(sim_data$name)
   
-  if (!req$ARGS %in% customer_ids & !req$ARGS %in% customer_names) stop("Customer ", req$ARGS, " not found.")
+  if (!req$ARGS %in% customer_ids & !req$ARGS %in% customer_names) {
+    return(
+      list(
+        response_type = "ephemeral",
+        text = paste("Error: No customer found matching", req$ARGS)
+      )
+    )
+  }
   
-  # Mutate request with CUSOTMER_ID and CUSTOMER_NAME
+  # Mutate request with CUSTOMER_ID and CUSTOMER_NAME
   if (req$ARGS %in% customer_ids) {
     customer_id <- req$ARGS
     customer_data <- dplyr::filter(sim_data, id == customer_id)
@@ -127,12 +188,13 @@ function(req) {
 #* Plot customer weekly calls
 #* @png
 #* @get /plot/history/<cust_id>
-function(cust_id) {
+function(req, cust_id) {
+  # Debugging / logging
+  print(ls(req))
+  
+  # TODO: How to authenticate this endpoint?
   # Filter data to customer id provided
   plot_data <- dplyr::filter(sim_data, id == cust_id)
-  
-  # Debug
-  print(str(plot_data))
   
   # Customer name (id)
   customer_name <- paste0(unique(plot_data$name),
@@ -140,9 +202,6 @@ function(cust_id) {
                           unique(plot_data$id),
                           ")"
   )
-  
-  # Debug
-  print(customer_name)
   
   # Create plot
   history_plot <- plot_data %>%
