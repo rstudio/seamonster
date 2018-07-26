@@ -2,7 +2,8 @@
 # slack. Instead of registering a different command for each endpoint, the 
 # first argument provided to the slash command is the endpoint while the 
 # subsequent argument(s) (if necessary) provide additional data to be passed
-# to the specified endpoint.
+# to the specified endpoint. This way, a single slash command can provide access
+# to multiple endpoints and doesn't polute the slash command namespace
 
 # Packages ----
 library(plumber)
@@ -13,12 +14,12 @@ library(ggplot2)
 # Load sample customer data. IRL this would likely be housed in a database
 sim_data <- readr::read_rds("data/sim-data.rds")
 
-#* @apiTitle Slack plumber PoC
-#* @apiDescription API that interfaces with Slack slash command.
+#* @apiTitle CS Slack Application API
+#* @apiDescription API that interfaces with Slack slash command /cs
 
 # Requests sent from Slack slash commands are sent as url encoded text in the
 # postBody of the request. The text of the command is contained in the text
-# parameter. Full details of what is sent from Slack can be found at
+# field. Full details of what is sent from Slack can be found at
 # https://api.slack.com/slash-commands
 
 # req$postBody is either decoded as JSON if it appears to be JSON or it is
@@ -27,15 +28,15 @@ sim_data <- readr::read_rds("data/sim-data.rds")
 # see https://www.rplumber.io/docs/routing-and-input.html#request-body
 
 # Slack uses the notion of signed secrets in order to verify that the request
-# was actually made from Slack. This filter checks the signed secret against
+# was actually made from Slack. This API checks the signed secret against
 # a self computed signed secret to ensure they match. If not, an error is
 # returned. Detailed instructions for verifying requests can be found
 # at https://api.slack.com/docs/verifying-requests-from-slack
 # TODO: Is it possible to reject requests from bad actors based on a history
 # of incorrectly signed requests? Or is just rejecting the incorrectly signed
 # request enough?
-# TODO: Can authentication happen on a filter and still allow access to swagger?
-# Or does authentication have to happen at an endpoint?
+# Authentication happens at the endpoint level so that each endpoint MAY have
+# it's own method of authentication.
 
 # This filter is responsible for parsing text, routing to the appropriate
 # endpoint, and providing arguments to be consumed by that endpoint
@@ -51,7 +52,7 @@ function(req, text = "") {
   if (length(split_text) >= 1) {
     endpoint <- split_text[[1]]
     
-    # Modify request with updated endpoint and strip endpoint from text
+    # Modify request with updated endpoint
     req$PATH_INFO <- paste0("/", endpoint)
     
     # Modify request with remaining commands from text
@@ -70,7 +71,9 @@ function(req){
   cat(as.character(Sys.time()), "-", 
       req$REQUEST_METHOD, req$PATH_INFO, "-", 
       req$HTTP_USER_AGENT, "@", req$REMOTE_ADDR, "\n")
-  plumber::forward()
+  
+  # Forward request
+  forward()
 }
 
 # unboxedJSON is used b/c that is what Slack expects from the API
@@ -78,12 +81,6 @@ function(req){
 #* @serializer unboxedJSON
 #* @post /status
 function(req, res) {
-  # Debugging / logging
-  print(ls(req))
-  print(req$HEADERS)
-  print(req$HTTP_X_SLACK_REQUEST_TIMESTAMP)
-  print(req$postBody)
-  
   # Verify request came from Slack ----
   if (is.null(req$HTTP_X_SLACK_REQUEST_TIMESTAMP)) {
     res$status <- 401
@@ -108,11 +105,8 @@ function(req, res) {
     openssl::sha256(base_string, Sys.getenv("SLACK_SIGNING_SECRET"))
   )
   
-  print(paste("Computed signature:", computed_request_signature))
-  print(paste("Provided signature:", req$HTTP_X_SLACK_SIGNATURE))
-  
   # If the computed request signature doesn't match the signature provided in the
-  # request, throw and error
+  # request, return an error
   if (!identical(req$HTTP_X_SLACK_SIGNATURE, computed_request_signature)) {
     res$status <- 401
     return(
@@ -125,6 +119,9 @@ function(req, res) {
   
   # Check req$ARGS and match to customer - if no customer match is found, return
   # an error
+  
+  # TODO: Provide suggestions for names that are close in the event of mispellings
+  
   customer_ids <- unique(sim_data$id)
   customer_names <- unique(sim_data$name)
   
@@ -137,7 +134,7 @@ function(req, res) {
     )
   }
   
-  # Mutate request with CUSTOMER_ID and CUSTOMER_NAME
+  # Filter data to customer data based on provided id / name
   if (req$ARGS %in% customer_ids) {
     customer_id <- req$ARGS
     customer_data <- dplyr::filter(sim_data, id == customer_id)
@@ -155,19 +152,23 @@ function(req, res) {
                                       total_customer_calls > 130 ~ "warning",
                                       TRUE ~ "good")
   
+  # Build response
   list(
-    # Register the response type - ephemeral indicates the response will only
-    # be seen by the user who invoked the slash command.
+    # response type - ephemeral indicates the response will only be seen by the
+    # user who invoked the slash command as opposed to the entire channel
     response_type = "ephemeral",
-    # Attachments is expected to be an array, hence the list within a list
+    # attachments is expected to be an array, hence the list within a list
     attachments = list(
       list(
         color = customer_status,
-        title = paste0("Status update for ", customer_name),
+        title = paste0("Status update for ", customer_name, " (", customer_id, ")"),
         fallback = paste0("Status update for ", customer_name, " (", customer_id, ")"),
         # History plot
+        # TODO: Can this be made aware of where this is deployed? Is there a way
+        # to internally reference another endpoint?
         image_url = paste0("http://colorado.rstudio.com/rsc/slack-plumber/plot/history/",
-                           urltools::url_encode(customer_id)),
+                           customer_id),
+        # Fields provide a way of communicating semi-tabular data in Slack
         fields = list(
           list(
             title = "Total Calls",
@@ -188,20 +189,20 @@ function(req, res) {
 #* Plot customer weekly calls
 #* @png
 #* @get /plot/history/<cust_id>
-function(req, cust_id) {
-  # Debugging / logging
-  print(ls(req))
+function(cust_id) {
+  # TODO: How to authenticate this endpoint / lock it down to requests from
+  # Slack only?
   
-  # TODO: How to authenticate this endpoint?
+  # Throw error if cust_id doesn't exist in data
+  if (!cust_id %in% sim_data$id) {
+    stop("Error: No customer found matching ", cust_id)
+  }
+  
   # Filter data to customer id provided
   plot_data <- dplyr::filter(sim_data, id == cust_id)
   
   # Customer name (id)
-  customer_name <- paste0(unique(plot_data$name),
-                          " (",
-                          unique(plot_data$id),
-                          ")"
-  )
+  customer_name <- paste0(unique(plot_data$name), " (", unique(plot_data$id), ")")
   
   # Create plot
   history_plot <- plot_data %>%
@@ -214,5 +215,8 @@ function(req, cust_id) {
       y = "Calls"
     )
   
+  # print() is necessary to render plot properly
   print(history_plot)
 }
+
+# TODO: Add additional endpoint(s) served by /cs in Slack
