@@ -5,9 +5,9 @@ account: james
 server: colorado.rstudio.com
 hostUrl: http://colorado.rstudio.com/rsc/__api__
 appId: 1292
-bundleId: 12864
+bundleId: 12865
 url: http://colorado.rstudio.com:80/rsc/slack-plumber/
-when: 1532647007.51938
+when: 1532647681.04588
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: customer-data-sim.nb.html|customer-data-sim.Rmd
