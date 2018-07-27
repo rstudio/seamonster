@@ -14,6 +14,36 @@ library(ggplot2)
 # Load sample customer data. IRL this would likely be housed in a database
 sim_data <- readr::read_rds("data/sim-data.rds")
 
+# Utils ----
+slack_auth <- function(req, res) {
+  # Verify request came from Slack ----
+  if (is.null(req$HTTP_X_SLACK_REQUEST_TIMESTAMP)) {
+    return("401")
+  }
+  
+  base_string <- paste(
+    "v0",
+    req$HTTP_X_SLACK_REQUEST_TIMESTAMP,
+    req$postBody,
+    sep = ":"
+  )
+  
+  # Slack Signing secret is available as environment variable
+  # SLACK_SIGNING_SECRET
+  computed_request_signature <- paste0(
+    "v0=",
+    openssl::sha256(base_string, Sys.getenv("SLACK_SIGNING_SECRET"))
+  )
+  
+  # If the computed request signature doesn't match the signature provided in the
+  # request, return an error
+  if (!identical(req$HTTP_X_SLACK_SIGNATURE, computed_request_signature)) {
+    return("401")
+  } else {
+    return("200")
+  }
+}
+
 #* @apiTitle CS Slack Application API
 #* @apiDescription API that interfaces with Slack slash command /cs
 
@@ -58,7 +88,12 @@ function(req, text = "") {
     # Modify request with remaining commands from text
     req$ARGS <- split_text[-1] %>% 
       paste0(collapse = " ")
-  } 
+  }
+  
+  if (req$PATH_INFO == "/") {
+    # If no endpoint is provided (PATH_INFO is just "/") then forward to /help
+    req$PATH_INFO <- "/help"
+  }
   
   # Forward request 
   forward()
@@ -76,46 +111,60 @@ function(req){
   forward()
 }
 
+#* Help for /cs command
+#* @serializer unboxedJSON
+#* @post /help
+function(req, res) {
+  # Authorize request
+  status <- slack_auth(req, res)
+  if (status == "401") {
+    res$status <- 401
+    return(
+      list(
+        text = "Error: Invalid request."
+      )
+    )
+  }
+  
+  list(
+    # response type - ephemeral indicates the response will only be seen by the
+    # user who invoked the slash command as opposed to the entire channel
+    response_type = "ephemeral",
+    # attachments is expected to be an array, hence the list within a list
+    attachments = list(
+      list(
+        title = "/cs help",
+        fallback = "/cs help",
+        fields = list(
+          list(
+            title = "/cs status customer_id",
+            value = "Customer status summary",
+            short = TRUE
+          ),
+          list(
+            title = "/cs rep rep_id",
+            value = "CS rep summary",
+            short = TRUE
+          )
+        )
+      )
+    )
+  )
+}
+
 # unboxedJSON is used b/c that is what Slack expects from the API
 #* Return a message containing status details about the customer
 #* @serializer unboxedJSON
 #* @post /status
 function(req, res) {
-  # Verify request came from Slack ----
-  if (is.null(req$HTTP_X_SLACK_REQUEST_TIMESTAMP)) {
+  # Authenticate request
+  status <- slack_auth(req, res)
+  if (status == "401") {
     res$status <- 401
     return(
-      list(
-        text = "Error: Not a valid request."
-      )
+      list(text = "Error: Invalid request.")
     )
   }
-  
-  base_string <- paste(
-    "v0",
-    req$HTTP_X_SLACK_REQUEST_TIMESTAMP,
-    req$postBody,
-    sep = ":"
-  )
-  
-  # Slack Signing secret is available as environment variable
-  # SLACK_SIGNING_SECRET
-  computed_request_signature <- paste0(
-    "v0=",
-    openssl::sha256(base_string, Sys.getenv("SLACK_SIGNING_SECRET"))
-  )
-  
-  # If the computed request signature doesn't match the signature provided in the
-  # request, return an error
-  if (!identical(req$HTTP_X_SLACK_SIGNATURE, computed_request_signature)) {
-    res$status <- 401
-    return(
-      list(
-        text = "Error: Not a valid request."
-      )
-    )
-  }
-  # End verification ----
   
   # Check req$ARGS and match to customer - if no customer match is found, return
   # an error
@@ -220,3 +269,4 @@ function(cust_id) {
 }
 
 # TODO: Add additional endpoint(s) served by /cs in Slack
+
