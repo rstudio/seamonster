@@ -25,6 +25,14 @@ region <- function(n) {
     replace = TRUE
   )
 }
+
+replicated_name <- function(n, n_distinct = 10) {
+  sample(
+    ch_name(n_distinct),
+    size = n,
+    replace = TRUE
+  )
+}
 ```
 
 
@@ -35,8 +43,8 @@ sim_data <- r_data_frame(
   n = 100,
   id,
   name = ch_name,
-  rep = ch_name,
-  region = region,
+  rep = replicated_name(),
+  region = area(x = c("North", "South", "East", "West")),
   dob,
   income,
   # Create related series of calls
@@ -72,6 +80,20 @@ sim_data %>%
   mutate(cummulative_calls = cumsum(calls)) %>% 
   ggplot(aes(x = time, y = cummulative_calls, col = id)) +
   geom_line(show.legend = FALSE, alpha = .3)
+
+# Rep plot
+sim_data %>% 
+  group_by(rep) %>% 
+  summarise(total_calls = sum(calls)) %>% 
+  ggplot(aes(x = fct_reorder(rep, total_calls), y = total_calls)) +
+  ggalt::geom_lollipop() +
+  coord_flip()
+
+# Region plot
+sim_data %>% 
+  ggplot(aes(x = time, y = calls, col = region)) +
+  geom_smooth(se = FALSE) +
+  theme(legend.position = "bottom")
 
 # Plot of just one user
 sim_data %>% 
