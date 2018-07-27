@@ -138,7 +138,7 @@ function(req, res) {
         fields = list(
           list(
             title = "/cs status customer_id",
-            value = "Customer status summary",
+            value = "Customer summary",
             short = TRUE
           ),
           list(
@@ -268,5 +268,54 @@ function(cust_id) {
   print(history_plot)
 }
 
-# TODO: Add additional endpoint(s) served by /cs in Slack
-
+#* Get summary of rep performance
+#* @serializer unboxedJSON
+#* @post /rep
+function(req, res) {
+  # Authenticate request
+  status <- slack_auth(req, res)
+  if (status == "401") {
+    res$status <- 401
+    return(
+      list(text = "Error: Invalid request.")
+    )
+  }
+  
+  # Check to ensure rep exists in data
+  if (!req$ARGS %in% unique(sim_data$rep)) {
+    return(
+      list(
+        response_type = "ephemeral",
+        text = paste("Error: No rep found matching", req$ARGS)
+      )
+    )
+  }
+  
+  rep_data <- dplyr::filter(sim_data, rep == req$ARGS)
+  n_clients <- length(unique(rep_data$name))
+  
+  list(
+    # response type - ephemeral indicates the response will only be seen by the
+    # user who invoked the slash command as opposed to the entire channel
+    response_type = "ephemeral",
+    # attachments is expected to be an array, hence the list within a list
+    attachments = list(
+      list(
+        title = paste0("Rep: ", req$ARGS),
+        fallback = paste0("Rep: ", req$ARGS),
+        fields = list(
+          list(
+            title = "Total Clients",
+            value = n_clients,
+            short = TRUE
+          ),
+          list(
+            title = "Calls / Client",
+            value = sum(rep_data$calls) / n_clients,
+            short = TRUE
+          )
+        )
+      )
+    )
+  )
+}
