@@ -16,6 +16,18 @@ library(wakefield)
 library(charlatan)
 ```
 
+```{r utils}
+# Helpful functions
+region <- function(n) {
+  sample(
+    c("North", "South", "East", "West"),
+    size = n,
+    replace = TRUE
+  )
+}
+```
+
+
 Create a simulated customer dataset using the [`wakefield`](https://github.com/trinker/wakefield) package and the [`charlatan`](https://github.com/ropensci/charlatan) package.
 ```{r simulate-data}
 set.seed(35749)
@@ -23,6 +35,8 @@ sim_data <- r_data_frame(
   n = 100,
   id,
   name = ch_name,
+  rep = ch_name,
+  region = region,
   dob,
   income,
   # Create related series of calls
@@ -34,6 +48,8 @@ sim_data <- r_data_frame(
     value = calls,
     -c(id,
        name,
+       rep,
+       region,
        dob,
        income)
   ) %>% 
@@ -48,6 +64,13 @@ sim_data
 # Plot of everyone
 sim_data %>% 
   ggplot(aes(x = time, y = calls, col = id)) +
+  geom_line(show.legend = FALSE, alpha = .3)
+
+# Cumulative plot of everyone
+sim_data %>% 
+  group_by(id) %>% 
+  mutate(cummulative_calls = cumsum(calls)) %>% 
+  ggplot(aes(x = time, y = cummulative_calls, col = id)) +
   geom_line(show.legend = FALSE, alpha = .3)
 
 # Plot of just one user
