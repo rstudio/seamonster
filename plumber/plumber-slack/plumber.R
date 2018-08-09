@@ -14,8 +14,12 @@ library(ggplot2)
 # Load sample customer data. IRL this would likely be housed in a database
 sim_data <- readr::read_rds("data/sim-data.rds")
 
+# Config options ----
+# Base URL for API requests
+base_url <- config::get("base_url")
+
 # Utils ----
-slack_auth <- function(req, res) {
+slack_auth <- function(req) {
   # Verify request came from Slack ----
   if (is.null(req$HTTP_X_SLACK_REQUEST_TIMESTAMP)) {
     return("401")
@@ -38,9 +42,9 @@ slack_auth <- function(req, res) {
   # If the computed request signature doesn't match the signature provided in the
   # request, return an error
   if (!identical(req$HTTP_X_SLACK_SIGNATURE, computed_request_signature)) {
-    return("401")
+    "401"
   } else {
-    return("200")
+    "200"
   }
 }
 
@@ -116,7 +120,7 @@ function(req){
 #* @post /help
 function(req, res) {
   # Authorize request
-  status <- slack_auth(req, res)
+  status <- slack_auth(req)
   if (status == "401") {
     res$status <- 401
     return(
@@ -142,8 +146,13 @@ function(req, res) {
             short = TRUE
           ),
           list(
-            title = "/cs rep rep_id",
+            title = "/cs rep rep_name",
             value = "CS rep summary",
+            short = TRUE
+          ),
+          list(
+            title = "/cs region region_name",
+            value = "Region report",
             short = TRUE
           )
         )
@@ -158,7 +167,7 @@ function(req, res) {
 #* @post /status
 function(req, res) {
   # Authenticate request
-  status <- slack_auth(req, res)
+  status <- slack_auth(req)
   if (status == "401") {
     res$status <- 401
     return(
@@ -175,6 +184,7 @@ function(req, res) {
   customer_names <- unique(sim_data$name)
   
   if (!req$ARGS %in% customer_ids & !req$ARGS %in% customer_names) {
+    res$status <- 400
     return(
       list(
         response_type = "ephemeral",
@@ -215,8 +225,7 @@ function(req, res) {
         # History plot
         # TODO: Can this be made aware of where this is deployed? Is there a way
         # to internally reference another endpoint?
-        image_url = paste0("http://colorado.rstudio.com/rsc/slack-plumber/plot/history/",
-                           customer_id),
+        image_url = paste0(base_url, "/plot/history/", customer_id),
         # Fields provide a way of communicating semi-tabular data in Slack
         fields = list(
           list(
@@ -237,14 +246,16 @@ function(req, res) {
 
 #* Plot customer weekly calls
 #* @png
+#* @response 400 No customer with the given ID was found.
 #* @get /plot/history/<cust_id>
-function(cust_id) {
+function(cust_id, res) {
   # TODO: How to authenticate this endpoint / lock it down to requests from
   # Slack only?
   
   # Throw error if cust_id doesn't exist in data
   if (!cust_id %in% sim_data$id) {
-    stop("Error: No customer found matching ", cust_id)
+    res$status <- 400
+    stop("Customer id" , cust_id, " not found.")
   }
   
   # Filter data to customer id provided
@@ -273,7 +284,7 @@ function(cust_id) {
 #* @post /rep
 function(req, res) {
   # Authenticate request
-  status <- slack_auth(req, res)
+  status <- slack_auth(req)
   if (status == "401") {
     res$status <- 401
     return(
@@ -319,3 +330,59 @@ function(req, res) {
     )
   )
 }
+
+#* Summary of region performance
+#* @serializer unboxedJSON
+#* @post /region
+function(req, res) {
+  # Authorize request
+  status <- slack_auth(req)
+  if (status == "401") {
+    res$status <- 401
+    return(
+      list(text = "Error: Invalid request.")
+    )
+  }
+  
+  # Check to ensure provided region value exists in data
+  if (!req$ARGS %in% unique(sim_data$region)) {
+    return(
+      list(
+        reponse_type = "ephemeral",
+        text = paste("Error: No region found matching", req$ARGS)
+      )
+    )
+  }
+  
+  region_data <- dplyr::filter(sim_data, region == req$ARGS)
+  
+  list(
+    response_type = "ephemeral",
+    attachments = list(
+      list(
+        title = paste0("Region: ", req$ARGS),
+        fallback = paste0("Region: ", req$ARGS),
+        image_url = paste0("http://colorado.rstudio.com/rsc/slack-plumber/plot/region/",
+                           tolower(req$ARGS)),
+        fields = list(
+          list(
+            title = "Total Clients",
+            value = length(unique(region_data$name)),
+            short = TRUE
+          )
+        )
+      )
+    )
+  )
+}
+
+#* Plot region data
+#* @png
+#* @get /plot/<region>
+function(region) {
+  sim_data %>% 
+    filter(region == "West") %>% 
+    ggplot(aes(x = ))
+}
+
+
