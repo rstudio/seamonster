@@ -65,6 +65,8 @@ knitr::opts_chunk$set(eval = FALSE)
 # Packages ----
 library(plumber)
 library(magrittr)
+# Necessary workaround for RSC publish issues
+library(dichromat)
 library(ggplot2)
 
 # Data ----
@@ -108,6 +110,7 @@ slack_auth <- function(req) {
 #* @apiTitle CS Slack Application API
 #* @apiDescription API that interfaces with Slack slash command /cs
 
+#+ comments-1, include=FALSE
 #' Here we setup the environment for the API by loading the appropriate packages
 #' and loading the simulated data. The [`config`](https://github.com/rstudio/config) 
 #' package is used to store parameters that change based on the location of the
@@ -140,6 +143,8 @@ slack_auth <- function(req) {
 # This filter is responsible for parsing text, routing to the appropriate
 # endpoint, and providing arguments to be consumed by that endpoint
 
+#' ### `@filter route-endpoint`
+#+ filter-route-endpoint
 #* Parse the incoming request and route it to the appropriate endpoint
 #* @filter route-endpoint
 function(req, text = "") {
@@ -159,7 +164,7 @@ function(req, text = "") {
       paste0(collapse = " ")
   }
   
-  if (req$PATH_INFO == "/") {
+  if (req$PATH_INFO == "/" & slack_auth(req) == "200") {
     # If no endpoint is provided (PATH_INFO is just "/") then forward to /help
     req$PATH_INFO <- "/help"
   }
