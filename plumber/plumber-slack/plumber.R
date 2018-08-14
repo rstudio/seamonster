@@ -1,17 +1,74 @@
-# This API powers a [slash command](https://api.slack.com/slash-commands) in 
-# slack. Instead of registering a different command for each endpoint, the 
-# first argument provided to the slash command is the endpoint while the 
-# subsequent argument(s) (if necessary) provide additional data to be passed
-# to the specified endpoint. This way, a single slash command can provide access
-# to multiple endpoints and doesn't polute the slash command namespace
+#' ---
+#' title: Plumber and the Slack API
+#' author: James Blair
+#' ---
+ 
+#+ setup, include=FALSE
+knitr::opts_chunk$set(eval = FALSE)
 
+#' This asset shows how [`plumber`](https://www.rplumber.io) can be used to 
+#' build a [Slack slash command](https://api.slack.com/slash-commands). The API 
+#' is built on top of a [simulated customer dataset](customer-data-sim.Rmd) that 
+#' contains details about customer call history. The slash command provides 
+#' access to customer status report as well as customer success rep reports 
+#' directly from within Slack. The goal of this integration is to highlight the 
+#' strengths of `plumber` and how it can be used to *reliably and securely 
+#' integrate R with other products and services*.
+#'
+#' ![](images/slash-command-preview.png)
+#' 
+#' The API for this command is hosted on the [colorado demo server](http://colorado.rstudio.com/rsc/connect/#/apps/1292/access).
+#' 
+#' ## Usage
+#' Instead of registering a different command for each endpoint, the first
+#' argument provided to the slash command is the endpoint while the subsequent
+#' argument(s) (if necessary) provide additional data to be passed to the
+#' specified endpoint. This way, a single slash command serves multiple endpoints
+#' without polluting the slash command namespace.
+#' 
+#' To access a customer status report, enter `/cs status <id>` in Slack, where
+#' `id` is a valid customer ID from the simulated data. The customer status report
+#' includes the customer name, total calls, date of birth, and a plot call totals
+#' for the last 20 weeks. The color of the message is an indication of customer
+#' health. Green indicates the customer has no issues while red indicates the
+#' customer has a high volume of calls, indicating a potential problem.
+#' 
+#' Help for all available commands can be accessed by entering `/cs help` or
+#' simplly `/cs` into Slack.
+#' 
+#' ---
+#' 
+#' ## Getting Started
+#' In order to build a Slack app, you must have a Slack account and [follow the
+#' directions](https://api.slack.com) for creating a Slack app. The app will be
+#' tied to a specific workspace, so select a Slack workspace you anticipate
+#' belonging to long term. By default, your app will only be available to this
+#' workspace, although it's possible to expand access to the app later on.
+#' 
+#' Once the app has been created in Slack, create a new slash command through
+#' which the end user will interact with the app.
+#' 
+#' ![](images/slash-command-creation.png)
+#' 
+#' Specific details for building slash commands can be found [here](https://api.slack.com/slash-commands).
+#' This will be a helpful reference through the remainder of the walk through.
+#' 
+#' ## Plumbing the API
+#' If you haven't already, install the `plumber` package via `install.packages
+#' ("plumber")`. The [`plumber.R`](plumber.R) file uses `plumber` to define all
+#' of the API filters and endpoints leveraged by the Slack app. Here, we'll go
+#' through each piece of the API to describe the code and introduce helpful
+#' resources. 
+#' 
+#' ### Setup
+#+ api-setup
 # Packages ----
 library(plumber)
 library(magrittr)
 library(ggplot2)
 
 # Data ----
-# Load sample customer data. IRL this would likely be housed in a database
+# Load sample customer data. IRL this would likely be housed in a database.
 sim_data <- readr::read_rds("data/sim-data.rds")
 
 # Config options ----
@@ -50,6 +107,14 @@ slack_auth <- function(req) {
 
 #* @apiTitle CS Slack Application API
 #* @apiDescription API that interfaces with Slack slash command /cs
+
+#' Here we setup the environment for the API by loading the appropriate packages
+#' and loading the simulated data. The [`config`](https://github.com/rstudio/config) 
+#' package is used to store parameters that change based on the location of the
+#' API (if it's local or deployed on RStudio Connect). `slack_auth()` is a helper
+#' function that is used to confirm that incoming requests are indeed coming from
+#' Slack and not an unauthorized source. Details about authenticating Slack requests
+#' can be found in [Slack's documentation](https://api.slack.com/docs/verifying-requests-from-slack).
 
 # Requests sent from Slack slash commands are sent as url encoded text in the
 # postBody of the request. The text of the command is contained in the text
