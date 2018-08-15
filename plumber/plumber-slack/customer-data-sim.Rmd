@@ -95,6 +95,15 @@ sim_data %>%
   geom_smooth(se = FALSE) +
   theme(legend.position = "bottom")
 
+# Cummulative region plot
+sim_data %>% 
+  group_by(region, time) %>% 
+  summarise(total_calls = sum(calls)) %>% 
+  group_by(region) %>% 
+  mutate(cummulative_calls = cumsum(total_calls)) %>% 
+  ggplot(aes(x = time, y = cummulative_calls, col = region)) +
+  geom_line()
+
 # Plot of just one user
 sim_data %>% 
   filter(id == "001") %>% 
