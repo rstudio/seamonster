@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "5d3d4415-5ffb-44ac-908b-643c845e71d9",
+		"name": "CS Slack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customer Status",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "293ba85f-d353-4f9d-a77b-8a0379c3ea87",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "{{SLACK_SIGNATURE}}"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "{{SLACK_TIMESTAMP}}"
+					},
+					{
+						"key": "user-agent",
+						"value": "James - (Postman)"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "team_id",
+							"value": "T0001",
+							"sessionValue": "T0001",
+							"type": "text"
+						},
+						{
+							"key": "team_domain",
+							"value": "example",
+							"sessionValue": "example",
+							"type": "text"
+						},
+						{
+							"key": "enterprise_id",
+							"value": "E0001",
+							"sessionValue": "E0001",
+							"type": "text"
+						},
+						{
+							"key": "enterprise_name",
+							"value": "RStudio",
+							"sessionValue": "RStudio",
+							"type": "text"
+						},
+						{
+							"key": "channel_name",
+							"value": "test",
+							"sessionValue": "test",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "U2147483697",
+							"sessionValue": "U2147483697",
+							"type": "text"
+						},
+						{
+							"key": "user_name",
+							"value": "James",
+							"sessionValue": "James",
+							"type": "text"
+						},
+						{
+							"key": "command",
+							"value": "/cs",
+							"sessionValue": "/cs",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "status 002",
+							"sessionValue": "status 001",
+							"type": "text"
+						},
+						{
+							"key": "response_url",
+							"value": "https://hooks.slack.com/commands/1234/5678",
+							"sessionValue": "https://hooks.slack.com/commands/1234/5678",
+							"type": "text"
+						},
+						{
+							"key": "trigger_id",
+							"value": "13345224609.738474920.8088930838d88f008e0",
+							"sessionValue": "13345224609.738474920.8088930838d88f008e0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				},
+				"description": "Customer status request"
+			},
+			"response": []
+		},
+		{
+			"name": "Plot History",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{base_url}}/plot/history/089",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"plot",
+						"history",
+						"089"
+					]
+				},
+				"description": "Retrieves plot history for specific customer ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Help (Explicit)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "{{SLACK_SIGNATURE}}"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "{{SLACK_TIMESTAMP}}"
+					},
+					{
+						"key": "user-agent",
+						"value": "James - (Postman)"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{base_url}}/help",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"help"
+					]
+				},
+				"description": "Ask for help explicity (call `/help` endpoint)"
+			},
+			"response": []
+		},
+		{
+			"name": "Help (Implicit)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "{{SLACK_SIGNATURE}}"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "{{SLACK_TIMESTAMP}}"
+					},
+					{
+						"key": "user-agent",
+						"value": "James - (Postman)"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				},
+				"description": "Call help by not calling any specific endpoint (ie `/`)"
+			},
+			"response": []
+		},
+		{
+			"name": "Rep",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "{{SLACK_SIGNATURE}}"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "{{SLACK_TIMESTAMP}}"
+					},
+					{
+						"key": "user-agent",
+						"value": "James - (Postman)"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "team_id",
+							"value": "T0001",
+							"type": "text"
+						},
+						{
+							"key": "team_domain",
+							"value": "example",
+							"type": "text"
+						},
+						{
+							"key": "enterprise_id",
+							"value": "E0001",
+							"type": "text"
+						},
+						{
+							"key": "enterprise_name",
+							"value": "RStudio",
+							"type": "text"
+						},
+						{
+							"key": "channel_name",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "U2147483697",
+							"type": "text"
+						},
+						{
+							"key": "user_name",
+							"value": "James",
+							"type": "text"
+						},
+						{
+							"key": "command",
+							"value": "/cs",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "rep Marla Nitzsche",
+							"type": "text"
+						},
+						{
+							"key": "response_url",
+							"value": "https://hooks.slack.com/commands/1234/5678",
+							"type": "text"
+						},
+						{
+							"key": "trigger_id",
+							"value": "13345224609.738474920.8088930838d88f008e0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				},
+				"description": "Get summary of rep performance"
+			},
+			"response": []
+		},
+		{
+			"name": "Region",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "{{SLACK_SIGNATURE}}"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "{{SLACK_TIMESTAMP}}"
+					},
+					{
+						"key": "user-agent",
+						"value": "James - (Postman)"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "team_id",
+							"value": "T0001",
+							"type": "text"
+						},
+						{
+							"key": "team_domain",
+							"value": "example",
+							"type": "text"
+						},
+						{
+							"key": "enterprise_id",
+							"value": "E0001",
+							"type": "text"
+						},
+						{
+							"key": "enterprise_name",
+							"value": "RStudio",
+							"type": "text"
+						},
+						{
+							"key": "channel_name",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "U2147483697",
+							"type": "text"
+						},
+						{
+							"key": "user_name",
+							"value": "James",
+							"type": "text"
+						},
+						{
+							"key": "command",
+							"value": "/cs",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "status 002",
+							"type": "text"
+						},
+						{
+							"key": "response_url",
+							"value": "https://hooks.slack.com/commands/1234/5678",
+							"type": "text"
+						},
+						{
+							"key": "trigger_id",
+							"value": "13345224609.738474920.8088930838d88f008e0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				},
+				"description": "Get details about regional sales performance"
+			},
+			"response": []
+		},
+		{
+			"name": "Plot Region",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b4e64d56-f982-439e-8b06-2afe6ac0095e",
+				"type": "text/javascript",
+				"exec": [
+					"// Define function for creating URI string from data object",
+					"// Lifted from https://stackoverflow.com/questions/14525178/is-there-any-native-function-to-convert-json-to-url-parameters",
+					"function urlfy(obj) {",
+					"    return Object",
+					"        .keys(obj)",
+					"        .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`)",
+					"        .join('&');",
+					"}",
+					"",
+					"// Set timestamp of request",
+					"var date = new Date()",
+					"var timestamp = date.getTime()",
+					"pm.globals.set(\"SLACK_TIMESTAMP\", timestamp);",
+					"",
+					"// Build rawBody using urlfy",
+					"var rawBody = urlfy(request.data)",
+					"var baseString = [\"v0\", timestamp, rawBody].join(\":\")",
+					"// console.log(baseString)",
+					"",
+					"// Calculate signature",
+					"var signature = [\"v0=\", CryptoJS.HmacSHA256(baseString, pm.globals.get(\"SLACK_SIGNING_SECRET\"))].join('')",
+					"//console.log(signature)",
+					"",
+					"// Set SLACK_SIGNATURE variable",
+					"pm.globals.set(\"SLACK_SIGNATURE\", signature)"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "5a9e7ca5-fe7a-45f8-852a-fa2db55ff962",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
