@@ -1,7 +1,7 @@
-
-# Plumber and the Slack API
-
-James Blair Wed Aug 15 23:48:28 2018
+Plumber and the Slack API
+================
+James Blair
+Wed Aug 15 23:53:32 2018
 
 This asset shows how [`plumber`](https://www.rplumber.io) can be used to
 build a [Slack slash command](https://api.slack.com/slash-commands). The
@@ -422,7 +422,11 @@ against it). This endpoint is used in the messages we return to Slack,
 and Slack just views this as an image URL to which it makes a `GET`
 request. Additional work needs to be done in order to ensure that only
 authorized requests can be made to this endpoint so that customer
-history isn’t easily accessed by anyone.
+history isn’t easily accessed by anyone. Also, note that this endpoint
+makes use of [dynamic
+routes](https://www.rplumber.io/docs/routing-and-input.html#dynamic-routes)
+so that the path includes the parameter passed to the underlying
+function.
 
 ### `@post /rep`
 
