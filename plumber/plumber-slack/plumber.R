@@ -58,15 +58,50 @@ knitr::opts_chunk$set(eval = FALSE)
 #' ("plumber")`. The [`plumber.R`](plumber.R) file uses `plumber` to define all
 #' of the API filters and endpoints leveraged by the Slack app. Here, we'll go
 #' through each piece of the API to describe the code and introduce helpful
-#' resources. 
+#' resources.
+#' 
+#' In this scenario, we're building an API that interacts with a known request.
+#' That is, we must build the API so that it can properly handle the request that
+#' comes from Slack. This is different from building an API that others will write
+#' requests for because in this instance, we have no control over the request.
+#' Instead, the API must be designed to properly interact with the Slack request.
+#' In order to promote this type of development, it is helpful to know how Slack
+#' makes requests and what is contained in those requests. [This section](https://api.slack.com/slash-commands#app_command_handling)
+#' of the Slack documentation contains helpful details about the request Slack
+#' makes in response to a slash command. In short, the request contains a url
+#' encoded data payload containing details about the slash command that was
+#' invoked. An example request looks like the following:
+#' 
+#' ```
+#' token=gIkuvaNzQIHg97ATvDxqgjtO
+#' &team_id=T0001
+#' &team_domain=example
+#' &enterprise_id=E0001
+#' &enterprise_name=Globular%20Construct%20Inc
+#' &channel_id=C2147483705
+#' &channel_name=test
+#' &user_id=U2147483697
+#' &user_name=Steve
+#' &command=/weather
+#' &text=94070
+#' &response_url=https://hooks.slack.com/commands/1234/5678
+#' &trigger_id=13345224609.738474920.8088930838d88f008e0
+#' ```
+#' 
+#' Due to the way `plumber` handles data from incoming requests, there are two
+#' methods we can use to access this data within the API. First, this data will
+#' be parsed and arguments matched to the functions defined in the API. So, we
+#' could write a function that takes `user_name` as an argument and the `user_name`
+#' value from the request data would be passed into the function by `plumber`
+#' automatically. The other method is to access the entire data of the request
+#' using `req$postBody`. With this information in mind, we are prepared to start
+#' creating our API filters and endpoints.
 #' 
 #' ### Setup
 #+ api-setup
 # Packages ----
 library(plumber)
 library(magrittr)
-# Necessary workaround for RSC publish issues
-library(dichromat)
 library(ggplot2)
 
 # Data ----
@@ -110,7 +145,6 @@ slack_auth <- function(req) {
 #* @apiTitle CS Slack Application API
 #* @apiDescription API that interfaces with Slack slash command /cs
 
-#+ comments-1, include=FALSE
 #' Here we setup the environment for the API by loading the appropriate packages
 #' and loading the simulated data. The [`config`](https://github.com/rstudio/config) 
 #' package is used to store parameters that change based on the location of the
@@ -118,7 +152,12 @@ slack_auth <- function(req) {
 #' function that is used to confirm that incoming requests are indeed coming from
 #' Slack and not an unauthorized source. Details about authenticating Slack requests
 #' can be found in [Slack's documentation](https://api.slack.com/docs/verifying-requests-from-slack).
+#' Essentially, Slack provides a signing secret that is known to us (the app
+#' developers) and Slack. This signing secret is used in combination with request
+#' details to calculate a signature for each request. That signature is
+#' verified in `slack_auth()` to ensure that the request came from Slack.
 
+#+ comments-1, include=FALSE
 # Requests sent from Slack slash commands are sent as url encoded text in the
 # postBody of the request. The text of the command is contained in the text
 # field. Full details of what is sent from Slack can be found at
@@ -173,7 +212,16 @@ function(req, text = "") {
   forward()
 }
 
-# Lifted from https://www.rplumber.io/docs/routing-and-input.html#filters
+#' This filter is responsible for parsing the `text` field of the incoming request
+#' and routing the request to the appropriate endpoint. Additional details provided
+#' in `text` are added to the request object (`req`) as `req$ARGS`. This filter
+#' also routes authorized requests made to `/` to the `/help` endpoint. This way,
+#' someone in Slack can simply enter `/cs` to get help for the command. Unauthorized
+#' requests aren't forwarded so that Swagger documentation for the API is available
+#' when the API is published to RStudio Connect.
+
+#' ### `@filter logger`
+#+ filter-logger
 #* Log information about the incoming request
 #* @filter logger
 function(req){
@@ -185,6 +233,12 @@ function(req){
   forward()
 }
 
+#' This filter is lifted straight from the [`plumber` docs](https://www.rplumber.io/docs/routing-and-input.html#filters).
+#' It simplly logs information about incoming requests and is helpful when
+#' troubleshooting API performance and behavior.
+#'
+#' ### `@post /help`
+#+ post-help
 #* Help for /cs command
 #* @serializer unboxedJSON
 #* @post /help
@@ -231,6 +285,13 @@ function(req, res) {
   )
 }
 
+#' This endpoint posts a message in Slack that provides help for using this
+#' specific slash command.
+#' 
+#' ![](images/help-screenshot.png)
+#' 
+#' ### `@post /status`
+#+ post-status
 # unboxedJSON is used b/c that is what Slack expects from the API
 #* Return a message containing status details about the customer
 #* @serializer unboxedJSON
@@ -314,6 +375,13 @@ function(req, res) {
   )
 }
 
+#' This endpoint returns a status update for the specified customer. The update
+#' includes customer name, total calls, date of birth, and a plot of weekly calls
+#' for the previous 20 weeks. The response is serialized as unboxed JSON so that
+#' it matches the [format defined by Slack](https://api.slack.com/docs/message-attachments).
+#' 
+#' ### `@get /plot/history/<cust_id>`
+#+ get-plot-history
 #* Plot customer weekly calls
 #* @png
 #* @response 400 No customer with the given ID was found.
@@ -349,6 +417,17 @@ function(cust_id, res) {
   print(history_plot)
 }
 
+#' This endpoint returns a plot of the call history for the given customer. One
+#' challenge with this endpoint is that we have no control over the request that's
+#' made, so it is difficult to authenticate the incoming request (ie, we can't
+#' send some secret with the request and verify against it). This endpoint is used
+#' in the messages we return to Slack, and Slack just views this as an image URL
+#' to which it makes a `GET` request. Additional work needs to be done in order
+#' to ensure that only authorized requests can be made to this endpoint so that 
+#' customer history isn't easily accessed by anyone.
+#' 
+#' ### `@post /rep`
+#+ post-rep
 #* Get summary of rep performance
 #* @serializer unboxedJSON
 #* @post /rep
@@ -401,6 +480,11 @@ function(req, res) {
   )
 }
 
+#' This endpoint returns details about a specific rep's performance, specifically
+#' total clients and calls / client for that rep.
+#'
+#' ### `@post /region`
+#+ post-region
 #* Summary of region performance
 #* @serializer unboxedJSON
 #* @post /region
@@ -415,7 +499,7 @@ function(req, res) {
   }
   
   # Check to ensure provided region value exists in data
-  if (!req$ARGS %in% unique(sim_data$region)) {
+  if (!tolower(req$ARGS) %in% tolower(unique(sim_data$region))) {
     return(
       list(
         reponse_type = "ephemeral",
@@ -424,7 +508,7 @@ function(req, res) {
     )
   }
   
-  region_data <- dplyr::filter(sim_data, region == req$ARGS)
+  region_data <- dplyr::filter(sim_data, tolower(region) == tolower(req$ARGS))
   
   list(
     response_type = "ephemeral",
@@ -432,7 +516,7 @@ function(req, res) {
       list(
         title = paste0("Region: ", req$ARGS),
         fallback = paste0("Region: ", req$ARGS),
-        image_url = paste0("http://colorado.rstudio.com/rsc/slack-plumber/plot/region/",
+        image_url = paste0(base_url, "/plot/region/",
                            tolower(req$ARGS)),
         fields = list(
           list(
@@ -446,13 +530,88 @@ function(req, res) {
   )
 }
 
+#' This endpoint posts a Slack message that contains a plot of the trend for a 
+#' given region.
+#'
+#' ### `@get /plot/region/<region_name>`
+#+ get-plot-region
 #* Plot region data
 #* @png
-#* @get /plot/<region>
-function(region) {
-  sim_data %>% 
-    filter(region == "West") %>% 
-    ggplot(aes(x = ))
+#* @get /plot/region/<region_name>
+function(region_name, req, res) {
+  # Throw error if region isn't valid
+  if (!tolower(region_name) %in% tolower(sim_data$region)) {
+    res$status <- 400
+    stop("Region " , region_name, " not found.")
+  }
+  
+  region_plot <- sim_data %>% 
+    dplyr::filter(tolower(region) == tolower(region_name)) %>% 
+    ggplot(aes(x = time, y = calls)) +
+    geom_jitter(alpha = .3) +
+    geom_smooth(se = FALSE) +
+    theme_light() +
+    labs(
+      title = paste("Call trend for", region_name, "Region"),
+      x = "Week",
+      y = "Calls"
+    )
+  
+  print(region_plot)
 }
 
-
+#' This endpoint creates a plot for a specific region's performance.
+#' 
+#' ## Running Locally
+#' Interacting with these APIs locally can be a bit of a challenge since most
+#' require data to be passed in the request body. It's also a challenge to mimic
+#' the request as it is sent by Slack, especially when it comes to mimicking the
+#' authentication mechanism. While traditional tools like [`curl`](https://curl.haxx.se)
+#' can be used, I've found that [Postman](https://www.getpostman.com) is a powerful 
+#' and easy to use tool for interacting with APIs. Postman can even leverage
+#' pre-request JavaScript code to mimic the authentication mechanism employed
+#' by Slack. For example, I use the following JS code to mimic Slack authentication
+#' in local testing:
+#' 
+#' ```js
+#' // Define function for creating URI string from data object
+#' // Lifted from https://stackoverflow.com/questions/14525178/is-there-any-native-function-to-convert-json-to-url-parameters
+#' function urlfy(obj) {
+#'   return Object
+#'   .keys(obj)
+#'   .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`)
+#'   .join('&');
+#' }
+#' 
+#' // Set timestamp of request
+#' var date = new Date()
+#' var timestamp = date.getTime()
+#' pm.globals.set("SLACK_TIMESTAMP", timestamp);
+#' 
+#' // Build rawBody using urlfy
+#' var rawBody = urlfy(request.data)
+#' var baseString = ["v0", timestamp, rawBody].join(":")
+#' // console.log(baseString)
+#' 
+#' // Calculate signature
+#' var signature = ["v0=", CryptoJS.HmacSHA256(baseString, pm.globals.get("SLACK_SIGNING_SECRET"))].join('')
+#' //console.log(signature)
+#' 
+#' // Set SLACK_SIGNATURE variable
+#' pm.globals.set("SLACK_SIGNATURE", signature)
+#' ```
+#' 
+#' The entire Postman collection I use for interaction with the API is contained
+#' in the [`postman-api-collection.json`](postman-api-collection.json) file. This
+#' collection can be imported into Postman and used to interact with the API either
+#' locally or remotely.
+#' 
+#' ## Deployment
+#' As mentioned, this API is deployed on RStudio Connect on the colorado demo
+#' server. Deployment is done through the publish button in the RStudio IDE. A
+#' vanity URL was used and then passed into the Slack app settings so that Slack
+#' knows where to send requests.
+#' 
+#' ![](images/rsc-deploy-screenshot.png)
+#' 
+#' ![](images/slack-app-config.png)
