@@ -12,7 +12,7 @@ m <- readRDS("model.Rdat")
 #' @response 200 Predicted MPG for supplied HP value
 #' @response 400 Bad HP value
 #' @respomnse default Predicted MPG for HP of 300
-function(new_hp = 300) {
+predict_mpg <- function(new_hp = 300) {
   new_hp = as.numeric(new_hp)
   predict(m, data.frame(hp = new_hp))  
 }
