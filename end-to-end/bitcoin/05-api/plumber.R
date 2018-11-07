@@ -26,7 +26,7 @@ currency <- function(code="USD"){
 
 #' @get /data
 #' @param code Currency code (USD; JPY; CNY; GBP)
-function(code="USD"){
+get_data <- function(code="USD"){
   currency(code)
 }
 
