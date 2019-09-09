@@ -1,0 +1,76 @@
+---
+title: "Simple MNIST multi-layer perceptron"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(keras)
+```
+
+## Load and reshape data
+
+```{r}
+# load data
+c(c(x_train, y_train), c(x_test, y_test)) %<-% dataset_mnist()
+
+# reshape and rescale
+x_train <- array_reshape(x_train, dim = c(nrow(x_train), 784)) / 255
+x_test <- array_reshape(x_test, dim = c(nrow(x_test), 784)) / 255
+
+# one-hot encode response
+y_train <- to_categorical(y_train, 10)
+y_test <- to_categorical(y_test, 10)
+```
+
+
+# Define model
+
+```{r}
+model <- keras_model_sequential()
+model %>%
+  layer_dense(units = 256, activation = 'relu', input_shape = c(784),
+              name = "image") %>%
+  layer_dropout(rate = 0.1) %>%
+  layer_dense(units = 128, activation = 'relu') %>%
+  layer_dropout(rate = 0.1) %>%
+  layer_dense(units = 10, activation = 'softmax',
+              name = "prediction")
+model
+```
+
+
+# Compile model
+
+```{r}
+model %>%
+  compile(
+    loss = 'categorical_crossentropy',
+    optimizer = optimizer_rmsprop(),
+    metrics = c('accuracy')
+  )
+```
+
+
+# Train model
+
+```{r}
+history <- model %>% fit(
+  x_train, y_train,
+  epochs = 5, batch_size = 64,
+  validation_split = 0.2
+)
+```
+
+```{r}
+history
+plot(history)
+```
+
+
+# Evaluate model
+
+```{r}
+model %>% evaluate(x_test, y_test, verbose = 0)
+```
+
