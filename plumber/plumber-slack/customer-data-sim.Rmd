@@ -1,0 +1,123 @@
+---
+title: "Simulated Data"
+output: html_notebook
+---
+
+```{r setup}
+# Packages ----
+library(tidyverse)
+
+# wakefield for simulating data
+# devtools::install_github("trinker/wakefield")
+library(wakefield)
+
+# charlatan for simulating data
+# devtools::install_github("https://github.com/ropensci/charlatan")
+library(charlatan)
+```
+
+```{r utils}
+# Helpful functions
+region <- function(n) {
+  sample(
+    c("North", "South", "East", "West"),
+    size = n,
+    replace = TRUE
+  )
+}
+
+replicated_name <- function(n, n_distinct = 10) {
+  sample(
+    ch_name(n_distinct),
+    size = n,
+    replace = TRUE
+  )
+}
+```
+
+
+Create a simulated customer dataset using the [`wakefield`](https://github.com/trinker/wakefield) package and the [`charlatan`](https://github.com/ropensci/charlatan) package.
+```{r simulate-data}
+set.seed(35749)
+sim_data <- r_data_frame(
+  n = 100,
+  id,
+  name = ch_name,
+  rep = replicated_name(),
+  region = area(x = c("North", "South", "East", "West")),
+  dob,
+  income,
+  # Create related series of calls
+  r_series(dice, j = 30, relate = "+0_2")
+) %>% 
+  janitor::clean_names(case = "snake") %>% 
+  gather(
+    key = time,
+    value = calls,
+    -c(id,
+       name,
+       rep,
+       region,
+       dob,
+       income)
+  ) %>% 
+  mutate(time = as.numeric(str_extract(time, "[0-9]+")),
+         calls = ifelse(calls < 0, 0, calls)) %>% 
+  arrange(id, time)
+
+sim_data
+```
+
+```{r data-viz}
+# Plot of everyone
+sim_data %>% 
+  ggplot(aes(x = time, y = calls, col = id)) +
+  geom_line(show.legend = FALSE, alpha = .3)
+
+# Cumulative plot of everyone
+sim_data %>% 
+  group_by(id) %>% 
+  mutate(cummulative_calls = cumsum(calls)) %>% 
+  ggplot(aes(x = time, y = cummulative_calls, col = id)) +
+  geom_line(show.legend = FALSE, alpha = .3)
+
+# Rep plot
+sim_data %>% 
+  group_by(rep) %>% 
+  summarise(total_calls = sum(calls)) %>% 
+  ggplot(aes(x = fct_reorder(rep, total_calls), y = total_calls)) +
+  ggalt::geom_lollipop() +
+  coord_flip()
+
+# Region plot
+sim_data %>% 
+  ggplot(aes(x = time, y = calls, col = region)) +
+  geom_smooth(se = FALSE) +
+  theme(legend.position = "bottom")
+
+# Cummulative region plot
+sim_data %>% 
+  group_by(region, time) %>% 
+  summarise(total_calls = sum(calls)) %>% 
+  group_by(region) %>% 
+  mutate(cummulative_calls = cumsum(total_calls)) %>% 
+  ggplot(aes(x = time, y = cummulative_calls, col = region)) +
+  geom_line()
+
+# Plot of just one user
+sim_data %>% 
+  filter(id == "001") %>% 
+  ggplot(aes(x = time, y = calls, col = calls)) +
+  ggalt::geom_lollipop(show.legend = FALSE) +
+  theme_light() +
+  labs(
+    x = "Week",
+    y = "Calls"
+  )
+```
+
+```{r save-data}
+write_rds(sim_data,
+          path = "data/sim-data.rds")
+```
+

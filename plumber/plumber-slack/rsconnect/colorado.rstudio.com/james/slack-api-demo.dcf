@@ -1,0 +1,13 @@
+name: slack-api-demo
+title: slack-api-demo
+username: james
+account: james
+server: colorado.rstudio.com
+hostUrl: http://colorado.rstudio.com/rsc/__api__
+appId: 1292
+bundleId: 14536
+url: http://colorado.rstudio.com:80/rsc/slack-plumber/
+when: 1534398436.22138
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: customer-data-sim.nb.html|customer-data-sim.Rmd|postman-api-collection.json|README.md|images/help-screenshot.png|images/rsc-deploy-screenshot.png|images/slack-app-config.png|images/slash-command-creation.png|images/slash-command-preview.png
